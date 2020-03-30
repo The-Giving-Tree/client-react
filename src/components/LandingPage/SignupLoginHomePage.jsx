@@ -33,19 +33,19 @@ class SignupLoginHomePage extends Component {
       selectedTab: 'signup',
       username: ''
     };
+
+    [
+      // prettier-ignore
+      'capitalize',
+      'updateInputText',
+      'updateSelectedTab'
+    ].forEach(m => {
+      this[m] = this[m].bind(this);
+    });
   }
 
   render() {
-    const {
-      // prettier-ignore
-      email,
-      name,
-      password,
-      selectedTab,
-      username
-    } = this.state;
-
-    const selected = ' selected-tab';
+    const { selectedTab } = this.state;
 
     return (
       <div className="signup-login-container">
@@ -63,47 +63,50 @@ class SignupLoginHomePage extends Component {
             </p>
           </div>
           <div className="auth-form-container">
+            {/* ------------- TOP BAR WITH FORM SELECTION TABS ------------- */}
             <div className="auth-form-tabs">
-              <div
-                className={`form-tab tab-signup${selectedTab === 'signup' ? ' selected-tab' : ''}`}
-              >
-                Sign up
-              </div>
-              <div
-                className={`form-tab tab-login${selectedTab === 'login' ? ' selected-tab' : ''}`}
-              >
-                Login
-              </div>
+              {['signup', 'login'].map(tabName => {
+                const prettyTabName = tabName === 'signup' ? 'Sign up' : 'Login';
+
+                return (
+                  <div
+                    className={`form-tab tab-${tabName}${
+                      selectedTab === tabName ? ' selected-tab' : ' disabled-tab'
+                    }`}
+                    key={tabName}
+                    onClick={() => {
+                      if (selectedTab !== tabName) {
+                        this.updateSelectedTab(tabName);
+                      }
+                    }}
+                  >
+                    {prettyTabName}
+                  </div>
+                );
+              })}
             </div>
-            <div className="auth-form-inputs">
-              <input
-                className="tab-input input-name"
-                name="Name"
-                placeholder="Name"
-                type="text"
-                value={name}
-              />
-              <input
-                className="tab-input input-username"
-                name="Username"
-                placeholder="Username"
-                type="text"
-                value={username}
-              />
-              <input
-                className="tab-input input-email"
-                name="Email"
-                placeholder="Email"
-                type="email"
-                value={email}
-              />
-              <input
-                className="tab-input input-password"
-                name="Password"
-                placeholder="Password"
-                type="password"
-                value={password}
-              />
+            {/* ----- DYNAMIC CONTAINER TO DISPLAY PROPER SELECTED FORM CONTENT ----- */}
+            <div className="auth-form-inputs-container">
+              {selectedTab === 'signup' && (
+                <div className="auth-form-inputs-signup">
+                  {['name', 'username', 'email', 'password'].map(inputName => {
+                    const capitalizedName = this.capitalize(inputName);
+
+                    return (
+                      <input
+                        className={`tab-input input-${inputName}`}
+                        name={inputName}
+                        key={inputName}
+                        onChange={e => this.updateInputText(inputName, e.target.value)}
+                        placeholder={capitalizedName}
+                        type="text"
+                        value={this.state[inputName]}
+                      />
+                    );
+                  })}
+                </div>
+              )}
+              {selectedTab === 'login' && <div className="auth-form-inputs-login">login stuff</div>}
             </div>
           </div>
         </div>
@@ -111,8 +114,23 @@ class SignupLoginHomePage extends Component {
     );
   }
 
-  updateInputText() {
-    const inputFields = ['email', 'name', 'password', 'username'];
+  /* -------------------------------------------------------------------------- */
+  /* COMPONENT UTIL METHODS */
+  /* -------------------------------------------------------------------------- */
+  capitalize(string) {
+    return string[0].toUpperCase() + string.slice(1).toLowerCase();
+  }
+
+  updateInputText(field, value) {
+    this.setState({
+      [field]: value
+    });
+  }
+
+  updateSelectedTab(tabName) {
+    this.setState({
+      selectedTab: tabName
+    });
   }
 }
 

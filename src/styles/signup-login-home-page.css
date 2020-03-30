@@ -11,7 +11,6 @@
 }
 
 .auth-content-container {
-  outline: 1px solid blue; /* TODO: remove this style  */
   padding-left: 88px;
   padding-right: 88px;
   padding-top: 104px;
@@ -52,7 +51,7 @@
   width: 50%;
 }
 
-.auth-form-inputs {
+.auth-form-inputs-container {
   margin-top: 24px;
 }
 
@@ -73,8 +72,12 @@
 /* -------------------------------------------------------------------------- */
 /* UNIVERSAL PAGE STYLES */
 /* -------------------------------------------------------------------------- */
+.disabled-tab {
+}
+
 .selected-tab {
   border-bottom-color: #000000;
   border-bottom-width: 2px;
+  cursor: default;
   font-weight: bold;
 }
