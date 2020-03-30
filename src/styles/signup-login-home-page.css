@@ -1,0 +1,60 @@
+.signup-login-container {
+  color: #000000;
+  display: flex;
+  flex-direction: row;
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  height: 100vh;
+}
+
+.auth-page-image {
+  width: 60vw;
+}
+
+.auth-content-container {
+  outline: 1px solid blue; /* TODO: remove this style  */
+  padding-left: 88px;
+  padding-right: 88px;
+  padding-top: 104px;
+  width: 40vw;
+}
+
+.auth-header-container {
+  /*  */
+}
+
+.auth-header-title {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.auth-header-info {
+  font-size: 18px;
+  margin-top: 64px;
+}
+
+.auth-form-container {
+  outline: 1px solid lightblue; /* TODO: remove this style  */
+  margin-top: 96px;
+}
+
+.auth-form-tabs {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.form-tab {
+  border-bottom-color: #b8b8b8;
+  border-bottom-width: 1px;
+  font-size: 18px;
+}
+
+.tab-input {
+  background-color: #eeeeee;
+  width: 100%;
+}
+
+.tab-input::placeholder {
+  color: #6c6c6c;
+  padding-left: 24px;
+}

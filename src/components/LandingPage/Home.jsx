@@ -1854,7 +1854,7 @@ function Home(props) {
             </div>
           ) : (
             /* HOME PAGE CONTENT WHEN USER IS LOGGED OUT */
-            <SignupLoginHomePage {...props} matches={matches} />
+            <SignupLoginHomePage {...props} />
           )}
         </div>
       )}
