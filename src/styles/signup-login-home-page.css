@@ -33,7 +33,6 @@
 }
 
 .auth-form-container {
-  outline: 1px solid lightblue; /* TODO: remove this style  */
   margin-top: 96px;
 }
 
@@ -46,15 +45,36 @@
 .form-tab {
   border-bottom-color: #b8b8b8;
   border-bottom-width: 1px;
+  cursor: pointer;
   font-size: 18px;
+  padding-bottom: 8px;
+  text-align: center;
+  width: 50%;
+}
+
+.auth-form-inputs {
+  margin-top: 24px;
 }
 
 .tab-input {
   background-color: #eeeeee;
+  margin-top: 24px;
+  padding-bottom: 16px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 16px;
   width: 100%;
 }
 
 .tab-input::placeholder {
   color: #6c6c6c;
-  padding-left: 24px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* UNIVERSAL PAGE STYLES */
+/* -------------------------------------------------------------------------- */
+.selected-tab {
+  border-bottom-color: #000000;
+  border-bottom-width: 2px;
+  font-weight: bold;
 }

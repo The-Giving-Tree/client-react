@@ -30,13 +30,22 @@ class SignupLoginHomePage extends Component {
       email: '',
       name: '',
       password: '',
-      selectedFormTab: 'Signup',
+      selectedTab: 'signup',
       username: ''
     };
   }
 
   render() {
-    const { email, name, password, username } = this.state;
+    const {
+      // prettier-ignore
+      email,
+      name,
+      password,
+      selectedTab,
+      username
+    } = this.state;
+
+    const selected = ' selected-tab';
 
     return (
       <div className="signup-login-container">
@@ -55,23 +64,55 @@ class SignupLoginHomePage extends Component {
           </div>
           <div className="auth-form-container">
             <div className="auth-form-tabs">
-              <div className="form-tab tab-signup">Sign up</div>
-              <div className="form-tab tab-login">Login</div>
+              <div
+                className={`form-tab tab-signup${selectedTab === 'signup' ? ' selected-tab' : ''}`}
+              >
+                Sign up
+              </div>
+              <div
+                className={`form-tab tab-login${selectedTab === 'login' ? ' selected-tab' : ''}`}
+              >
+                Login
+              </div>
             </div>
             <div className="auth-form-inputs">
               <input
                 className="tab-input input-name"
                 name="Name"
-                onClick={() => {}}
                 placeholder="Name"
                 type="text"
-                value={this.state.name}
+                value={name}
+              />
+              <input
+                className="tab-input input-username"
+                name="Username"
+                placeholder="Username"
+                type="text"
+                value={username}
+              />
+              <input
+                className="tab-input input-email"
+                name="Email"
+                placeholder="Email"
+                type="email"
+                value={email}
+              />
+              <input
+                className="tab-input input-password"
+                name="Password"
+                placeholder="Password"
+                type="password"
+                value={password}
               />
             </div>
           </div>
         </div>
       </div>
     );
+  }
+
+  updateInputText() {
+    const inputFields = ['email', 'name', 'password', 'username'];
   }
 }
 
