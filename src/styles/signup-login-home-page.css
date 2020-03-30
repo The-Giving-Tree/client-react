@@ -69,12 +69,21 @@
   color: #6c6c6c;
 }
 
+.auth-form-buttons-login,
+.auth-form-buttons-signup {
+  margin-top: 36px;
+}
+
+.forgot-password-link {
+  color: #0079d3;
+  font-size: 14px;
+  margin-top: 8px;
+  text-align: right;
+}
+
 /* -------------------------------------------------------------------------- */
 /* UNIVERSAL PAGE STYLES */
 /* -------------------------------------------------------------------------- */
-.disabled-tab {
-}
-
 .selected-tab {
   border-bottom-color: #000000;
   border-bottom-width: 2px;

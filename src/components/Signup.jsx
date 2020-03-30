@@ -115,7 +115,7 @@ function Signup(props) {
             <NavigationItem>
               <div
                 style={{ display: 'flex', alignContent: 'center', cursor: 'pointer' }}
-                onClick={() => history.push('/home/disccover')}
+                onClick={() => history.push('/home/discover')}
               >
                 <img
                   src="https://d1ppmvgsdgdlyy.cloudfront.net/acacia.svg"
