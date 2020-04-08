@@ -4,7 +4,7 @@ import Navigation from '../../components/Navigation';
 import Sidebar from '../../components/Sidebar';
 import NewsfeedTable from '../NewsFeed/NewsfeedTable';
 import LeaderboardTable from '../../components/LeaderboardTable/LeaderboardTable';
-import StickyFooter from '../../components/StickyFooter/StickyFooter'
+import StickyFooter from '../../components/StickyFooter/StickyFooter';
 // Libraries
 import queryString from 'query-string';
 import { getDistance } from 'geolib';
@@ -237,7 +237,7 @@ function NewsFeedPage(props) {
         </thead>
         <tbody>
           {cart.map((item, i) => (
-            <tr key={i} className={(i % 2 === 0) ? `bg-gray-100` : ''}>
+            <tr key={i} className={i % 2 === 0 ? `bg-gray-100` : ''}>
               <td className={`px-4 py-2`}>{item.name}</td>
               <td className={`px-4 py-2`}>{item.quantity}</td>
             </tr>
@@ -1312,7 +1312,7 @@ function NewsFeedPage(props) {
 
   return (
     <StickyFooter>
-<Navigation selectMenuDispatch={selectMenuDispatch} searchBarPosition="center" />
+      <Navigation selectMenuDispatch={selectMenuDispatch} searchBarPosition="center" />
       <Modal
         overrides={{ Dialog: { style: { borderRadius: '7px' } } }}
         onClose={() => setOpenFoodTracking(false)}
@@ -1375,7 +1375,6 @@ function NewsFeedPage(props) {
       </Modal>
 
       <div className="max-w-screen-lg w-full mx-auto xl:flex xl:max-w-6xl pt-12 mb-8">
-        
         <Sidebar {...props} />
         <section className="xl:w-1/2 px-6 lg:px-12">
           <NewsfeedTable

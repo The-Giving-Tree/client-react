@@ -655,6 +655,29 @@ export function* logoutAll(action) {
   }
 }
 
+export function* loadPicture(action) {
+  try {
+    const token = localStorage.getItem('giving_tree_jwt');
+    const data = yield call(Api.loadPicture, action.payload.env, action.payload.id, token);
+
+    const { _id, username, profilePictureUrl, headerPictureUrl } = data.data;
+
+    console.log('load: ', username, ', profile: ', profilePictureUrl);
+    
+    yield put({
+      type: ACTION_TYPE.LOAD_PICTURE_SUCCESS,
+      payload: {
+        username,
+        profilePictureUrl,
+        headerPictureUrl,
+        _id
+      }
+    });
+  } catch (error) {
+    yield put({ type: ACTION_TYPE.LOAD_PICTURE_FAILURE, payload: error });
+  }
+}
+
 export default function* watchAuthSagas() {
   yield takeLatest(ACTION_TYPE.CONFIRM_PASSWORD_REQUESTED, confirmPassword);
   yield takeLatest(ACTION_TYPE.UPDATE_PROFILE_REQUESTED, updateProfile);
@@ -664,6 +687,7 @@ export default function* watchAuthSagas() {
   yield takeLatest(ACTION_TYPE.MARK_SEEN_REQUESTED, markSeen);
   yield takeLatest(ACTION_TYPE.LOGIN_REQUESTED, login);
   yield takeLatest(ACTION_TYPE.REGISTER_REQUESTED, register);
+  yield takeLatest(ACTION_TYPE.LOAD_PICTURE_REQUESTED, loadPicture);
   yield takeLatest(ACTION_TYPE.ADD_COMMENT_REQUESTED, addComment);
   yield takeLatest(ACTION_TYPE.ADD_REPLY_REQUESTED, addReply);
   yield takeLatest(ACTION_TYPE.EDIT_COMMENT_REQUESTED, editComment);

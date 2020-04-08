@@ -28,6 +28,7 @@ const initialState = {
   registerFailure: false,
   markSeen: false,
   markSeenFailure: false,
+  userPictures: {}, // hash table of usernames to profile pictures
 
   initiateResetLoading: false,
   initiateResetSuccess: false,
@@ -258,6 +259,22 @@ const auth = (state = initialState, action) => {
         errorMessage: ''
       });
     }
+
+    case ACTION_TYPE.LOAD_PICTURE_REQUESTED: {
+      return Object.assign({}, state, {
+        errorMessage: ''
+      });
+    }
+
+    case ACTION_TYPE.LOAD_PICTURE_SUCCESS: {
+      let userPictureDictionary = state.userPictures;
+      userPictureDictionary[action.payload.username] = action.payload.profilePictureUrl;
+
+      return Object.assign({}, state, {
+        userPictures: userPictureDictionary
+      });
+    }
+
     case ACTION_TYPE.ADD_NOTIFICATIONS_SUCCESS: {
       let newNotification = action.action.payload;
       let currentUser = state.user;
@@ -310,6 +327,7 @@ const auth = (state = initialState, action) => {
       return Object.assign({}, state, {
         markSeenFailure: true
       });
+    case ACTION_TYPE.LOAD_PICTURE_FAILURE:
     case ACTION_TYPE.ADD_COMMENT_FAILURE:
     case ACTION_TYPE.ADD_REPLY_FAILURE:
     case ACTION_TYPE.DELETE_COMMENT_FAILURE:

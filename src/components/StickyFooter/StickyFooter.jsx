@@ -6,7 +6,7 @@ import Footer from '../../components/Footer';
 
 class StickyFooter extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     if (!props.children) props.children = '';
   }
@@ -14,9 +14,7 @@ class StickyFooter extends React.Component {
   render() {
     return (
       <div className="flex flex-col flex-grow">
-        <div className="flex-grow flex flex-col">
-          {this.props.children}
-        </div>
+        <div className="flex-grow flex flex-col">{this.props.children}</div>
         <Footer />
       </div>
     );

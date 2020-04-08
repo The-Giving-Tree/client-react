@@ -105,6 +105,11 @@ export const selectMenu = payload => ({
   payload
 });
 
+export const loadPicture = payload => ({
+  type: ACTION_TYPE.LOAD_PICTURE_REQUESTED,
+  payload
+});
+
 export const getLeaderboard = payload => ({
   type: ACTION_TYPE.GET_LEADERBOARD_REQUESTED,
   payload

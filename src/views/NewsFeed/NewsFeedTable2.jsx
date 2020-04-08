@@ -4,32 +4,39 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { loadNewsfeed } from '../../store/actions/auth/auth-actions';
 
 class NewsFeedTable2 extends React.Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
       hasMoreItems: true,
       newsfeed: []
-    }
+    };
   }
 
   componentDidMount() {
     // Get the newsfeed items
-    this.getNewsFeed({
-      lat: this.props.location.lat,
-      lng: this.props.location.lng
-    }, Number(this.props.currentPage), this.props.feedMode)
+    this.getNewsFeed(
+      {
+        lat: this.props.location.lat,
+        lng: this.props.location.lng
+      },
+      Number(this.props.currentPage),
+      this.props.feedMode
+    );
   }
 
   componentDidUpdate(prevProps, prevState) {
     // if the route changes...
     if (this.props.feedMode !== prevProps.feedMode) {
-      console.log("ROUTE CHANGE: ", this.props);
-      this.getNewsFeed({
-        lat: this.props.location.lat,
-        lng: this.props.location.lng
-      }, 1, this.props.feedMode);
+      console.log('ROUTE CHANGE: ', this.props);
+      this.getNewsFeed(
+        {
+          lat: this.props.location.lat,
+          lng: this.props.location.lng
+        },
+        1,
+        this.props.feedMode
+      );
     }
   }
 
@@ -40,7 +47,7 @@ class NewsFeedTable2 extends React.Component {
    * @memberof NewsFeedTable2
    */
   setNewsFeed(feed) {
-    this.setState({newsfeed: feed})
+    this.setState({ newsfeed: feed });
   }
 
   /**
@@ -51,7 +58,7 @@ class NewsFeedTable2 extends React.Component {
    * @param {*} feedMode
    * @memberof NewsFeedTable2
    */
-  getNewsFeed(loc, currentPage, feedMode) {      
+  getNewsFeed(loc, currentPage, feedMode) {
     this.props.loadNewsfeedDispatch({
       env: process.env.NODE_ENV,
       page: Number(currentPage),
@@ -68,10 +75,14 @@ class NewsFeedTable2 extends React.Component {
   loadMoreItems(nextPage) {
     const currentPage = Number(this.props.currentPage);
     if (currentPage < this.props.pages) {
-      this.getNewsFeed({
-        lat: this.props.location.lat,
-        lng: this.props.location.lng
-      }, nextPage, this.props.feedMode);
+      this.getNewsFeed(
+        {
+          lat: this.props.location.lat,
+          lng: this.props.location.lng
+        },
+        nextPage,
+        this.props.feedMode
+      );
     } else {
       this.setHasMoreItems(false);
     }
@@ -86,9 +97,17 @@ class NewsFeedTable2 extends React.Component {
    * @memberof NewsFeedTable2
    */
   setRowTemplate(item, i) {
-    return (<div key={i} className="p-3" style={{
-      height: '500px'
-    }}>{item.title}</div>);   
+    return (
+      <div
+        key={i}
+        className="p-3"
+        style={{
+          height: '500px'
+        }}
+      >
+        {item.title}
+      </div>
+    );
   }
 
   /**
@@ -98,7 +117,7 @@ class NewsFeedTable2 extends React.Component {
    * @memberof NewsFeedTable2
    */
   setHasMoreItems(val) {
-    this.setState({ hasMoreItems: val })
+    this.setState({ hasMoreItems: val });
   }
 
   render() {
@@ -106,31 +125,28 @@ class NewsFeedTable2 extends React.Component {
       <div>
         {!this.props.newsfeedLoading ? (
           <InfiniteScroll
-          pageStart={1}
-          loadMore={(page) => {
-            console.log("LOAD MORE", page)
-            return this.loadMoreItems(page)
-          }}
-          hasMore={this.state.hasMoreItems}
-          loader={
-            <div key={0} className="loading-spinner"></div>
-          }>
+            pageStart={1}
+            loadMore={page => {
+              console.log('LOAD MORE', page);
+              return this.loadMoreItems(page);
+            }}
+            hasMore={this.state.hasMoreItems}
+            loader={<div key={0} className="loading-spinner"></div>}
+          >
             {this.props.newsfeed.map((item, i) => {
-              return(
-                this.setRowTemplate(item, i)
-              );
+              return this.setRowTemplate(item, i);
             })}
           </InfiniteScroll>
         ) : (
           <div key={0} className="loading-spinner"></div>
         )}
-      </div>   
+      </div>
     );
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  loadNewsfeedDispatch: (payload) => dispatch(loadNewsfeed(payload))
+  loadNewsfeedDispatch: payload => dispatch(loadNewsfeed(payload))
 });
 
 const mapStateToProps = state => ({
@@ -140,7 +156,7 @@ const mapStateToProps = state => ({
   numOfResults: state.auth.numOfResults,
   newsfeedSuccess: state.auth.newsfeedSuccess,
   newsfeedUpdated: state.auth.newsfeedUpdated,
-  newsfeedLoading: state.auth.newsfeedLoading,
+  newsfeedLoading: state.auth.newsfeedLoading
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewsFeedTable2);

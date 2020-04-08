@@ -32,7 +32,8 @@ import {
   downvote,
   addReply,
   markSeen,
-  getLeaderboard
+  getLeaderboard,
+  loadPicture
 } from '../store/actions/auth/auth-actions';
 
 import { editPost } from '../store/actions/user/user-actions';
@@ -42,6 +43,7 @@ function Post(props) {
     user,
     errorMessage,
     foundPost,
+    userPictures,
     loadPostDispatch,
     downvoteDispatch,
     upvoteDispatch,
@@ -51,6 +53,7 @@ function Post(props) {
     deleteCommentDispatch,
     deletePostDispatch,
     getLeaderboardDispatch,
+    loadPictureDispatch,
     deletePostSuccess,
     userRanking,
     leaderboard,
@@ -69,6 +72,8 @@ function Post(props) {
   parsed = Object.values(parsed)[0];
 
   const history = useHistory();
+
+  console.log('userPictures: ', userPictures);
 
   const [title, setTitle] = React.useState('');
   const [updated, setUpdated] = React.useState(true);
@@ -245,6 +250,12 @@ function Post(props) {
   }
 
   function generateHash(username = '', version = 0) {
+    if (username && !userPictures[username]) {
+      loadPictureDispatch({
+        env: process.env.NODE_ENV,
+        id: username
+      });
+    }
     const secret = 'givingtree';
     const hash = require('crypto')
       .createHmac('sha256', secret)
@@ -350,12 +361,17 @@ function Post(props) {
                           fontSize: 12
                         }}
                       >
+                        childComment.username: {childComment.username}
+                        <br/>
+                        userPictures[childComment.username]: {userPictures[childComment.username]}
+                        <br/>
+                        userPictures: {JSON.stringify(userPictures)}
                         <div
                           onClick={() => history.push(`/user/${childComment.username}`)}
                           style={{
                             width: 32,
                             height: 32,
-                            background: `url(${generateHash(
+                            background: `url(${userPictures[childComment.username] || generateHash(
                               childComment.username
                             )}), url(https://d1ppmvgsdgdlyy.cloudfront.net/alphabet/${childComment.username[0].toUpperCase()}.svg), ${stringToHslColor(
                               childComment.username,
@@ -1521,6 +1537,7 @@ const mapDispatchToProps = dispatch => ({
   markSeenDispatch: payload => dispatch(markSeen(payload)),
   editPostDispatch: payload => dispatch(editPost(payload)),
   getLeaderboardDispatch: payload => dispatch(getLeaderboard(payload)),
+  loadPictureDispatch: payload => dispatch(loadPicture(payload)),
   addReplyDispatch: payload => dispatch(addReply(payload)),
   loadPostDispatch: payload => dispatch(loadPost(payload)),
   upvoteDispatch: payload => dispatch(upvote(payload)),
@@ -1531,6 +1548,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   user: state.auth.user,
   foundUser: state.auth.foundUser,
+  userPictures: state.auth.userPictures,
   foundPost: state.auth.foundPost,
   errorMessage: state.auth.errorMessage,
   userRanking: state.auth.userRanking,

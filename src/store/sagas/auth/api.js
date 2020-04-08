@@ -384,6 +384,23 @@ const loadNewsFeed = async (env, page, location = undefined, feed, token) => {
   }
 };
 
+const loadPicture = async (env, id, token) => {
+  try {
+    const headers = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+
+    const data = await Axios.get(`${ROUTES[env].giving_tree}/v1/user/${id}/pictures`, headers);
+    return data;
+  } catch (e) {
+    const error = e.response.data ? e.response.data : e;
+    Sentry.captureException(new Error(JSON.stringify(error)));
+    throw error;
+  }
+};
+
 const markSeen = async (env, postId, userId, token) => {
   try {
     const headers = {
@@ -531,6 +548,7 @@ const Api = {
   completeTask,
   upvote,
   follow,
+  loadPicture,
   unfollow,
   markSeen,
   downvote,
