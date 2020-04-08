@@ -660,17 +660,17 @@ export function* loadPicture(action) {
     const token = localStorage.getItem('giving_tree_jwt');
     const data = yield call(Api.loadPicture, action.payload.env, action.payload.id, token);
 
-    const { _id, username, profilePictureUrl, headerPictureUrl } = data.data;
+    console.log('data : ', data);
+
+    const { username, profilePictureUrl } = data.data;
 
     console.log('load: ', username, ', profile: ', profilePictureUrl);
-    
+
     yield put({
       type: ACTION_TYPE.LOAD_PICTURE_SUCCESS,
       payload: {
         username,
-        profilePictureUrl,
-        headerPictureUrl,
-        _id
+        profilePictureUrl
       }
     });
   } catch (error) {

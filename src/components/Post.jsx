@@ -43,7 +43,7 @@ function Post(props) {
     user,
     errorMessage,
     foundPost,
-    userPictures,
+    userPicturesProps,
     loadPostDispatch,
     downvoteDispatch,
     upvoteDispatch,
@@ -73,10 +73,12 @@ function Post(props) {
 
   const history = useHistory();
 
-  console.log('userPictures: ', userPictures);
+  // fixes the json error
+  const userPictures = JSON.parse(JSON.stringify(userPicturesProps));
 
   const [title, setTitle] = React.useState('');
   const [updated, setUpdated] = React.useState(true);
+  const [usernames, setUsernames] = React.useState([]);
   const [text, setText] = React.useState('');
   const [upvoteHover, setUpvoteHover] = React.useState([]);
   const [downvoteHover, setDownvoteHover] = React.useState([]);
@@ -249,8 +251,12 @@ function Post(props) {
     setEditArray(editArray.filter(item => item !== id));
   }
 
-  function generateHash(username = '', version = 0) {
-    if (username && !userPictures[username]) {
+  console.log('userPictures: ', userPictures);
+
+  function generateHash(username = '', version = 0, load = false) {
+    if (load && username && !userPictures[username] && !usernames.includes(username)) {
+      usernames.push(username);
+
       loadPictureDispatch({
         env: process.env.NODE_ENV,
         id: username
@@ -361,18 +367,15 @@ function Post(props) {
                           fontSize: 12
                         }}
                       >
-                        childComment.username: {childComment.username}
-                        <br/>
-                        userPictures[childComment.username]: {userPictures[childComment.username]}
-                        <br/>
-                        userPictures: {JSON.stringify(userPictures)}
                         <div
                           onClick={() => history.push(`/user/${childComment.username}`)}
                           style={{
                             width: 32,
                             height: 32,
-                            background: `url(${userPictures[childComment.username] || generateHash(
-                              childComment.username
+                            background: `url(${generateHash(
+                              childComment.username,
+                              0,
+                              true
                             )}), url(https://d1ppmvgsdgdlyy.cloudfront.net/alphabet/${childComment.username[0].toUpperCase()}.svg), ${stringToHslColor(
                               childComment.username,
                               80,
@@ -1548,7 +1551,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   user: state.auth.user,
   foundUser: state.auth.foundUser,
-  userPictures: state.auth.userPictures,
+  userPicturesProps: state.auth.userPictures,
   foundPost: state.auth.foundPost,
   errorMessage: state.auth.errorMessage,
   userRanking: state.auth.userRanking,

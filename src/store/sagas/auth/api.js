@@ -395,6 +395,7 @@ const loadPicture = async (env, id, token) => {
     const data = await Axios.get(`${ROUTES[env].giving_tree}/v1/user/${id}/pictures`, headers);
     return data;
   } catch (e) {
+    console.log('error: ', e);
     const error = e.response.data ? e.response.data : e;
     Sentry.captureException(new Error(JSON.stringify(error)));
     throw error;
