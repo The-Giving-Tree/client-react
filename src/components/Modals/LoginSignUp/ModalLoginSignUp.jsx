@@ -311,74 +311,78 @@ class ModalLoginSignUp extends React.Component {
           this.enterKeyCheck(event)
         }}
         disabled={this.props.loginLoading} />
-        <p className="mb-4">Your password must have:</p>
-        <p className="flex items-center mb-2">
-          {!this.state.passLen ? (
-            <svg className="flex-shrink-0 mr-3"
-            width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 0C4.486 0 0 4.486 0 10C0 15.514 4.486 20 10 20C15.514 20 20 15.514 20 10C20 4.486 15.514 0 10 0ZM10 18C5.589 18 2 14.411 2 10C2 5.589 5.589 2 10 2C14.411 2 18 5.589 18 10C18 14.411 14.411 18 10 18Z" fill="#BFBFBF"/>
-            <path d="M7.99896 11.587L5.69996 9.29197L4.28796 10.708L8.00096 14.413L14.707 7.70697L13.293 6.29297L7.99896 11.587Z" fill="#BFBFBF"/>
-            </svg>
-          ) : (
-            <svg className="flex-shrink-0 mr-3"
-            width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 0C4.486 0 0 4.486 0 10C0 15.514 4.486 20 10 20C15.514 20 20 15.514 20 10C20 4.486 15.514 0 10 0ZM8.001 14.413L4.288 10.708L5.7 9.292L7.999 11.587L13.293 6.293L14.707 7.707L8.001 14.413Z" 
-            fill="#1E853B"/>
-            </svg>
-          )}
-          <span>8 or more characters</span>
-        </p>
-        <p className="flex items-center mb-2">
-          {!this.state.passCase ? (
-            <svg className="flex-shrink-0 mr-3"
-            width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 0C4.486 0 0 4.486 0 10C0 15.514 4.486 20 10 20C15.514 20 20 15.514 20 10C20 4.486 15.514 0 10 0ZM10 18C5.589 18 2 14.411 2 10C2 5.589 5.589 2 10 2C14.411 2 18 5.589 18 10C18 14.411 14.411 18 10 18Z" fill="#BFBFBF"/>
-            <path d="M7.99896 11.587L5.69996 9.29197L4.28796 10.708L8.00096 14.413L14.707 7.70697L13.293 6.29297L7.99896 11.587Z" fill="#BFBFBF"/>
-            </svg>
-          ) : (
-            <svg className="flex-shrink-0 mr-3"
-            width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 0C4.486 0 0 4.486 0 10C0 15.514 4.486 20 10 20C15.514 20 20 15.514 20 10C20 4.486 15.514 0 10 0ZM8.001 14.413L4.288 10.708L5.7 9.292L7.999 11.587L13.293 6.293L14.707 7.707L8.001 14.413Z" 
-            fill="#1E853B"/>
-            </svg>
-          )}
-          <span>Upper and lowercase letters</span>
-        </p>
-        <p className="flex items-center mb-2">
-          {!this.state.passNum ? (
-            <svg className="flex-shrink-0 mr-3"
-            width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 0C4.486 0 0 4.486 0 10C0 15.514 4.486 20 10 20C15.514 20 20 15.514 20 10C20 4.486 15.514 0 10 0ZM10 18C5.589 18 2 14.411 2 10C2 5.589 5.589 2 10 2C14.411 2 18 5.589 18 10C18 14.411 14.411 18 10 18Z" fill="#BFBFBF"/>
-            <path d="M7.99896 11.587L5.69996 9.29197L4.28796 10.708L8.00096 14.413L14.707 7.70697L13.293 6.29297L7.99896 11.587Z" fill="#BFBFBF"/>
-            </svg>
-          ) : (
-            <svg className="flex-shrink-0 mr-3"
-            width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 0C4.486 0 0 4.486 0 10C0 15.514 4.486 20 10 20C15.514 20 20 15.514 20 10C20 4.486 15.514 0 10 0ZM8.001 14.413L4.288 10.708L5.7 9.292L7.999 11.587L13.293 6.293L14.707 7.707L8.001 14.413Z" 
-            fill="#1E853B"/>
-            </svg>
-          )}
-          <span>At least one number</span>
-        </p>
-        <p className="flex items-center mb-4">
-          {!this.state.passSpec ? (
-            <svg className="flex-shrink-0 mr-3"
-            width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 0C4.486 0 0 4.486 0 10C0 15.514 4.486 20 10 20C15.514 20 20 15.514 20 10C20 4.486 15.514 0 10 0ZM10 18C5.589 18 2 14.411 2 10C2 5.589 5.589 2 10 2C14.411 2 18 5.589 18 10C18 14.411 14.411 18 10 18Z" fill="#BFBFBF"/>
-            <path d="M7.99896 11.587L5.69996 9.29197L4.28796 10.708L8.00096 14.413L14.707 7.70697L13.293 6.29297L7.99896 11.587Z" fill="#BFBFBF"/>
-            </svg>
-          ) : (
-            <svg className="flex-shrink-0 mr-3"
-            width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 0C4.486 0 0 4.486 0 10C0 15.514 4.486 20 10 20C15.514 20 20 15.514 20 10C20 4.486 15.514 0 10 0ZM8.001 14.413L4.288 10.708L5.7 9.292L7.999 11.587L13.293 6.293L14.707 7.707L8.001 14.413Z" 
-            fill="#1E853B"/>
-            </svg>
-          )}
-          <span>At least one special character ‘!._*,#’)</span>
-        </p>
-        <p className="text-sm text-gray-600 mb-4">
-          <em>Avoid using passwords that you use with other websites or that might be easy for someone else to guess.</em>
-        </p>
+        {(!this.state.passValid) && 
+          <div>
+            <p className="mb-4">Your password must have:</p>
+            <p className="flex items-center mb-2">
+              {!this.state.passLen ? (
+                <svg className="flex-shrink-0 mr-3"
+                width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 0C4.486 0 0 4.486 0 10C0 15.514 4.486 20 10 20C15.514 20 20 15.514 20 10C20 4.486 15.514 0 10 0ZM10 18C5.589 18 2 14.411 2 10C2 5.589 5.589 2 10 2C14.411 2 18 5.589 18 10C18 14.411 14.411 18 10 18Z" fill="#BFBFBF"/>
+                <path d="M7.99896 11.587L5.69996 9.29197L4.28796 10.708L8.00096 14.413L14.707 7.70697L13.293 6.29297L7.99896 11.587Z" fill="#BFBFBF"/>
+                </svg>
+              ) : (
+                <svg className="flex-shrink-0 mr-3"
+                width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 0C4.486 0 0 4.486 0 10C0 15.514 4.486 20 10 20C15.514 20 20 15.514 20 10C20 4.486 15.514 0 10 0ZM8.001 14.413L4.288 10.708L5.7 9.292L7.999 11.587L13.293 6.293L14.707 7.707L8.001 14.413Z" 
+                fill="#1E853B"/>
+                </svg>
+              )}
+              <span>8 or more characters</span>
+            </p>
+            <p className="flex items-center mb-2">
+              {!this.state.passCase ? (
+                <svg className="flex-shrink-0 mr-3"
+                width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 0C4.486 0 0 4.486 0 10C0 15.514 4.486 20 10 20C15.514 20 20 15.514 20 10C20 4.486 15.514 0 10 0ZM10 18C5.589 18 2 14.411 2 10C2 5.589 5.589 2 10 2C14.411 2 18 5.589 18 10C18 14.411 14.411 18 10 18Z" fill="#BFBFBF"/>
+                <path d="M7.99896 11.587L5.69996 9.29197L4.28796 10.708L8.00096 14.413L14.707 7.70697L13.293 6.29297L7.99896 11.587Z" fill="#BFBFBF"/>
+                </svg>
+              ) : (
+                <svg className="flex-shrink-0 mr-3"
+                width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 0C4.486 0 0 4.486 0 10C0 15.514 4.486 20 10 20C15.514 20 20 15.514 20 10C20 4.486 15.514 0 10 0ZM8.001 14.413L4.288 10.708L5.7 9.292L7.999 11.587L13.293 6.293L14.707 7.707L8.001 14.413Z" 
+                fill="#1E853B"/>
+                </svg>
+              )}
+              <span>Upper and lowercase letters</span>
+            </p>
+            <p className="flex items-center mb-2">
+              {!this.state.passNum ? (
+                <svg className="flex-shrink-0 mr-3"
+                width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 0C4.486 0 0 4.486 0 10C0 15.514 4.486 20 10 20C15.514 20 20 15.514 20 10C20 4.486 15.514 0 10 0ZM10 18C5.589 18 2 14.411 2 10C2 5.589 5.589 2 10 2C14.411 2 18 5.589 18 10C18 14.411 14.411 18 10 18Z" fill="#BFBFBF"/>
+                <path d="M7.99896 11.587L5.69996 9.29197L4.28796 10.708L8.00096 14.413L14.707 7.70697L13.293 6.29297L7.99896 11.587Z" fill="#BFBFBF"/>
+                </svg>
+              ) : (
+                <svg className="flex-shrink-0 mr-3"
+                width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 0C4.486 0 0 4.486 0 10C0 15.514 4.486 20 10 20C15.514 20 20 15.514 20 10C20 4.486 15.514 0 10 0ZM8.001 14.413L4.288 10.708L5.7 9.292L7.999 11.587L13.293 6.293L14.707 7.707L8.001 14.413Z" 
+                fill="#1E853B"/>
+                </svg>
+              )}
+              <span>At least one number</span>
+            </p>
+            <p className="flex items-center mb-4">
+              {!this.state.passSpec ? (
+                <svg className="flex-shrink-0 mr-3"
+                width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 0C4.486 0 0 4.486 0 10C0 15.514 4.486 20 10 20C15.514 20 20 15.514 20 10C20 4.486 15.514 0 10 0ZM10 18C5.589 18 2 14.411 2 10C2 5.589 5.589 2 10 2C14.411 2 18 5.589 18 10C18 14.411 14.411 18 10 18Z" fill="#BFBFBF"/>
+                <path d="M7.99896 11.587L5.69996 9.29197L4.28796 10.708L8.00096 14.413L14.707 7.70697L13.293 6.29297L7.99896 11.587Z" fill="#BFBFBF"/>
+                </svg>
+              ) : (
+                <svg className="flex-shrink-0 mr-3"
+                width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 0C4.486 0 0 4.486 0 10C0 15.514 4.486 20 10 20C15.514 20 20 15.514 20 10C20 4.486 15.514 0 10 0ZM8.001 14.413L4.288 10.708L5.7 9.292L7.999 11.587L13.293 6.293L14.707 7.707L8.001 14.413Z" 
+                fill="#1E853B"/>
+                </svg>
+              )}
+              <span>At least one special character ‘!._*,#’)</span>
+            </p>
+            <p className="text-sm text-gray-600 mb-4">
+              <em>Avoid using passwords that you use with other websites or that might be easy for someone else to guess.</em>
+            </p>
+          </div>
+        }
         <button onClick={() => {
           this.handleSignup();
         }}
