@@ -67,6 +67,9 @@ function Home(props) {
   const [password, setPassword] = React.useState('');
   const [validPassword, setValidPassword] = React.useState(false);
 
+  // mailchimp subscribe
+  const [mailchimpEmail, setMailchimpEmail] = React.useState('');
+
   // login
   const [resetEmail, setResetEmail] = React.useState('');
   const [resetModal, setResetModal] = React.useState(false);
@@ -544,15 +547,12 @@ function Home(props) {
                   Sign up to receive the latest news and updates from The Giving 
                   Tree
                 </p>
-                <div className="md:flex text-center items-center justify-center max-w-xl mx-auto mb-4">
-                  <input className="w-full md:mr-4 shadow-sm border 
-                  border-gray-200 border-solid rounded-md px-4 py-2 mb-8 md:mb-0" 
-                  placeholder="Enter email (e.g. johnsmith@yahoo.com)" />
-                  <button className="font-semibold text-white bg-green-700
-                  py-2 rounded-lg px-12">
-                    Submit
-                  </button>
-                </div>
+                <form action="https://givingtreeproject.us19.list-manage.com/subscribe/post?u=fe3f02a04e07d91303febd846&amp;id=20db7da4aa" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate className="md:flex text-center items-center justify-center max-w-xl mx-auto mb-4">                    
+                  <input type="email" value="" name="EMAIL" class="email" className="w-full md:mr-4 shadow-sm border 
+                border-gray-200 border-solid rounded-md px-4 py-2 mb-8 md:mb-0" id="mce-EMAIL" placeholder="Enter email (e.g. johnsmith@yahoo.com)" required value={mailchimpEmail} onChange={(e) => setMailchimpEmail(e.target.value)} />
+                  <div style={{position: 'absolute', left: '-5000px'}} aria-hidden="true"><input type="text" name="b_fe3f02a04e07d91303febd846_20db7da4aa" tabindex="-1" value="" /></div>
+                  <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button" className="font-semibold text-white bg-green-700 py-2 rounded-lg px-12" /></div>
+                </form>
                 <small className="text-center max-w-lg block mx-auto">
                   <em>
                     We promise we'll only send you relevant updates, and will 
