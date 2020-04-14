@@ -324,9 +324,10 @@ function NewsFeedPage(props) {
                       }
                     }}
                     content={({ close }) => (
-                      <div className="bg-white rounded-lg p-5 shadow-lg text-xs"
+                      <div className="bg-white rounded-lg p-5 shadow-lg"
                         style={{
-                          maxWidth: 375
+                          maxWidth: 375,
+                          fontSize: 12
                         }}>
                         <p className="text-hlgreen font-semibold mb-2">
                           How does Karma on Giving Tree work?
