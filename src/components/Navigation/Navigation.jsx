@@ -616,8 +616,8 @@ function Navigation(props) {
           const url = (authenticated) ? '/home/discover' : '/';
           window.location = url;
         }}>
-          <LogoFull className="hidden sm:inline-block w-10 h-10" />
-          <LogoIcon className="inline-block sm:hidden" />
+          <LogoFull className="hidden sm:inline-block h-10" />
+          <LogoIcon className="inline-block sm:hidden w-10 h-10" />
         </button>
         <div className="ml-auto flex items-center justify-end">
           {/* How it works */}
