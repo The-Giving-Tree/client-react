@@ -156,10 +156,23 @@ class NewsFeedCard extends React.Component {
    * @memberof NewsFeedCard
    */
   setDetails() {
-    const item = this.props.item.text;
+    const item = this.props.item;
 
     if (item) {
-      const obj = JSON.parse(item);
+      const obj = {
+        address: item.address || null,
+        requestType: item.requestType || null,
+        description: item.description || null,
+        cart: item.cart || null,
+        contactMethod: item.contactMethod || null,
+        email: item.email || null,
+        name: item.name || null,
+        dueDate: item.dueDate || null,
+        location: item.location || null,
+        postal: item.postal || null,
+        phoneNumber: item.phoneNumber || null,
+        publicAddress: item.publicAddress || null
+      };
       this.setState({ 
         details: obj 
       })  
@@ -200,7 +213,7 @@ class NewsFeedCard extends React.Component {
    * @memberof NewsFeedCard
    */
   calculateDistance(requestLocation) {
-    if (requestLocation.lat && requestLocation.lng && this.props.coords) {
+    if (requestLocation && requestLocation.lat && requestLocation.lng && this.props.coords) {
       var request = {
         latitude: requestLocation.lat,
         longitude: requestLocation.lng
@@ -571,23 +584,22 @@ class NewsFeedCard extends React.Component {
             <h3 className="text-xl font-semibold mb-4">
               {this.props.item.title}
             </h3>
-            {this.props.match.url === '/home/ongoing' ? (
+            { (this.state.details.address || this.state.details.publicAddress) && (
               <p className="text-sm mb-3">
-                Address: {this.state.details.address}
+                Address: {this.state.details.address || this.state.details.publicAddress}
               </p>
-            ) : (
-              <p className="text-sm mb-3">{
-                this.props.coords ? 
-                  this.calculateDistance(this.state.details.location) + 
-                  ' miles from you' : this.state.details.postal 
-                      ? `Zip code: ${this.state.details.postal.split('-')[0] || 
-                        this.state.details.postal}` : ''
-              }</p>
             ) }
+            <p className="text-sm mb-3">{
+              this.props.coords ? 
+                this.calculateDistance(this.state.details.location) + 
+                ' miles from you' : this.state.details.postal 
+                    ? `Zip code: ${this.state.details.postal.split('-')[0] || 
+                      this.state.details.postal}` : ''
+            }</p>
             {this.state.details.dueDate && 
               <p className="text-sm mb-3">Due Date: 
-              {` ${moment(new Date(this.state.details.dueDate)).fromNow()}`} 
-              ({this.state.details.dueDate})</p>
+              {` ${moment(new Date(this.state.details.dueDate)).fromNow()} `} 
+              ({moment(this.state.details.dueDate).calendar()})</p>
             }
             {this.state.details.description &&
               <p className="text-sm mb-3">

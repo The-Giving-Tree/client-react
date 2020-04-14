@@ -109,7 +109,7 @@ function User(props) {
   }
 
   function calculateDistance(requestLocation) {
-    if (requestLocation.lat && requestLocation.lng && coords) {
+    if (requestLocation && requestLocation.lat && requestLocation.lng && coords) {
       var request = {
         latitude: requestLocation.lat,
         longitude: requestLocation.lng
@@ -260,7 +260,7 @@ function User(props) {
 
   var postElements = <StyledBody>No requests!</StyledBody>;
   if (!foundUserNull && !isEmpty(foundUser) && foundUser.posts.length > 0) {
-    console.log('foundUser.posts: ', JSON.parse(foundUser.posts[0].text));
+    console.log(foundUser.posts);
     postElements = foundUser.posts.map(post => (
       <Card
         overrides={{
@@ -368,28 +368,27 @@ function User(props) {
               <div style={{ margin: 7 }}>
                 <div>
                   <div className="font-bold text-base text-left my-1 mt-4">
-                    {post.text && coords
-                      ? `${calculateDistance(JSON.parse(post.text).location)} miles from
+                    {post.location && coords
+                      ? `${calculateDistance(post.location)} miles from
                                       you ${
-                                        JSON.parse(post.text).postal
-                                          ? `(${JSON.parse(post.text).postal.split('-')[0] ||
-                                              JSON.parse(post.text).postal})`
+                                        post.postal
+                                          ? `(${post.postal.split('-')[0] ||
+                                              post.postal})`
                                           : ''
                                       }`
                       : `Zip Code: ${
-                          JSON.parse(post.text).postal
-                            ? `${JSON.parse(post.text).postal.split('-')[0] ||
-                                JSON.parse(post.text).postal}`
+                          post.postal
+                            ? `${post.postal.split('-')[0] ||
+                                post.postal}`
                             : ''
                         }`}
                   </div>
                   <div className="font-bold text-base text-left my-1 mt-4">
-                    {post && `Description: ${JSON.parse(post.text).description}`}
+                    {post && `Description: ${post.description}`}
                   </div>
                   <div className="mt-4"></div>
-                  {post.text &&
-                    JSON.parse(post.text).type === 'food' &&
-                    cartJSX(JSON.parse(post.text).cart)}
+                  {post.requestType === 'food' &&
+                    cartJSX(post.cart)}
                 </div>
               </div>
             </div>
@@ -640,15 +639,14 @@ function User(props) {
               <br />
               <div>
                 <div className="font-bold text-base text-left my-1 mt-4">
-                  {vote.text && JSON.parse(vote.text).address}
+                  {vote.address}
                 </div>
                 <div className="font-bold text-base text-left my-1 mt-4">
-                  {vote && `Description: ${JSON.parse(vote.text).description}`}
+                  {vote && `Description: ${vote.description}`}
                 </div>
                 <div className="mt-4"></div>
-                {vote.text &&
-                  JSON.parse(vote.text).type === 'food' &&
-                  cartJSX(JSON.parse(vote.text).cart)}
+                {vote.requestType === 'food' &&
+                  cartJSX(vote.cart)}
               </div>
             </div>
           ) : (

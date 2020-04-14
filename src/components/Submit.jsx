@@ -48,6 +48,7 @@ function Submit(props) {
   const [address, setAddress] = useState('');
   const [latLng, setLatLng] = useState({});
   const [postal, setPostal] = useState('');
+  const [publicAddress, setPublicAddress] = useState('');
   const [cart, setCart] = React.useState([]);
   const [selectedRequest, setRequest] = React.useState('food');
   const [checkout, setCheckout] = React.useState(false);
@@ -83,26 +84,26 @@ function Submit(props) {
   /* eslint-disable */
   React.useEffect(() => {
     async function submitDraft() {
-      let foodString = {
-        address,
-        type: selectedRequest,
-        description,
-        cart,
-        contactMethod,
-        email,
-        name,
-        dueDate,
-        location: latLng,
-        postal,
-        phoneNumber
-      };
-
       await publishPostDispatch({
         env: process.env.NODE_ENV,
         postId: submittedDraft._id,
-        title,
-        text: JSON.stringify(foodString),
-        categories: [selectedRequest].join(',')
+        data: {
+          title,
+          text: ' ',
+          categories: [selectedRequest].join(','),
+          address,
+          type: selectedRequest,
+          description,
+          cart,
+          contactMethod,
+          email,
+          name,
+          dueDate,
+          location: latLng,
+          postal,
+          phoneNumber,
+          publicAddress
+        }
       });
     }
 
@@ -404,6 +405,12 @@ function Submit(props) {
                   }
                 }
                 setPostal(postal);
+
+                // Try and make a public address
+                let publicAddressArray = results[0].address_components.filter((component) => {
+                  return ['locality', 'administrative_area_level_1', 'country'].includes(component.types[0]);
+                }).map((component) => component.long_name);
+                setPublicAddress(publicAddressArray.join(', '));
               })
               .catch(error => console.error('Error 1', error));
 
@@ -541,9 +548,23 @@ function Submit(props) {
                     if (isEmpty(submittedDraft)) {
                       submitDraftDispatch({
                         env: process.env.NODE_ENV,
-                        title,
-                        text: JSON.stringify(foodString),
-                        categories: [selectedRequest].join(',')
+                        data: {
+                          address,
+                          requestType: selectedRequest,
+                          description,
+                          cart,
+                          contactMethod,
+                          email,
+                          name,
+                          postal,
+                          dueDate,
+                          location: latLng,
+                          phoneNumber,
+                          title,
+                          text: ' ',
+                          categories: [selectedRequest].join(','),
+                          publicAddress
+                        }
                       });
                     } else {
                       alert('draft already submitted');
