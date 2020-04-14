@@ -48,6 +48,7 @@ function Submit(props) {
   const [address, setAddress] = useState('');
   const [latLng, setLatLng] = useState({});
   const [postal, setPostal] = useState('');
+  const [publicAddress, setPublicAddress] = useState('');
   const [cart, setCart] = React.useState([]);
   const [selectedRequest, setRequest] = React.useState('food');
   const [checkout, setCheckout] = React.useState(false);
@@ -100,7 +101,8 @@ function Submit(props) {
           dueDate,
           location: latLng,
           postal,
-          phoneNumber
+          phoneNumber,
+          publicAddress
         }
       });
     }
@@ -403,6 +405,12 @@ function Submit(props) {
                   }
                 }
                 setPostal(postal);
+
+                // Try and make a public address
+                let publicAddressArray = results[0].address_components.filter((component) => {
+                  return ['locality', 'administrative_area_level_1', 'country'].includes(component.types[0]);
+                }).map((component) => component.long_name);
+                setPublicAddress(publicAddressArray.join(', '));
               })
               .catch(error => console.error('Error 1', error));
 
@@ -554,7 +562,8 @@ function Submit(props) {
                           phoneNumber,
                           title,
                           text: ' ',
-                          categories: [selectedRequest].join(',')
+                          categories: [selectedRequest].join(','),
+                          publicAddress
                         }
                       });
                     } else {

@@ -109,6 +109,7 @@ function Post(props) {
       setTags(foundPost.categories);
       setText({
         address: foundPost.address || null,
+        publicAddress: foundPost.publicAddress || null,
         requestType: foundPost.requestType || null,
         description: foundPost.description || null,
         cart: foundPost.cart || null,
@@ -605,7 +606,7 @@ function Post(props) {
   }
 
   function calculateDistance(requestLocation) {
-    if (requestLocation.lat && requestLocation.lng && coords) {
+    if (requestLocation && requestLocation.lat && requestLocation.lng && coords) {
       var request = {
         latitude: requestLocation.lat,
         longitude: requestLocation.lng
@@ -1099,9 +1100,14 @@ function Post(props) {
                                   {foundPost.type === 'Post' ? (
                                     <div style={{ marginTop: 20 }}>
                                       <div>
+                                        { (text.address || text.publicAddress) && (
+                                          <div className="text-sm my-1 mt-4">
+                                            Address: {text.address || text.publicAddress}
+                                          </div>
+                                        ) }
                                         {text && (
                                           <div className="text-sm my-1 mt-4">
-                                            {coords
+                                            {coords && text.location
                                               ? `${calculateDistance(text.location)} miles from
                                           you ${
                                             text.postal
@@ -1122,16 +1128,26 @@ function Post(props) {
                                           {text &&
                                             text.dueDate &&
                                             `Due Date: ${moment(new Date(text.dueDate)).fromNow()} (${
-                                              text.dueDate
+                                              moment(text.dueDate).calendar()
                                             })`}
                                         </div>
-                                        {text && (
+                                        {text && text.contactMethod && (
+                                          <div className="text-sm my-1 mt-4">
+                                            Preferred contact method: { text.contactMethod }
+                                          </div>
+                                        )}
+                                        {text && text.contactMethod === 'phone' && (
                                           <div className="text-sm my-1 mt-4">
                                             Phone Number:{' '}
                                             {text.phoneNumber &&
                                               `***-***-${text.phoneNumber.substring(
                                                 text.phoneNumber.length - 4
                                               )}`}
+                                          </div>
+                                        )}
+                                        {text && text.contactMethod === 'email' && text.email && (
+                                          <div className="text-sm my-1 mt-4">
+                                            Email: <a href={`mailto:${text.email}`}>{text.email}</a>
                                           </div>
                                         )}
                                         <div className="mt-4"></div>
