@@ -695,6 +695,7 @@ class NewsFeedCard extends React.Component {
                           postId: this.props.item._id
                         });
                         this.removeDiscover(this.props.item._id);
+                        this.props.history.push(`/post/${this.props.item._id}`);
                       }
 
                     }}>
