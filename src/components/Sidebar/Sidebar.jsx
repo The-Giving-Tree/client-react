@@ -56,7 +56,7 @@ class Sidebar extends React.Component {
               </button>
             </li>
 
-            <li className={`px-2 ${(this.isLocation('/home/global')) ? 'nav-item-active' : ''}`}>
+            {/* <li className={`px-2 ${(this.isLocation('/home/global')) ? 'nav-item-active' : ''}`}>
               <button onClick={() => {
                 window.location = '/home/global';
               }}
@@ -64,7 +64,7 @@ class Sidebar extends React.Component {
                 <IconGlobal className="mb-1" />
                 <strong>Global requests</strong>
               </button>
-            </li>
+            </li> */}
 
             <li className={`px-2 ${(this.isLocation('/submit')) ? 'nav-item-active' : ''}`}>
               <button onClick={() => {
@@ -122,7 +122,7 @@ class Sidebar extends React.Component {
               </button>
             </li>
 
-            <li className={`text-black transition duration-150 xl:my-2 mx-2 md:mx-4 xl:mx-0 relative ${(this.isLocation('/home/global')) ? 'nav-item-active' : ''}`}>
+            {/* <li className={`text-black transition duration-150 xl:my-2 mx-2 md:mx-4 xl:mx-0 relative ${(this.isLocation('/home/global')) ? 'nav-item-active' : ''}`}>
               <button onClick={() => {
                 window.location = '/home/global';
               }}
@@ -135,7 +135,7 @@ class Sidebar extends React.Component {
                 </span>
                 <strong>Global requests</strong>
               </button>
-            </li>
+            </li> */}
 
             <li className={`text-black transition duration-150 xl:my-2 mx-2 md:mx-4 xl:mx-0 relative ${(this.isLocation('/home/ongoing')) ? 'nav-item-active' : ''}`}>
               <button onClick={() => {
