@@ -278,7 +278,7 @@ function Navigation(props) {
   // If the user IS logged in, display this nav...
   if (authenticated) {
     return (
-      <header className="Navigation flex items-center justify-start px-6 py-3 bg-white">
+      <header className="Navigation flex items-center justify-start px-6 py-1 bg-white">
         {/* <button
           className="rounded-full text-white px-4 py-2"
           style={{
@@ -607,7 +607,7 @@ function Navigation(props) {
   } else {
     // If the user is NOT logged in, display this nav...
     return (
-      <header className="Navigation flex items-center justify-start px-5 py-2 
+      <header className="Navigation flex items-center justify-start px-6 py-1 
       bg-white z-10 shadow-md relative">
         <ModalLoginSignUp isOpen={isOpen} setIsOpen={setIsOpen} 
         type={`login`}/>
