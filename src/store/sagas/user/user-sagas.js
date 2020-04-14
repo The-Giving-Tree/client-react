@@ -8,9 +8,7 @@ export function* submitDraft(action) {
     const data = yield call(
       Api.submitDraft,
       action.payload.env,
-      action.payload.title,
-      action.payload.text,
-      action.payload.categories,
+      action.payload.data,
       token
     );
     const submittedDraft = data.data;
@@ -104,9 +102,7 @@ export function* publishPost(action) {
       Api.publishPost,
       action.payload.env,
       action.payload.postId,
-      action.payload.title,
-      action.payload.text,
-      action.payload.categories,
+      action.payload.data,
       token
     );
     const submittedPost = data.data;

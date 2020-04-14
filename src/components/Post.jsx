@@ -107,7 +107,19 @@ function Post(props) {
     if (!isEmpty(foundPost) && loadPostSuccess) {
       setTitle(foundPost.title);
       setTags(foundPost.categories);
-      setText(JSON.parse(foundPost.text));
+      setText({
+        address: foundPost.address || null,
+        requestType: foundPost.requestType || null,
+        description: foundPost.description || null,
+        cart: foundPost.cart || null,
+        contactMethod: foundPost.contactMethod || null,
+        email: foundPost.email || null,
+        name: foundPost.name || null,
+        dueDate: foundPost.dueDate || null,
+        location: foundPost.location || null,
+        postal: foundPost.postal || null,
+        phoneNumber: foundPost.phoneNumber || null,
+      });
     }
   }, [foundPost, loadPostSuccess]);
 

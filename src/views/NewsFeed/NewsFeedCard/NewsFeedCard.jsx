@@ -156,10 +156,22 @@ class NewsFeedCard extends React.Component {
    * @memberof NewsFeedCard
    */
   setDetails() {
-    const item = this.props.item.text;
+    const item = this.props.item;
 
     if (item) {
-      const obj = JSON.parse(item);
+      const obj = {
+        address: item.address || null,
+        requestType: item.requestType || null,
+        description: item.description || null,
+        cart: item.cart || null,
+        contactMethod: item.contactMethod || null,
+        email: item.email || null,
+        name: item.name || null,
+        dueDate: item.dueDate || null,
+        location: item.location || null,
+        postal: item.postal || null,
+        phoneNumber: item.phoneNumber || null,
+      };
       this.setState({ 
         details: obj 
       })  

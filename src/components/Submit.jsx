@@ -83,26 +83,25 @@ function Submit(props) {
   /* eslint-disable */
   React.useEffect(() => {
     async function submitDraft() {
-      let foodString = {
-        address,
-        type: selectedRequest,
-        description,
-        cart,
-        contactMethod,
-        email,
-        name,
-        dueDate,
-        location: latLng,
-        postal,
-        phoneNumber
-      };
-
       await publishPostDispatch({
         env: process.env.NODE_ENV,
         postId: submittedDraft._id,
-        title,
-        text: JSON.stringify(foodString),
-        categories: [selectedRequest].join(',')
+        data: {
+          title,
+          text: ' ',
+          categories: [selectedRequest].join(','),
+          address,
+          type: selectedRequest,
+          description,
+          cart,
+          contactMethod,
+          email,
+          name,
+          dueDate,
+          location: latLng,
+          postal,
+          phoneNumber
+        }
       });
     }
 
@@ -541,9 +540,22 @@ function Submit(props) {
                     if (isEmpty(submittedDraft)) {
                       submitDraftDispatch({
                         env: process.env.NODE_ENV,
-                        title,
-                        text: JSON.stringify(foodString),
-                        categories: [selectedRequest].join(',')
+                        data: {
+                          address,
+                          requestType: selectedRequest,
+                          description,
+                          cart,
+                          contactMethod,
+                          email,
+                          name,
+                          postal,
+                          dueDate,
+                          location: latLng,
+                          phoneNumber,
+                          title,
+                          text: ' ',
+                          categories: [selectedRequest].join(',')
+                        }
                       });
                     } else {
                       alert('draft already submitted');
