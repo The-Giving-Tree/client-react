@@ -156,7 +156,9 @@ class NewsFeedCard extends React.Component {
    * @memberof NewsFeedCard
    */
   setDetails() {
-    const item = this.props.item.text;
+    // TODO: Update this when the back end is fixed. Have to trim whitespace,
+    // as some DB records have a space in the text field
+    const item = this.props.item.text.trim();
 
     if (item) {
       const obj = JSON.parse(item);
