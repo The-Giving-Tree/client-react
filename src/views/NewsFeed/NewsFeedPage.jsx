@@ -135,7 +135,8 @@ function NewsFeedPage(props) {
 
   // remove items
   const resetItems = () => {
-    window.location = `/home/discover?lat=${latLng.lat}&lng=${latLng.lng}`; // explicit lat and lng coordinates
+    window.location = `/home/discover?lat=${latLng.lat}&lng=${latLng.lng}`; 
+    // explicit lat and lng coordinates
   };
 
   async function loadNewsfeedHelper() {
