@@ -52,7 +52,7 @@ class Sidebar extends React.Component {
               }}
                 className="flex flex-col items-center justify-center">
                   <IconSearch className="mb-1" />
-                  <strong>Find Requests</strong>
+                  <strong>Requests feed</strong>
               </button>
             </li>
 
@@ -78,7 +78,7 @@ class Sidebar extends React.Component {
                   <IconHeart className="icon-heart mb-1" />
                 )}
                 
-                <strong>Make a Request</strong>
+                <strong>Create request</strong>
               </button>
             </li>
 
@@ -88,7 +88,7 @@ class Sidebar extends React.Component {
               }}
                 className="flex flex-col items-center justify-center">
                   <IconCare className="mb-1" />
-                  <strong>Your requests</strong>
+                  <strong>Your activity</strong>
               </button>
             </li>
 
@@ -118,7 +118,27 @@ class Sidebar extends React.Component {
                   xl:mr-3 xl:border-none xl:h-5 xl:w-5 bg-white mb-1 xl:mb-0 xl:shadow-none xl:bg-transparent">
                     <IconSearch className="w-6 h-6 xl:h-5 xl:w-5" />
                   </span>
-                  <strong>Find Requests</strong>
+                  <strong>Requests feed</strong>
+              </button>
+            </li>
+            
+            <li className={`text-black transition duration-150 xl:my-2 mx-2 md:mx-4 xl:mx-0 relative ${(this.isLocation('/submit')) ? 'nav-item-active' : ''}`}>
+              <button onClick={() => {
+                const loc = (authenticated) ? '/submit' : '/signup';
+                window.location = loc;
+              }}
+                className="flex flex-col xl:flex-row items-center justify-center 
+                xl:justify-start">
+                <span className="xl:inline-block border h-12 w-12 rounded-full 
+                border-gray-300 border flex items-center justify-center xl:mr-3 
+                xl:border-none xl:h-5 xl:w-5 bg-white mb-1 xl:mb-0 xl:shadow-none xl:bg-transparent">
+                  {this.isLocation('/submit') ? (
+                    <IconHeartActive className="icon-heart-active w-6 h-6 xl:h-5 xl:w-5" />
+                  ) : (
+                    <IconHeart className="icon-heart w-6 h-6 xl:h-5 xl:w-5" />
+                  )}
+                </span>
+                <strong>Create request</strong>
               </button>
             </li>
 
@@ -148,27 +168,22 @@ class Sidebar extends React.Component {
                   xl:mr-3 xl:border-none xl:h-5 xl:w-5 bg-white mb-1 xl:mb-0 xl:shadow-none xl:bg-transparent">
                     <IconCare className="w-6 h-6 xl:h-5 xl:w-5" />
                   </span>
-                  <strong>Your requests</strong>
+                  <strong>Your activity</strong>
               </button>
             </li>
 
-            <li className={`text-black transition duration-150 xl:my-2 mx-2 md:mx-4 xl:mx-0 relative ${(this.isLocation('/submit')) ? 'nav-item-active' : ''}`}>
+            <li className={`text-black transition duration-150 xl:my-2 mx-2 md:mx-4 xl:mx-0 relative ${(this.isLocation('/home/ongoing')) ? 'nav-item-active' : ''}`}>
               <button onClick={() => {
-                const loc = (authenticated) ? '/submit' : '/signup';
-                window.location = loc;
+                window.location = '/home/ongoing';
               }}
                 className="flex flex-col xl:flex-row items-center justify-center 
                 xl:justify-start">
-                <span className="xl:inline-block border h-12 w-12 rounded-full 
-                border-gray-300 border flex items-center justify-center xl:mr-3 
-                xl:border-none xl:h-5 xl:w-5 bg-white mb-1 xl:mb-0 xl:shadow-none xl:bg-transparent">
-                  {this.isLocation('/submit') ? (
-                    <IconHeartActive className="icon-heart-active w-6 h-6 xl:h-5 xl:w-5" />
-                  ) : (
-                    <IconHeart className="icon-heart w-6 h-6 xl:h-5 xl:w-5" />
-                  )}
-                </span>
-                <strong>Make a Request</strong>
+                  <span className="xl:inline-block border h-12 w-12 rounded-full 
+                  border-gray-300 border flex items-center justify-center 
+                  xl:mr-3 xl:border-none xl:h-5 xl:w-5 bg-white mb-1 xl:mb-0 xl:shadow-none xl:bg-transparent">
+                    <IconBadge className="icon-badge" />
+                  </span>
+                  <strong>View Leaderboard</strong>
               </button>
             </li>
           </ul>
