@@ -353,62 +353,56 @@ function Post(props) {
                       style={{
                         marginTop: -10,
                         display: 'flex',
-                        justifyContent: 'space-between',
-                        alignContent: 'center'
+                        flexWrap: 'wrap',
+                        alignItems: 'center'
                       }}
                     >
                       <div
+                        onClick={() => history.push(`/user/${childComment.username}`)}
                         style={{
-                          display: 'flex',
-                          alignContent: 'center',
-                          textTransform: 'lowercase',
-                          fontSize: 12
+                          flexShrink: 0,
+                          width: 32,
+                          height: 32,
+                          background: `url(${generateHash(
+                            childComment.username
+                          )}), url(https://d1ppmvgsdgdlyy.cloudfront.net/alphabet/${childComment.username[0].toUpperCase()}.svg), ${stringToHslColor(
+                            childComment.username,
+                            80,
+                            45
+                          )}`,
+                          backgroundPosition: 'center',
+                          backgroundSize: 'cover',
+                          borderRadius: '50%',
+                          marginRight: 10,
+                          cursor: 'pointer',
+                          backgroundRepeat: 'no-repeat'
                         }}
+                      />
+                      <a style={{ 
+                          textDecoration: 'none',
+                          color: 'rgb(0, 121, 211)'
+                        }}
+                        className="mr-2"
+                        href={`/user/${childComment.username}`}
                       >
-                        <div
-                          onClick={() => history.push(`/user/${childComment.username}`)}
-                          style={{
-                            width: 32,
-                            height: 32,
-                            background: `url(${generateHash(
-                              childComment.username
-                            )}), url(https://d1ppmvgsdgdlyy.cloudfront.net/alphabet/${childComment.username[0].toUpperCase()}.svg), ${stringToHslColor(
-                              childComment.username,
-                              80,
-                              45
-                            )}`,
-                            backgroundPosition: 'center',
-                            backgroundSize: 'cover',
-                            borderRadius: '50%',
-                            marginRight: 10,
-                            cursor: 'pointer',
-                            backgroundRepeat: 'no-repeat'
-                          }}
-                        />
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                          <a
-                            style={{ textDecoration: 'none', color: 'rgb(0, 121, 211)' }}
-                            href={`/user/${childComment.username}`}
-                          >
-                            <strong>{childComment.username}</strong>
-                          </a>
-                          &nbsp;·&nbsp;
-                          {moment(childComment.updatedAt).format('MMM D, YYYY h:mm A')}{' '}
-                          {childComment.updatedAt !== childComment.createdAt && '(edited)'}
-                          &nbsp;
-                          {childComment.type === 'Post' && (
-                            <React.Fragment>
-                              ·&nbsp;
-                              <a
-                                href={`/post/${childComment._id}`}
-                                style={{ textDecoration: 'none', color: 'rgb(0, 121, 211)' }}
-                              >
-                                {childComment.title || ''}
-                              </a>
-                            </React.Fragment>
-                          )}
-                        </div>
-                      </div>
+                        <strong>{childComment.username}</strong>
+                      </a>
+                      <span className="">
+                        {moment(childComment.updatedAt).format('MMM D, YYYY h:mm A')}{' '}
+                        {childComment.updatedAt !== childComment.createdAt && '(edited)'}
+                        &nbsp;
+                        {childComment.type === 'Post' && (
+                          <React.Fragment>
+                            ·&nbsp;
+                            <a
+                              href={`/post/${childComment._id}`}
+                              style={{ textDecoration: 'none', color: 'rgb(0, 121, 211)' }}
+                            >
+                              {childComment.title || ''}
+                            </a>
+                          </React.Fragment>
+                        )}
+                      </span>
                     </div>
                     {editArray.includes(childComment._id) ? (
                       <div style={{ paddingTop: 5, paddingBottom: 10 }}>
@@ -779,19 +773,18 @@ function Post(props) {
                     </Card>
                   ) : (
                     <React.Fragment>
-                      <Card
-                        overrides={{
-                          Root: {
-                            style: {
-                              width: '100%',
-                              boxShadow: 'none'
-                            }
-                          },
-                          Body: {
-                            style: {
-                              margin: '-10px'
-                            }
+                      <Card overrides={{
+                        Root: {
+                          style: {
+                            width: '100%',
+                            boxShadow: 'none'
                           }
+                        },
+                        Body: {
+                          style: {
+                            margin: '-10px'
+                          }
+                        }
                         }}
                       >
                         <div
@@ -803,17 +796,10 @@ function Post(props) {
                             paddingBottom: 15
                           }}
                         >
-                          <div
-                            style={{
-                              alignItems: 'center',
-                              display: 'flex',
-                              fontSize: 12,
-                              marginLeft: 5,
-                              textTransform: 'lowercase'
+                          <div className="flex items-center mr-1">
+                            <div onClick={() => { 
+                              history.push(`/user/${foundPost.username}`)
                             }}
-                          >
-                            <div
-                              onClick={() => history.push(`/user/${foundPost.username}`)}
                               style={{
                                 background: `url(${generateHash(
                                   foundPost.username,
@@ -830,7 +816,8 @@ function Post(props) {
                                 cursor: 'pointer',
                                 backgroundRepeat: 'no-repeat',
                                 height: 32,
-                                width: 32
+                                width: 32,
+                                flexShrink: 0
                               }}
                             />
                             <div>
@@ -1127,7 +1114,7 @@ function Post(props) {
                                         <div className="text-sm my-1 mt-4">
                                           {text &&
                                             text.dueDate &&
-                                            `Due Date: ${moment(new Date(text.dueDate)).fromNow()} (${
+                                            `Needed by: ${moment(new Date(text.dueDate)).fromNow()} (${
                                               moment(text.dueDate).calendar()
                                             })`}
                                         </div>

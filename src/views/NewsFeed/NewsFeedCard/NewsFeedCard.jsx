@@ -487,7 +487,9 @@ class NewsFeedCard extends React.Component {
         }
         <div className="flex items-center flex-wrap mb-3">
           <a href={`/user/${this.props.item.authorId.username}`} 
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation()
+          }}
           className="inline-block">
             <Avatar user={this.props.item.authorId} />
           </a>
@@ -599,13 +601,13 @@ class NewsFeedCard extends React.Component {
                       this.state.details.postal}` : ''
             }</p>
             {this.state.details.dueDate && 
-              <p className="text-sm mb-3">Due Date: 
+              <p className="text-sm mb-3">Needed by: 
               {` ${moment(new Date(this.state.details.dueDate)).fromNow()} `} 
               ({moment(this.state.details.dueDate).calendar()})</p>
             }
             {this.state.details.description &&
               <p className="text-sm mb-3">
-                Description: {this.state.details.description}
+                Special instructions: {this.state.details.description}
               </p>
             }
             {this.state.details.phoneNumber &&
@@ -676,7 +678,7 @@ class NewsFeedCard extends React.Component {
             <div className="ml-auto flex items-center">
               {this.props.item.type === 'Post' && !this.props.item.completed &&
                 this.props.match.url === '/home/discover' && 
-                  !this.props.item.assignedUser && (
+                  !this.props.item.assignedUser && (this.props.item.authorId._id !== this.props.user._id) && (
                     <button className="mr-4 flex items-center uppercase text-xs" 
                     onClick={(e) => {
                       e.stopPropagation()
@@ -688,7 +690,7 @@ class NewsFeedCard extends React.Component {
                       }
 
                       if (window.confirm(
-                        'Please confirm your committment to helping this person - ' +
+                        'Please confirm your commitment to helping this person - ' +
                         'by saying yes, other people cannot claim this request.'
                         )
                       ) {
@@ -697,6 +699,7 @@ class NewsFeedCard extends React.Component {
                           postId: this.props.item._id
                         });
                         this.removeDiscover(this.props.item._id);
+                        this.props.history.push(`/post/${this.props.item._id}`);
                       }
 
                     }}>

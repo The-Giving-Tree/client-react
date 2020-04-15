@@ -4,7 +4,6 @@ import './Sidebar.css';
 // Icons
 import { ReactComponent as IconCare } from '../../assets/icons/care.svg';
 import { ReactComponent as IconSearch } from '../../assets/icons/search.svg';
-import { ReactComponent as IconGlobal } from '../../assets/icons/global.svg';
 import { ReactComponent as IconBadge } from '../../assets/icons/badge.svg';
 import {
   ReactComponent as IconHeart
@@ -52,19 +51,9 @@ class Sidebar extends React.Component {
               }}
                 className="flex flex-col items-center justify-center">
                   <IconSearch className="mb-1" />
-                  <strong>Find Requests</strong>
+                  <strong>Requests feed</strong>
               </button>
             </li>
-
-            {/* <li className={`px-2 ${(this.isLocation('/home/global')) ? 'nav-item-active' : ''}`}>
-              <button onClick={() => {
-                window.location = '/home/global';
-              }}
-              className="flex flex-col items-center justify-center">
-                <IconGlobal className="mb-1" />
-                <strong>Global requests</strong>
-              </button>
-            </li> */}
 
             <li className={`px-2 ${(this.isLocation('/submit')) ? 'nav-item-active' : ''}`}>
               <button onClick={() => {
@@ -78,7 +67,7 @@ class Sidebar extends React.Component {
                   <IconHeart className="icon-heart mb-1" />
                 )}
                 
-                <strong>Make a Request</strong>
+                <strong>Create request</strong>
               </button>
             </li>
 
@@ -88,7 +77,7 @@ class Sidebar extends React.Component {
               }}
                 className="flex flex-col items-center justify-center">
                   <IconCare className="mb-1" />
-                  <strong>Your requests</strong>
+                  <strong>Your activity</strong>
               </button>
             </li>
 
@@ -118,40 +107,10 @@ class Sidebar extends React.Component {
                   xl:mr-3 xl:border-none xl:h-5 xl:w-5 bg-white mb-1 xl:mb-0 xl:shadow-none xl:bg-transparent">
                     <IconSearch className="w-6 h-6 xl:h-5 xl:w-5" />
                   </span>
-                  <strong>Find Requests</strong>
+                  <strong>Requests feed</strong>
               </button>
             </li>
-
-            {/* <li className={`text-black transition duration-150 xl:my-2 mx-2 md:mx-4 xl:mx-0 relative ${(this.isLocation('/home/global')) ? 'nav-item-active' : ''}`}>
-              <button onClick={() => {
-                window.location = '/home/global';
-              }}
-              className="flex flex-col xl:flex-row items-center justify-center 
-              xl:justify-start">
-                <span className="xl:inline-block border h-12 w-12 rounded-full 
-                border-gray-300 border flex items-center justify-center xl:mr-3 
-                xl:border-none xl:h-5 xl:w-5 bg-white mb-1 xl:mb-0 xl:shadow-none xl:bg-transparent">
-                  <IconGlobal className="w-6 h-6 xl:h-5 xl:w-5" />
-                </span>
-                <strong>Global requests</strong>
-              </button>
-            </li> */}
-
-            <li className={`text-black transition duration-150 xl:my-2 mx-2 md:mx-4 xl:mx-0 relative ${(this.isLocation('/home/ongoing')) ? 'nav-item-active' : ''}`}>
-              <button onClick={() => {
-                window.location = '/home/ongoing';
-              }}
-                className="flex flex-col xl:flex-row items-center justify-center 
-                xl:justify-start">
-                  <span className="xl:inline-block border h-12 w-12 rounded-full 
-                  border-gray-300 border flex items-center justify-center 
-                  xl:mr-3 xl:border-none xl:h-5 xl:w-5 bg-white mb-1 xl:mb-0 xl:shadow-none xl:bg-transparent">
-                    <IconCare className="w-6 h-6 xl:h-5 xl:w-5" />
-                  </span>
-                  <strong>Your requests</strong>
-              </button>
-            </li>
-
+            
             <li className={`text-black transition duration-150 xl:my-2 mx-2 md:mx-4 xl:mx-0 relative ${(this.isLocation('/submit')) ? 'nav-item-active' : ''}`}>
               <button onClick={() => {
                 const loc = (authenticated) ? '/submit' : '/signup';
@@ -168,7 +127,37 @@ class Sidebar extends React.Component {
                     <IconHeart className="icon-heart w-6 h-6 xl:h-5 xl:w-5" />
                   )}
                 </span>
-                <strong>Make a Request</strong>
+                <strong>Create request</strong>
+              </button>
+            </li>
+
+            <li className={`text-black transition duration-150 xl:my-2 mx-2 md:mx-4 xl:mx-0 relative ${(this.isLocation('/home/ongoing')) ? 'nav-item-active' : ''}`}>
+              <button onClick={() => {
+                window.location = '/home/ongoing';
+              }}
+                className="flex flex-col xl:flex-row items-center justify-center 
+                xl:justify-start">
+                  <span className="xl:inline-block border h-12 w-12 rounded-full 
+                  border-gray-300 border flex items-center justify-center 
+                  xl:mr-3 xl:border-none xl:h-5 xl:w-5 bg-white mb-1 xl:mb-0 xl:shadow-none xl:bg-transparent">
+                    <IconCare className="w-6 h-6 xl:h-5 xl:w-5" />
+                  </span>
+                  <strong>Your activity</strong>
+              </button>
+            </li>
+
+            <li className={`text-black transition duration-150 xl:my-2 mx-2 md:mx-4 xl:hidden xl:mx-0 relative ${(this.isLocation('/home/ongoing')) ? 'nav-item-active' : ''}`}>
+              <button onClick={() => {
+                window.location = '/home/ongoing';
+              }}
+                className="flex flex-col xl:flex-row items-center justify-center 
+                xl:justify-start">
+                  <span className="xl:inline-block border h-12 w-12 rounded-full 
+                  border-gray-300 border flex items-center justify-center 
+                  xl:mr-3 xl:border-none xl:h-5 xl:w-5 bg-white mb-1 xl:mb-0 xl:shadow-none xl:bg-transparent">
+                    <IconBadge className="icon-badge" />
+                  </span>
+                  <strong>View Leaderboard</strong>
               </button>
             </li>
           </ul>
