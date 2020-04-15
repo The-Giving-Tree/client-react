@@ -21,10 +21,10 @@ import { connect } from 'react-redux';
 import { ReactComponent as IconSearch } from '../../assets/icons/search.svg';
 import {
   ReactComponent as LogoFull 
-} from '../../assets/logos/tgt-text-and-logo.svg';
+} from '../../assets/logos/tgt-text-and-logo-beta.svg';
 import {
   ReactComponent as LogoIcon
-} from '../../assets/logos/tgt-icon-only.svg';
+} from '../../assets/logos/tgt-icon-only-beta.svg';
 import {
   ReactComponent as IconGuidelines
 } from '../../assets/icons/Guidelines.svg';
