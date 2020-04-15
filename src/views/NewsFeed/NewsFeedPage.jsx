@@ -135,7 +135,8 @@ function NewsFeedPage(props) {
 
   // remove items
   const resetItems = () => {
-    window.location = `/home/discover?lat=${latLng.lat}&lng=${latLng.lng}`; // explicit lat and lng coordinates
+    window.location = `/home/discover?lat=${latLng.lat}&lng=${latLng.lng}`; 
+    // explicit lat and lng coordinates
   };
 
   async function loadNewsfeedHelper() {
@@ -323,24 +324,27 @@ function NewsFeedPage(props) {
                       }
                     }}
                     content={({ close }) => (
-                      <div className="bg-white rounded-lg p-5 shadow-lg">
-                        <div className="tooltip-heading py-1 mb-1">
+                      <div className="bg-white rounded-lg p-5 shadow-lg"
+                        style={{
+                          maxWidth: 375,
+                          fontSize: 12
+                        }}>
+                        <p className="text-hlgreen font-semibold mb-2">
                           How does Karma on Giving Tree work?
-                        </div>
-                        <div className="tooltip-text py-1">
-                          Your karma points accumulate when other users upvote your completed
-                          requests.
-                        </div>
-                        <div className="tooltip-text py-1">
-                          Upvotes you receive from users with higher karma have a greater influence on
-                          your karma points.
-                        </div>
-                        <div className="tooltip-text py-1">
-                          Have thoughts about our karma system?{' '}
-                          <a className="tooltip-heading" href="mailto:givingtree@gmail.com">
-                            Email Us
-                          </a>
-                        </div>
+                        </p>
+
+                        <p className="mb-1">You receive two Karma points for every request 
+                          you complete. </p>
+
+                        <p className="mb-1">You also accumulate Karma points when other users 
+                          upvote your completed requests. Upvotes you receive 
+                          from users with higher Karma have a greater influence 
+                          on your Karma points.</p>
+
+                        <p className="mb-1">Have feedback on our Karma system? 
+                          <a href="mailto:givingtree@gmail.com"
+                            className="ml-2 text-hlgreen">Email us</a>
+                        </p>
                       </div>
                     )}
                   >

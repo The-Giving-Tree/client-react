@@ -230,12 +230,12 @@ function Navigation(props) {
           const url = (authenticated) ? '/home/discover' : '/';
           window.location = url;
         }}>
-          <LogoFull className="hidden sm:inline-block" />
-          <LogoIcon className="inline-block sm:hidden" />
+          <LogoFull className="hidden sm:inline-block h-10" />
+          <LogoIcon className="inline-block sm:hidden w-10 h-10" />
         </button>
 
         {/* Search bar */}
-        <div className="hidden md:block max-w-md ml-auto px-5 w-full">
+        <div className="hidden sm:block max-w-md ml-auto px-5 w-full">
           <div className="search-wrapper relative">
             <div className={`overflow-hidden ${showSearch ? 'w-full' : 'w-0'}
             rounded-full bg-gray-200`}>
@@ -465,7 +465,7 @@ function Navigation(props) {
   } else {
     // If the user is NOT logged in, display this nav...
     return (
-      <header className="Navigation flex items-center justify-start px-5 py-2 
+      <header className="Navigation flex items-center justify-start px-6 py-1 
       bg-white z-10 shadow-md relative">
         <ModalLoginSignUp isOpen={isOpen} setIsOpen={setIsOpen} 
         type={`login`}/>
@@ -474,8 +474,8 @@ function Navigation(props) {
           const url = (authenticated) ? '/home/discover' : '/';
           window.location = url;
         }}>
-          <LogoFull className="hidden sm:inline-block" />
-          <LogoIcon className="inline-block sm:hidden" />
+          <LogoFull className="hidden sm:inline-block h-10" />
+          <LogoIcon className="inline-block sm:hidden w-10 h-10" />
         </button>
         <div className="ml-auto flex items-center justify-end">
           {/* How it works */}

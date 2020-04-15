@@ -479,9 +479,11 @@ class NewsFeedCard extends React.Component {
         window.scrollTo(0,0);
       }}
       className={`${this.props.className} NewsFeedCard rounded shadow bg-white 
-      p-4 block cursor-pointer ${this.hideCard(this.props.item._id) ? 'hidden' : ''}`}>
+      p-4 block cursor-pointer ${this.hideCard(this.props.item._id) ? 
+      'hidden' : ''}`}>
         {this.state.showConfetti && 
-          <Confetti width={window.innerWidth} height={window.innerHeight} recycle={false} />
+          <Confetti width={window.innerWidth} height={window.innerHeight} 
+          recycle={false} />
         }
         <div className="flex items-center flex-wrap mb-3">
           <a href={`/user/${this.props.item.authorId.username}`} 
