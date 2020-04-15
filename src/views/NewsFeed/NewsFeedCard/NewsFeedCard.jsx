@@ -610,6 +610,15 @@ class NewsFeedCard extends React.Component {
                 Special instructions: {this.state.details.description}
               </p>
             }
+            {this.state.details.contactMethod &&
+              <p className="text-sm mb-3">
+                Preferred contact method: {
+                  this.state.details.contactMethod === 'comments'
+                    ? 'in-app comments'
+                    : this.state.details.contactMethod
+                }
+              </p>
+            }
             {this.state.details.phoneNumber &&
               <p className="text-sm my-1 mt-4">
                 Phone Number: {this.getPhoneNumber()}
