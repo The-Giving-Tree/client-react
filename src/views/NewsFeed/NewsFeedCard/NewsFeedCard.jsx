@@ -473,8 +473,6 @@ class NewsFeedCard extends React.Component {
 
     this.setVoteIndex();
 
-    console.log(this.props);
-
     return (
       <article onClick={(e) => {
         this.props.history.push(`/post/${this.props.item._id}`)
