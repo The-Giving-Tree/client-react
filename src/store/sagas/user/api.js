@@ -3,17 +3,11 @@ import * as Sentry from '@sentry/browser';
 
 import ROUTES from '../../../utils/routes';
 
-const submitDraft = async (env, title, text, categories, token) => {
+const submitDraft = async (env, payload, token) => {
   const headers = {
     headers: {
       Authorization: `Bearer ${token}`
     }
-  };
-
-  const payload = {
-    categories,
-    text,
-    title
   };
 
   try {
@@ -113,17 +107,11 @@ const editPost = async (env, postId, title, text, categories, token) => {
   }
 };
 
-const publishPost = async (env, postId, title, text, categories, token) => {
+const publishPost = async (env, postId, payload, token) => {
   const headers = {
     headers: {
       Authorization: `Bearer ${token}`
     }
-  };
-
-  const payload = {
-    categories,
-    text,
-    title
   };
 
   try {

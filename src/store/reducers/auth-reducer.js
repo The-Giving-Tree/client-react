@@ -374,10 +374,17 @@ const auth = (state = initialState, action) => {
       return Object.assign({}, state, {
         foundUser: action.payload,
         loginLoading: false,
-        loginSuccess: true,
+        loginSuccess: false,
         errorMessage: ''
       });
     case ACTION_TYPE.GET_CURRENT_USER_SUCCESS:
+      return Object.assign({}, state, {
+        user: action.payload,
+        loginLoading: false,
+        userLoggedIn: true,
+        loginSuccess: false,
+        errorMessage: ''
+      });
     case ACTION_TYPE.LOGIN_SUCCESS:
       return Object.assign({}, state, {
         user: action.payload,

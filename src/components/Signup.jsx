@@ -42,6 +42,14 @@ function Signup(props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [validPassword, setValidPassword] = React.useState(false);
+  const [passwordReqs, setPasswordReqs] = React.useState([]);
+  // const [passwordReqs, setPasswordReqs] = React.useState({
+  //   characters: false,
+  //   lowercase: false,
+  //   uppercase: false,
+  //   special: false,
+  //   number: false
+  // });
   const authenticated = localStorage.getItem('giving_tree_jwt');
 
   const { signupDispatch, errorMessage, registerLoading } = props;
@@ -211,14 +219,28 @@ function Signup(props) {
                     } else {
                       setValidPassword(false);
                     }
+
+                    setPasswordReqs(schema.validate(event.currentTarget.value, { list: true }));
                   }}
                   placeholder="Password"
                   onKeyPress={event => enterPressed(event)}
                 />
                 {password && !validPassword && (
                   <div style={{ fontSize: 10, textAlign: 'left' }}>
-                    Password must be 8+ characters, at least 1 of lowercase [a-z], uppercase [A-Z],
-                    special character '!._*,#'), number [0-9]
+                    Your password must contain at least
+                    <ul className="list-disc ml-5">
+                      {passwordReqs.map(key => {
+                        const failStrings = {
+                          min: '8+ characters',
+                          uppercase: 'one uppercase [a-z] character',
+                          lowercase: 'one lowercase [a-z] character',
+                          digits: 'one number [0-9]',
+                          symbols: 'one special character !._*,#'
+                        };
+
+                        return <li>{failStrings[key]}</li>
+                      })}
+                    </ul>
                   </div>
                 )}
                 <br />
