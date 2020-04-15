@@ -35,6 +35,9 @@ class ModalLoginSignUp extends React.Component {
     }
 
     this.setIsOpen = this.setIsOpen.bind(this);
+
+    this.loginUsernameInput = React.createRef();
+    this.loginPasswordInput = React.createRef();
   }
 
   componentDidMount() {
@@ -105,10 +108,6 @@ class ModalLoginSignUp extends React.Component {
     const code = e.keyCode || e.which;
     if (code === 13) {
       switch (this.state.type) {
-        case 'login': {
-          this.handleLogin(this.state.userInput, this.state.passwordInput);
-          break;
-        }
         case 'signup': {
           this.handleSignup();
           break;
@@ -135,38 +134,38 @@ class ModalLoginSignUp extends React.Component {
             {this.props.errorMessage}
           </p>
         }
-        <input type="text" placeholder="Username" 
-        onChange={(e) => {
-          const val = e.currentTarget.value;
-          this.setState({ userInput: val})
-        }}
-        onKeyPress={(event) => this.enterKeyCheck(event)}
-        disabled={this.props.loginLoading}
-        className="w-full py-2 px-4 border border-gray-200 shadow rounded-md mb-4" />
-        <input type="password" placeholder="Password" onChange={(e) => {
-          const val = e.currentTarget.value;
-          this.setState({ passwordInput: val})
-          this.enterKeyCheck(e);
-        }}
-        onKeyPress={(event) => this.enterKeyCheck(event)}
-        disabled={this.props.loginLoading}
-        className="w-full py-2 px-4 border border-gray-200 shadow rounded-md mb-4" />
-        <p className="text-right mb-4">
-          <button className="text-blue-500" onClick={() => {
-            this.setType('forgot')
-          }}>
-            Forgot password?
-          </button>
-        </p>
-        <button className="w-full py-3 font-semibold text-white bg-green-700
-        rounded mb-4" onClick={() => {
-          this.handleLogin(this.state.userInput, this.state.passwordInput)
+        <form onSubmit={(e) => {
+          e.preventDefault();
+
+          this.handleLogin(this.loginUsernameInput.current.value, this.loginPasswordInput.current.value);
         }}>
-          {!this.props.loginLoading && `Log in` }
-          {this.props.loginLoading && 
-            <span className="loading-spinner loading-spinner-white"></span>
-          }
-        </button>
+          <input type="text" placeholder="Username" 
+          name="username"
+          ref={this.loginUsernameInput}
+          disabled={this.props.loginLoading}
+          className="w-full py-2 px-4 border border-gray-200 shadow rounded-md mb-4"
+          required />
+          <input type="password" placeholder="Password"
+          name="password"
+          ref={this.loginPasswordInput}
+          disabled={this.props.loginLoading}
+          className="w-full py-2 px-4 border border-gray-200 shadow rounded-md mb-4"
+          required />
+          <p className="text-right mb-4">
+            <button className="text-blue-500" type="button" onClick={() => {
+              this.setType('forgot')
+            }}>
+              Forgot password?
+            </button>
+          </p>
+          <button className="w-full py-3 font-semibold text-white bg-green-700
+          rounded mb-4" type="submit">
+            {!this.props.loginLoading && `Log in` }
+            {this.props.loginLoading && 
+              <span className="loading-spinner loading-spinner-white"></span>
+            }
+          </button>
+        </form>
         <button className="w-full text-blue-500" onClick={() => {
           this.setType('signup');
         }}>

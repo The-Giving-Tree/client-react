@@ -30,7 +30,7 @@ import {
   getLeaderboard
 } from '../store/actions/auth/auth-actions';
 
-import { ReactComponent as LogoText } from '../assets/logos/tgt-text-and-logo.svg';
+import { ReactComponent as LogoText } from '../assets/logos/tgt-text-and-logo-beta.svg';
 
 function About(props) {
   const { user, getCurrentUserDispatch, getLeaderboardDispatch, userRanking, leaderboard } = props;
