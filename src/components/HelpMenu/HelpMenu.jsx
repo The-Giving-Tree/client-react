@@ -233,7 +233,7 @@ class HelpMenu extends React.Component {
               </li>
               <li className="divider relative"></li>
               <li>
-                <NavLink to="/about#about-us">
+                <NavLink to="/about">
                   About us
                 </NavLink>
               </li>
