@@ -473,6 +473,8 @@ class NewsFeedCard extends React.Component {
 
     this.setVoteIndex();
 
+    console.log(this.props);
+
     return (
       <article onClick={(e) => {
         this.props.history.push(`/post/${this.props.item._id}`)
@@ -485,7 +487,9 @@ class NewsFeedCard extends React.Component {
         }
         <div className="flex items-center flex-wrap mb-3">
           <a href={`/user/${this.props.item.authorId.username}`} 
-          onClick={(e, elem) => this.preventGoToPost(e, elem)}
+          onClick={(e) => {
+            e.stopPropagation()
+          }}
           className="inline-block">
             <Avatar user={this.props.item.authorId} />
           </a>
@@ -674,7 +678,7 @@ class NewsFeedCard extends React.Component {
             <div className="ml-auto flex items-center">
               {this.props.item.type === 'Post' && !this.props.item.completed &&
                 this.props.match.url === '/home/discover' && 
-                  !this.props.item.assignedUser && (
+                  !this.props.item.assignedUser && (this.props.item.authorId._id !== this.props.user._id) && (
                     <button className="mr-4 flex items-center uppercase text-xs" 
                     onClick={(e) => {
                       e.stopPropagation()
