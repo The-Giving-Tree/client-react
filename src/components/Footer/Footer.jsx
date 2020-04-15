@@ -31,8 +31,8 @@ function Footer(props) {
           className="px-4 border-r border-black">Privacy</Link>
           <Link to={Constants.PATHS.TERMS} 
           className="px-4 border-r border-black">Terms of use</Link>
-          <Link to={`mailto:team.givingtree@gmail.com`} 
-          className="px-4">Email us</Link>
+          <a href="mailto:team.givingtree@gmail.com"
+          className="px-4">Email us</a>
         </div>
       </div>
 
