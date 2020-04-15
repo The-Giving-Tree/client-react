@@ -143,12 +143,14 @@ class ModalLoginSignUp extends React.Component {
           name="username"
           ref={this.loginUsernameInput}
           disabled={this.props.loginLoading}
-          className="w-full py-2 px-4 border border-gray-200 shadow rounded-md mb-4" />
+          className="w-full py-2 px-4 border border-gray-200 shadow rounded-md mb-4"
+          required />
           <input type="password" placeholder="Password"
           name="password"
           ref={this.loginPasswordInput}
           disabled={this.props.loginLoading}
-          className="w-full py-2 px-4 border border-gray-200 shadow rounded-md mb-4" />
+          className="w-full py-2 px-4 border border-gray-200 shadow rounded-md mb-4"
+          required />
           <p className="text-right mb-4">
             <button className="text-blue-500" type="button" onClick={() => {
               this.setType('forgot')
