@@ -11,6 +11,16 @@ body {
   }
 }
 
+ul,ol {
+  padding-inline-start: 2rem;
+  padding-left: 2rem;
+}
+
+.list-none {
+  padding: 0;
+  padding-inline-start: 0;
+}
+
 
 .green-placeholder ::placeholder {
   color:    #03a87c;

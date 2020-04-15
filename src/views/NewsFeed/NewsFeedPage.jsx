@@ -367,7 +367,7 @@ function NewsFeedPage(props) {
           </section>
         </div>
       </div>
-      <HelpMenu />     
+      <HelpMenu user={user} />     
     </div>
   );
 }

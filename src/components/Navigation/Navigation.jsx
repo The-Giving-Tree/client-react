@@ -1,12 +1,12 @@
 import * as React from 'react';
 import Constants from '../Constants';
 import { useHistory, Link } from 'react-router-dom';
-import { Input } from 'baseui/input';
+// import { Input } from 'baseui/input';
 import { StatefulMenu, OptionProfile } from 'baseui/menu';
 import { StatefulPopover, PLACEMENT } from 'baseui/popover';
-import { RadioGroup, Radio } from 'baseui/radio';
-import { Select } from 'baseui/select';
-import { ALIGN } from 'baseui/header-navigation';
+// import { RadioGroup, Radio } from 'baseui/radio';
+// import { Select } from 'baseui/select';
+// import { ALIGN } from 'baseui/header-navigation';
 import {
   logout,
   getCurrentUser,
@@ -16,12 +16,12 @@ import {
 } from '../../store/actions/auth/auth-actions';
 import { search } from '../../store/actions/global/global-actions';
 import NotificationBadge from 'react-notification-badge';
-import {
-  Modal, ModalHeader, ModalBody, ModalFooter, ModalButton
-} from 'baseui/modal';
+// import {
+//   Modal, ModalHeader, ModalBody, ModalFooter, ModalButton
+// } from 'baseui/modal';
 import { Effect } from 'react-notification-badge';
-import axios from 'axios';
-import ROUTES from '../../utils/routes';
+// import axios from 'axios';
+// import ROUTES from '../../utils/routes';
 import { subscribeToNotifications } from '../../utils/socket';
 import moment from 'moment';
 
@@ -280,7 +280,7 @@ function Navigation(props) {
   // If the user IS logged in, display this nav...
   if (authenticated) {
     return (
-      <header className="Navigation flex items-center justify-start px-6 py-3 bg-white">
+      <header className="Navigation flex items-center justify-start px-6 py-3 bg-white relative shadow-md">
         {/* <button
           className="rounded-full text-white px-4 py-2"
           style={{
