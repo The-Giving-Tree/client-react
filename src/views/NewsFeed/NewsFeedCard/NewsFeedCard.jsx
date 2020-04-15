@@ -769,6 +769,8 @@ class NewsFeedCard extends React.Component {
                 this.setState({
                   showConfetti: true
                 });
+
+                this.props.history.push('/home/discover');
               }
             }}>
               Mark completed
