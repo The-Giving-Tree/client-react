@@ -172,7 +172,7 @@ class Sidebar extends React.Component {
               </button>
             </li>
 
-            <li className={`text-black transition duration-150 xl:my-2 mx-2 md:mx-4 xl:mx-0 relative ${(this.isLocation('/home/ongoing')) ? 'nav-item-active' : ''}`}>
+            <li className={`text-black transition duration-150 xl:my-2 mx-2 md:mx-4 xl:hidden xl:mx-0 relative ${(this.isLocation('/home/ongoing')) ? 'nav-item-active' : ''}`}>
               <button onClick={() => {
                 window.location = '/home/ongoing';
               }}
