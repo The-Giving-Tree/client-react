@@ -1,0 +1,18 @@
+.submit-card {
+  width: 215px;
+  padding-bottom: 215px;
+}
+
+@media all and (min-width: 640px) {
+  .submit-card {
+    width: 215px;
+    padding-bottom: 215px;
+  }
+}
+
+@media all and (min-width: 768px) {
+  .submit-card {
+    width: 300px;
+    padding-bottom: 300px;
+  }
+}
