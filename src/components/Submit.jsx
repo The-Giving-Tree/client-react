@@ -18,8 +18,9 @@ import {
   handleSeenSubmit,
   uploadPhoto
 } from '../store/actions/user/user-actions';
-import StickyFooter from './StickyFooter/StickyFooter';
 import HelpMenu from './HelpMenu/HelpMenu';
+
+import './Submit.css';
 
 export const Portal = ({ children }) => {
   return ReactDOM.createPortal(children, document.body);
@@ -709,18 +710,26 @@ function Submit(props) {
                   )}
                 </div>
                 {!checkout && (
-                  <div className="md:grid md:grid-cols-2 md:gap-8">
+                  <div className="sm:flex items-center justify-around">
                     <div
                       onClick={() => {
                         alert('please call or text +1 415-964-4261');
                       }}
-                      className={`mb-6 md:mb-0 max-w-sm flex items-center justify-center 
+                      className={`mb-6 sm:mb-0 max-w-sm submit-card relative
                       rounded overflow-hidden shadow-lg border
                       hover:border-indigo-600 rounded-lg hover:text-green-600 
-                      transition duration-150 mx-auto md:mx-0`}
-                      style={{ cursor: 'pointer' }}
+                      transition duration-150 mx-auto md:mx-auto`}
+                      style={{ 
+                        cursor: 'pointer',
+                      }}
                     >
-                      <div className="px-6 py-8">
+                      <div className="px-6 py-8 text-center" style={{
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        position: 'absolute',
+                        width: '100%'
+                      }}>
                         <div className={`font-bold text-xl`}>Call or Text</div>
                       </div>
                     </div>
@@ -729,22 +738,20 @@ function Submit(props) {
                         setCheckout(true);
                       }}
                       className={`max-w-sm rounded  hover:border-indigo-600 
-                      overflow-hidden shadow-lg border mx-auto md:mx-0 rounded-lg 
+                      overflow-hidden shadow-lg border mx-auto md:mx-auto rounded-lg submit-card relative
                       ${selectedRequest === 'supplies' && 'border-indigo-600'} 
                       transition duration-150`}
-                      style={{ cursor: 'pointer' }}
+                      style={{ 
+                        cursor: 'pointer',
+                      }}
                     >
-                      <img
-                        style={{
-                          objectFit: 'cover',
-                          maxHeight: 150,
-                          width: 400,
-                          overflow: 'auto'
-                        }}
-                        src="https://d1ppmvgsdgdlyy.cloudfront.net/groceries.jpg"
-                        alt="Supplies"
-                      ></img>
-                      <div className="px-6 py-8">
+                      <div className="px-6 py-8 text-center" style={{
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        position: 'absolute',
+                        width: '100%'
+                      }}>
                         <div
                           className={`font-bold text-xl text-center ${selectedRequest ===
                             'supplies' && 'text-green-600'}`}
