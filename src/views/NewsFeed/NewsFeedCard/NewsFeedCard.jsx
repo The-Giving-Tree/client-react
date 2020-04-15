@@ -606,6 +606,15 @@ class NewsFeedCard extends React.Component {
                 Description: {this.state.details.description}
               </p>
             }
+            {this.state.details.contactMethod &&
+              <p className="text-sm mb-3">
+                Preferred contact method: {
+                  this.state.details.contactMethod === 'comments'
+                    ? 'in-app comments'
+                    : this.state.details.contactMethod
+                }
+              </p>
+            }
             {this.state.details.phoneNumber &&
               <p className="text-sm my-1 mt-4">
                 Phone Number: {this.getPhoneNumber()}
@@ -674,7 +683,7 @@ class NewsFeedCard extends React.Component {
             <div className="ml-auto flex items-center">
               {this.props.item.type === 'Post' && !this.props.item.completed &&
                 this.props.match.url === '/home/discover' && 
-                  !this.props.item.assignedUser && (
+                  !this.props.item.assignedUser && this.props.user._id !== this.props.item.authorId._id && (
                     <button className="mr-4 flex items-center uppercase text-xs" 
                     onClick={(e) => {
                       e.stopPropagation()
