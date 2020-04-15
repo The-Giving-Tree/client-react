@@ -251,17 +251,23 @@ function Submit(props) {
         >
           Request Summary
         </label>
-        <input
-          style={{ paddingBottom: 50 }}
+        <textarea
+          style={{
+            minHeight: 80
+          }}
           onChange={e => {
             setTitle(e.target.value);
           }}
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          className="appearance-none block w-full bg-gray-200 text-gray-700 
+          border border-gray-200 rounded py-3 px-4 leading-tight 
+          focus:outline-none focus:bg-white focus:border-gray-500"
           id="summary"
           value={title}
           type="text"
-          placeholder="Briefly explain your request, e.g. Sick and need help grocery shopping"
-        />
+          maxLength="140"
+          placeholder="Briefly explain your request, e.g. Sick and need help 
+          grocery shopping"
+        ></textarea>
         <div className="sm:flex sm:items-center mt-4">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold 
@@ -372,6 +378,7 @@ function Submit(props) {
             <span className="">in app comments</span>
           </label>
         </div>
+        <label className="block mb-2 ml-6 text-gray-700 font-bold">Special instructions</label>
         <input
           onChange={e => {
             setDescription(e.target.value);

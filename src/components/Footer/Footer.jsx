@@ -38,7 +38,7 @@ function Footer(props) {
 
       {/* Desktop Footer */}
       <div className="hidden lg:grid grid-flow-row lg:grid-cols-4 gap-4 px-6
-      max-w-screen-lg mx-auto lg:px-0">
+      max-w-screen-lg mx-auto">
         <div>
           <Link to="/about#about-us">
             <div className="uppercase mb-6">The Giving Tree</div>
@@ -70,7 +70,7 @@ function Footer(props) {
           </Link>
         </div>
         <div>
-          <Link to="/how-it-works#how-to-help">
+          <Link to="/how-it-works">
             <div className="uppercase mb-6">How It Works</div>
           </Link>
           <Link to="/how-it-works#faqs">
@@ -78,12 +78,12 @@ function Footer(props) {
               FAQs
             </div>
           </Link>
-          <Link to="/how-it-works#how-to-help">
+          <Link to="/how-it-works#how-to-provide-help">
             <div className="footer-text font-light mb-3 hover:text-green-600 transition duration-150">
               How to Help
             </div>
           </Link>
-          <Link to="/how-it-works#how-to-get-help">
+          <Link to="/how-it-works#how-to-request-help">
             <div className="footer-text font-light mb-3 hover:text-green-600 transition duration-150">
               How to Get Help
             </div>

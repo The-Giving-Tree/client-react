@@ -1,7 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import * as axios from 'axios';
-import { computeDestinationPoint } from 'geolib';
 
 class Avatar extends React.Component {
 
