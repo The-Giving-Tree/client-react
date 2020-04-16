@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import PlacesAutocomplete from 'react-places-autocomplete';
-import moment from 'moment';
+import moment, { isMoment } from 'moment';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import Navigation from './Navigation/Navigation';
 import { Card } from 'baseui/card';
 import { Tag } from 'baseui/tag';
 import Sidebar from './Sidebar/Sidebar';
+import Datetime from 'react-datetime';
 import { hotjar } from 'react-hotjar';
 
 import { connect } from 'react-redux';
@@ -21,6 +22,7 @@ import {
 import HelpMenu from './HelpMenu/HelpMenu';
 
 import './Submit.css';
+import 'react-datetime/css/react-datetime.css';
 
 export const Portal = ({ children }) => {
   return ReactDOM.createPortal(children, document.body);
@@ -58,6 +60,10 @@ function Submit(props) {
   const [cartName, setCartName] = React.useState('');
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
+  
+  // Datepicker state
+  const neededByMoment = moment(new Date()).startOf('day').add(1, 'day').set('hour', 12).set('minutes', 0);
+  const [neededBy, setNeededBy] = useState(neededByMoment);
 
   // initialize state
   React.useEffect(() => {
@@ -99,7 +105,7 @@ function Submit(props) {
           contactMethod,
           email,
           name,
-          dueDate,
+          dueDate: neededBy,
           location: latLng,
           postal,
           phoneNumber,
@@ -276,19 +282,16 @@ function Submit(props) {
           >
             Needed By:
           </label>
-          <input
-            style={{ maxWidth: 300, height: 32 }}
-            onChange={e => {
-              setDueDate(e.target.value); // YYYY-MM-DD
+          <Datetime
+            value={neededBy}
+            onChange={(val) => {
+              if (isMoment(val)) {
+                setNeededBy(val);
+              }
             }}
-            className="appearance-none block w-full bg-white text-gray-700 
-            border border-gray-400 rounded py-3 px-4 leading-tight 
-            focus:outline-none focus:bg-white focus:border-gray-500 w-full"
-            type="datetime-local"
-            value={`${moment(dueDate || new Date()).format('YYYY-MM-DD')}T${moment(dueDate || new Date()).format(
-              'HH:mm'
-            )}`}
-          />
+            dateFormat={true}
+            timeFormat={true}
+            timeConstraints={{ minutes: { step: 15 } }} />
         </div>
 
         <div className="mt-10 mb-4">
@@ -536,7 +539,7 @@ function Submit(props) {
                     latLng.lng &&
                     address &&
                     description &&
-                    dueDate &&
+                    neededBy &&
                     cart.length > 0
                   ) {
                     let foodString = {
@@ -548,7 +551,7 @@ function Submit(props) {
                       email,
                       name,
                       postal,
-                      dueDate,
+                      dueDate: neededBy,
                       location: latLng,
                       phoneNumber
                     };
@@ -565,7 +568,7 @@ function Submit(props) {
                           email,
                           name,
                           postal,
-                          dueDate,
+                          dueDate: neededBy,
                           location: latLng,
                           phoneNumber,
                           title,
