@@ -4,10 +4,13 @@
   bottom: 0;
   left: 0;
   background-color: rgba(248, 248, 248, 0.95);
-  color: rgba(0,0,0, 0.5);
   -webkit-backdrop-filter: blur(27.2px);
   backdrop-filter: blur(27.2px);
   font-size: 0.625rem;
+}
+
+.sidebar-nav-xs ul {
+  border-top: 1px solid #DBDBDB;
 }
 
 .sidebar-nav-xs svg {
@@ -15,37 +18,29 @@
   height: 1.5rem;
 }
 
-/* Colors for all icons (Except for heart) */
-.sidebar-nav-xs svg:not(.icon-heart-active) {
-  fill: rgba(0,0,0, 0.5);
-}
-
-/* Active Color for all icons (except the heart) */
-.sidebar-nav-xs li.nav-item-active svg:not(.icon-heart-active) {
-  fill: rgba(5,147,5, 0.5);
-}
-
-/* Heart icon */
-.sidebar-nav-xs .icon-heart path {
-  fill: rgba(0,0,0, 0.5);
-}
-.sidebar-nav-xs .icon-heart-active {
-  fill: red;
-}
-
-/* Badge icon */
-.sidebar-nav-xs .icon-heart path {
-  fill: rgba(0,0,0, 0.5);
-}
 
 /* Text in the menu items */
-.sidebar-nav-xs li strong {
+.sidebar-nav-xs li {
   line-height: normal;
+  border-right: 1px solid #dbdbdb;
+}
+.sidebar-nav-xs li:last-of-type {
+  line-height: normal;
+  border-right: none;
 }
 
-.sidebar-nav-xs li.nav-item-active strong {
+/* Active menu item styles (Mobile menu) */
+.sidebar-nav-xs li.nav-item-active {
   color: #059305;
-  opacity: 0.5;
+}
+
+.sidebar-nav-xs li.nav-item-active svg:not(.icon-create):not(.icon-leaderboard) path {
+  stroke: #059305;
+}
+
+.sidebar-nav-xs li.nav-item-active svg.icon-create path,
+.sidebar-nav-xs li.nav-item-active svg.icon-leaderboard path {
+  fill: #059305;
 }
 
 /* ======= Tablet + navigation ================ */
@@ -53,17 +48,7 @@
   font-size: .875rem;
 }
 
-/* Colors for all icons (Except for heart) */
-.sidebar-nav-sm svg:not(.icon-heart-active) {
-  fill: rgba(0,0,0,1);
-}
-
-/* Heart icon */
-.sidebar-nav-sm .icon-heart path {
-  fill: rgba(0,0,0,1);
-}
-
-.sidebar-nav-sm button > span {
+.sidebar-nav-sm button > span.border {
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.25);
 }
 
@@ -106,7 +91,7 @@
     font-size: 1rem;
   }
 
-  .sidebar-nav-sm button > span {
+  .sidebar-nav-sm button > span.border {
     box-shadow: none;
   }
 
