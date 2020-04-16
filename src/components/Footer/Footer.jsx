@@ -2,6 +2,7 @@ import * as React from 'react';
 import { HashLink as Link } from 'react-router-hash-link';
 import Constants from '../Constants';
 import ModalLoginSignUp from '../Modals/LoginSignUp/ModalLoginSignUp';
+import Button from '../Button';
 
 function Footer(props) {
   require('dotenv').config();
@@ -21,7 +22,6 @@ function Footer(props) {
 
   return (
     <div className="footer py-8 relative bg-field-500 lg:bg-field-200">
-
       {/* Mobile / Tablet Footer */}
       <div className="text-center max-w-lg mx-auto lg:hidden">
         <p className="font-semibold text-2xl">The Giving Tree</p>
