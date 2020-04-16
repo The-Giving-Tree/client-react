@@ -17,6 +17,7 @@ import Media from 'react-media';
 import passwordValidator from 'password-validator';
 import { hotjar } from 'react-hotjar';
 import Navigation from './Navigation/Navigation';
+import StickyFooter from './StickyFooter/StickyFooter';
 
 var schema = new passwordValidator();
 schema
@@ -114,7 +115,7 @@ function Signup(props) {
     return <Redirect to="/home/discover" />; // better home page redirect experience
   } else {
     return (
-      <div style={{ width: '100%' }}>
+      <StickyFooter>
         <Navigation
           overrides={{
             Root: {
@@ -277,7 +278,7 @@ function Signup(props) {
             </div>
           )}
         </Media>
-      </div>
+      </StickyFooter>
     );
   }
 }
