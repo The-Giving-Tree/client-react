@@ -54,7 +54,7 @@ class Sidebar extends React.Component {
               }}
                 className="flex flex-col items-center justify-center">
                   <IconHome className="mb-1" />
-                  <span className="label-wrap">Requests feed</span>
+                  <span className="label-wrap">Requests Feed</span>
               </button>
             </li>
 
@@ -65,7 +65,7 @@ class Sidebar extends React.Component {
               }}
                 className="flex flex-col items-center justify-center">
                   <IconCreate className="icon-create mb-1" />
-                  <span className="label-wrap">Create request</span>
+                  <span className="label-wrap">Create Request</span>
               </button>
             </li>
 
@@ -75,7 +75,7 @@ class Sidebar extends React.Component {
               }}
                 className="flex flex-col items-center justify-center">
                   <IconActivity className="mb-1" />
-                  <span className="label-wrap">Your activity</span>
+                  <span className="label-wrap">Your Activity</span>
               </button>
             </li>
 
@@ -105,7 +105,7 @@ class Sidebar extends React.Component {
                   xl:mr-3 xl:border-none xl:h-5 xl:w-5 bg-white mb-1 xl:mb-0 xl:shadow-none xl:bg-transparent">
                     <IconHome className="w-6 h-6 xl:h-5 xl:w-5" />
                   </span>
-                  <span className="label-wrap">Requests feed</span>
+                  <span className="label-wrap">Requests Feed</span>
               </button>
             </li>
             
@@ -121,7 +121,7 @@ class Sidebar extends React.Component {
                   xl:border-none xl:h-5 xl:w-5 bg-white mb-1 xl:mb-0 xl:shadow-none xl:bg-transparent">
                     <IconCreate className="icon-heart w-6 h-6 xl:h-5 xl:w-5" />
                   </span>
-                <span className="label-wrap">Create request</span>
+                <span className="label-wrap">Create Request</span>
               </button>
             </li>
 
@@ -136,7 +136,7 @@ class Sidebar extends React.Component {
                   xl:mr-3 xl:border-none xl:h-5 xl:w-5 bg-white mb-1 xl:mb-0 xl:shadow-none xl:bg-transparent">
                     <IconActivity className="w-6 h-6 xl:h-5 xl:w-5" />
                   </span>
-                  <span className="label-wrap">Your activity</span>
+                  <span className="label-wrap">Your Activity</span>
               </button>
             </li>
 
