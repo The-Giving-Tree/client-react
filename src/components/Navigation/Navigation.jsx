@@ -223,7 +223,7 @@ function Navigation(props) {
   // If the user IS logged in, display this nav...
   if (authenticated) {
     return (
-      <header className="Navigation flex items-center justify-start px-6 py-3 bg-white relative shadow-md">
+      <header className="Navigation flex items-center justify-start px-6 py-1 bg-white relative shadow-md">
         
         {/* Main logo */}
         <button className="mr-auto" onClick={() => {

@@ -1,7 +1,7 @@
 .HelpMenu {
   position: fixed;
   bottom: 5rem;
-  right: 2rem;
+  right: 1.5rem;
 }
 
 .HelpMenuContent li:not(.divider) {
@@ -26,11 +26,11 @@
 
 @media all and (min-width: 415px) {
   .HelpMenu {
-    bottom: 3rem;
+    bottom: 1.5rem;
   }
 }
 
-@media all and (min-width: 1280px) {
+@media all and (min-width: 1920px) {
   .HelpMenu {
     right: 10%;
   }
