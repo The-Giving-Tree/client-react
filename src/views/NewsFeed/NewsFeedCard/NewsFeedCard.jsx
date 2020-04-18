@@ -393,13 +393,13 @@ class NewsFeedCard extends React.Component {
     switch (type) {
       case 'Post':
         await this.props.upvoteDispatch({
-          env: process.env.NODE_ENV,
+          env: process.env.REACT_APP_NODE_ENV,
           postId: _id
         });
         break;
       case 'Comment':
         await this.props.upvoteDispatch({
-          env: process.env.NODE_ENV,
+          env: process.env.REACT_APP_NODE_ENV,
           postId,
           commentId: _id
         });
@@ -421,13 +421,13 @@ class NewsFeedCard extends React.Component {
     switch (type) {
       case 'Post':
         await this.props.downvoteDispatch({
-          env: process.env.NODE_ENV,
+          env: process.env.REACT_APP_NODE_ENV,
           postId: _id
         });
         break;
       case 'Comment':
         await this.props.downvoteDispatch({
-          env: process.env.NODE_ENV,
+          env: process.env.REACT_APP_NODE_ENV,
           postId,
           commentId: _id
         });
@@ -704,7 +704,7 @@ class NewsFeedCard extends React.Component {
                         )
                       ) {
                         this.props.claimTaskDispatch({
-                          env: process.env.NODE_ENV,
+                          env: process.env.REACT_APP_NODE_ENV,
                           postId: this.props.item._id
                         });
                         this.removeDiscover(this.props.item._id);
@@ -742,7 +742,7 @@ class NewsFeedCard extends React.Component {
 
               if (cancelReason) {
                 this.props.unclaimTaskDispatch({
-                  env: process.env.NODE_ENV,
+                  env: process.env.REACT_APP_NODE_ENV,
                   postId: this.props.item._id,
                   cancelReason
                 });
@@ -762,7 +762,7 @@ class NewsFeedCard extends React.Component {
 
               if (completed) {
                 this.props.completeTaskDispatch({
-                  env: process.env.NODE_ENV,
+                  env: process.env.REACT_APP_NODE_ENV,
                   postId: this.props.item._id
                 });
 

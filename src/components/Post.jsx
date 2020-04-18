@@ -91,12 +91,12 @@ function Post(props) {
 
   // not null
   if (parsed !== null && !markSeenBool && !markSeenFailure) {
-    markSeenDispatch({ env: process.env.NODE_ENV, postId: id, userId: parsed });
+    markSeenDispatch({ env: process.env.REACT_APP_NODE_ENV, postId: id, userId: parsed });
   }
 
   React.useEffect(() => {
     loadPostDispatch({
-      env: process.env.NODE_ENV,
+      env: process.env.REACT_APP_NODE_ENV,
       id
     });
     setUpdated(false);
@@ -126,7 +126,7 @@ function Post(props) {
 
   React.useEffect(() => {
     hotjar.initialize('1751072', 6);
-    getLeaderboardDispatch({ env: process.env.NODE_ENV, location: 'global' });
+    getLeaderboardDispatch({ env: process.env.REACT_APP_NODE_ENV, location: 'global' });
   }, []);
 
   const cart = text ? text.cart : [];
@@ -172,7 +172,7 @@ function Post(props) {
   const handlePostLoad = async id => {
     if (!loadPostFailure && (isEmpty(foundPost) || !updated)) {
       await loadPostDispatch({
-        env: process.env.NODE_ENV,
+        env: process.env.REACT_APP_NODE_ENV,
         id
       });
       setUpdated(true);
@@ -188,13 +188,13 @@ function Post(props) {
       switch (type) {
         case 'Post':
           await upvoteDispatch({
-            env: process.env.NODE_ENV,
+            env: process.env.REACT_APP_NODE_ENV,
             postId: _id
           });
           break;
         case 'Comment':
           await upvoteDispatch({
-            env: process.env.NODE_ENV,
+            env: process.env.REACT_APP_NODE_ENV,
             postId,
             commentId: _id
           });
@@ -212,13 +212,13 @@ function Post(props) {
       switch (type) {
         case 'Post':
           await downvoteDispatch({
-            env: process.env.NODE_ENV,
+            env: process.env.REACT_APP_NODE_ENV,
             postId: _id
           });
           break;
         case 'Comment':
           await downvoteDispatch({
-            env: process.env.NODE_ENV,
+            env: process.env.REACT_APP_NODE_ENV,
             postId,
             commentId: _id
           });
@@ -428,7 +428,7 @@ function Post(props) {
                             if (code === 13 && event.target.value !== '') {
                               // submit comment edit
                               editCommentDispatch({
-                                env: process.env.NODE_ENV,
+                                env: process.env.REACT_APP_NODE_ENV,
                                 postId: foundPost._id,
                                 commentId: childComment._id,
                                 newContent: editState[childComment._id]
@@ -529,7 +529,7 @@ function Post(props) {
                               size={'compact'}
                               onClick={() => {
                                 deleteCommentDispatch({
-                                  env: process.env.NODE_ENV,
+                                  env: process.env.REACT_APP_NODE_ENV,
                                   postId: foundPost._id,
                                   commentId: deleteChild._id
                                 });
@@ -561,7 +561,7 @@ function Post(props) {
                           var code = event.keyCode || event.which;
                           if (code === 13 && event.target.value !== '') {
                             addReplyDispatch({
-                              env: process.env.NODE_ENV,
+                              env: process.env.REACT_APP_NODE_ENV,
                               postId: foundPost._id,
                               commentId: childComment._id,
                               newReply: event.target.value
@@ -917,7 +917,7 @@ function Post(props) {
                                       onClick={() => {
                                         if (window.confirm('Are you sure you want to delete?')) {
                                           deletePostDispatch({
-                                            env: process.env.NODE_ENV,
+                                            env: process.env.REACT_APP_NODE_ENV,
                                             postId: foundPost._id
                                           });
 
@@ -955,7 +955,7 @@ function Post(props) {
                                       kind={KIND.secondary}
                                       onClick={() => {
                                         editPostDispatch({
-                                          env: process.env.NODE_ENV,
+                                          env: process.env.REACT_APP_NODE_ENV,
                                           postId: foundPost._id,
                                           title,
                                           text: foundPost.text,
@@ -1170,7 +1170,7 @@ function Post(props) {
                                         if (code === 13 && event.target.value !== '') {
                                           // submit comment
                                           addCommentDispatch({
-                                            env: process.env.NODE_ENV,
+                                            env: process.env.REACT_APP_NODE_ENV,
                                             postId: foundPost._id,
                                             newComment: postComment
                                           });

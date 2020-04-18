@@ -184,7 +184,7 @@ class ModalLoginSignUp extends React.Component {
    */
   async handleLogin(user, pass) {
     await this.props.loginDispatch({
-      env: process.env.NODE_ENV,
+      env: process.env.REACT_APP_NODE_ENV,
       username: user,
       password: pass,
       rememberMe: true // by default
@@ -225,7 +225,7 @@ class ModalLoginSignUp extends React.Component {
    */
   async handleSignup() {
     await this.props.signupDispatch({
-      env: process.env.NODE_ENV,
+      env: process.env.REACT_APP_NODE_ENV,
       name: this.state.nameInput,
       email: this.state.emailInput,
       username: this.state.userInput,
@@ -460,7 +460,7 @@ class ModalLoginSignUp extends React.Component {
    */
   async handleForgotPassword() {
     await this.props.initiateResetDispatch({
-      env: process.env.NODE_ENV,
+      env: process.env.REACT_APP_NODE_ENV,
       email: this.state.emailInput
     });
   }

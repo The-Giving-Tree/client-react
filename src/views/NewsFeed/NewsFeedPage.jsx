@@ -68,7 +68,7 @@ function NewsFeedPage(props) {
           setSort('Discover');
           console.log('loading discover');
           loadNewsfeedDispatch({
-            env: process.env.NODE_ENV,
+            env: process.env.REACT_APP_NODE_ENV,
             page: Number(currentPage),
             location: latLng,
             feed: 'Discover'
@@ -79,7 +79,7 @@ function NewsFeedPage(props) {
         if (newsfeedSort !== 'Ongoing') {
           setSort('Ongoing');
           loadNewsfeedDispatch({
-            env: process.env.NODE_ENV,
+            env: process.env.REACT_APP_NODE_ENV,
             page: Number(currentPage),
             location: latLng,
             feed: 'Ongoing'
@@ -90,7 +90,7 @@ function NewsFeedPage(props) {
         if (newsfeedSort !== 'Completed') {
           setSort('Completed');
           loadNewsfeedDispatch({
-            env: process.env.NODE_ENV,
+            env: process.env.REACT_APP_NODE_ENV,
             page: Number(currentPage),
             location: latLng,
             feed: 'Completed'
@@ -101,7 +101,7 @@ function NewsFeedPage(props) {
         if (newsfeedSort !== 'Global') {
           setSort('Global');
           loadNewsfeedDispatch({
-            env: process.env.NODE_ENV,
+            env: process.env.REACT_APP_NODE_ENV,
             page: Number(currentPage),
             feed: 'Global'
           });
@@ -111,7 +111,7 @@ function NewsFeedPage(props) {
         if (newsfeedSort !== 'Popular') {
           setSort('Popular');
           loadNewsfeedDispatch({
-            env: process.env.NODE_ENV,
+            env: process.env.REACT_APP_NODE_ENV,
             page: Number(currentPage),
             feed: 'Popular'
           });
@@ -121,7 +121,7 @@ function NewsFeedPage(props) {
         if (newsfeedSort !== 'Newest') {
           setSort('Newest');
           loadNewsfeedDispatch({
-            env: process.env.NODE_ENV,
+            env: process.env.REACT_APP_NODE_ENV,
             page: Number(currentPage),
             location: latLng,
             feed: 'Newest'
@@ -144,7 +144,7 @@ function NewsFeedPage(props) {
     } else if (Number(currentPage) < Number(pages)) {
       let nextPage = Number(currentPage) + 1;
       await loadNewsfeedDispatch({
-        env: process.env.NODE_ENV,
+        env: process.env.REACT_APP_NODE_ENV,
         location: latLng,
         page: nextPage,
         feed: newsfeedSort
@@ -197,7 +197,7 @@ function NewsFeedPage(props) {
   React.useEffect(() => {
     if (props.match.url === '/home/discover') {
       loadNewsfeedDispatch({
-        env: process.env.NODE_ENV,
+        env: process.env.REACT_APP_NODE_ENV,
         page: Number(currentPage),
         location: latLng,
         feed: 'Discover'

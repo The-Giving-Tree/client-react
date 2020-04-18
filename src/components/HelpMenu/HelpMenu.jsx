@@ -58,7 +58,7 @@ class HelpMenu extends React.Component {
     };
 
     axios
-    .post(`${ROUTES[process.env.NODE_ENV].giving_tree}/feedback`, msg, headers)
+    .post(`${ROUTES[process.env.REACT_APP_NODE_ENV].giving_tree}/feedback`, msg, headers)
     .then(success => {
       this.setStateVal('sendingFeedback', false);
       this.showFeedbackModal(false);

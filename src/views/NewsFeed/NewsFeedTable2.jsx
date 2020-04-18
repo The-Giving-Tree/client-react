@@ -53,7 +53,7 @@ class NewsFeedTable2 extends React.Component {
    */
   getNewsFeed(loc, currentPage, feedMode) {      
     this.props.loadNewsfeedDispatch({
-      env: process.env.NODE_ENV,
+      env: process.env.REACT_APP_NODE_ENV,
       page: Number(currentPage),
       feed: feedMode,
       location: loc
