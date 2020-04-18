@@ -328,7 +328,10 @@ const auth = (state = initialState, action) => {
     case ACTION_TYPE.FOLLOW_SUCCESS:
     case ACTION_TYPE.UNFOLLOW_SUCCESS:
       return Object.assign({}, state, {
-        foundUser: action.payload.foundUser,
+        foundUser: {
+          ...state.foundUser,
+          followers: action.payload.foundUser.followers
+        },
         foundUserUpdated: true
       });
 
