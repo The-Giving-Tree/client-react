@@ -269,9 +269,9 @@ function Post(props) {
     return url;
   }
 
-  function generateCommentHTML(childComment, leftIndent) {
+  function generateCommentHTML(childComment, leftIndent, index) {
     return (
-      <div
+      <div key={index}
         style={{
           alignContent: 'center',
           marginLeft: Number(leftIndent) + 25,
@@ -625,7 +625,7 @@ function Post(props) {
       for (var index = 0; index < comments.length; index++) {
         const childComment = comments[index];
 
-        let existingElement = generateCommentHTML(childComment, leftIndent);
+        let existingElement = generateCommentHTML(childComment, leftIndent , index);
 
         if (childComment.comments.length > 0) {
           let newElement = recursiveCommentGenerator(
