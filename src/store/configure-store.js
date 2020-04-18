@@ -11,7 +11,7 @@ const sagaMiddleware = createSagaMiddleware();
 export default function configureStore(preloadedState) {
   let store;
 
-  if (process.env.REACT_APP_NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development') {
     store = createStore(
       createRootReducer(history), // root reducer with router state
       preloadedState,
