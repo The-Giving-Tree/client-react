@@ -88,6 +88,19 @@ function Navigation(props) {
     subscribeToNotifications(user._id, (err, notification) =>
       addToNotificationsDispatch(notification)
     );
+
+
+    // Boot authenticated user intercom
+    if (user && user._id) {
+      window.Intercom('boot', {
+        app_id: 'ndydnuux',
+        name: user.name,
+        email: user.email,
+        created_at: moment(user.createdAt).unix(),
+        user_id: user._id,
+        hide_default_launcher: true
+      });
+    }
   }, [user._id, addToNotificationsDispatch]);
 
   React.useEffect(() => {
