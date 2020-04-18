@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import queryString from 'query-string';
 import { StatefulTooltip } from 'baseui/tooltip';
 import { StatefulPopover, PLACEMENT } from 'baseui/popover';
-import Navigation from './Navigation/Navigation';
+import Navigation from '../../components/Navigation';
 import { geolocated } from 'react-geolocated';
 import { Card, StyledBody } from 'baseui/card';
 import { Block } from 'baseui/block';
@@ -16,7 +16,7 @@ import { Drawer } from 'baseui/drawer';
 import { Notification } from 'baseui/notification';
 import moment from 'moment';
 import { Modal, ModalHeader, ModalBody, ModalFooter, ModalButton } from 'baseui/modal';
-import Sidebar from './Sidebar/Sidebar';
+import Sidebar from '../../components/Sidebar/Sidebar';
 import { connect } from 'react-redux';
 import { hotjar } from 'react-hotjar';
 
@@ -33,11 +33,11 @@ import {
   addReply,
   markSeen,
   getLeaderboard
-} from '../store/actions/auth/auth-actions';
+} from '../../store/actions/auth/auth-actions';
 
-import { editPost } from '../store/actions/user/user-actions';
-import LeaderboardTable from './LeaderboardTable/LeaderboardTable';
-import HelpMenu from './HelpMenu/HelpMenu';
+import { editPost } from '../../store/actions/user/user-actions';
+import LeaderboardTable from '../../components/LeaderboardTable/LeaderboardTable';
+import HelpMenu from '../../components/HelpMenu';
 
 function Post(props) {
   const {
@@ -53,9 +53,7 @@ function Post(props) {
     deleteCommentDispatch,
     deletePostDispatch,
     getLeaderboardDispatch,
-    deletePostSuccess,
     userRanking,
-    leaderboard,
     addCommentDispatch,
     coords,
     addReplyDispatch,
@@ -271,9 +269,9 @@ function Post(props) {
     return url;
   }
 
-  function generateCommentHTML(childComment, leftIndent) {
+  function generateCommentHTML(childComment, leftIndent, index) {
     return (
-      <div
+      <div key={index}
         style={{
           alignContent: 'center',
           marginLeft: Number(leftIndent) + 25,
@@ -627,7 +625,7 @@ function Post(props) {
       for (var index = 0; index < comments.length; index++) {
         const childComment = comments[index];
 
-        let existingElement = generateCommentHTML(childComment, leftIndent);
+        let existingElement = generateCommentHTML(childComment, leftIndent , index);
 
         if (childComment.comments.length > 0) {
           let newElement = recursiveCommentGenerator(
@@ -669,7 +667,7 @@ function Post(props) {
         </thead>
         <tbody>
           {cart.map((item, i) => (
-            <tr className={i % 2 === 0 && `bg-gray-100`}>
+            <tr className={i % 2 === 0 && `bg-gray-100`} key={i}>
               <td className={`border px-4 py-2`}>{item.name}</td>
               <td className={`border px-4 py-2`}>{item.quantity}</td>
             </tr>
@@ -856,6 +854,7 @@ function Post(props) {
                                 !editor &&
                                 foundPost.categories.map(i => (
                                   <Tag
+                                    key={i}
                                     closeable={false}
                                     color="#4327F1"
                                     kind={KIND.custom}

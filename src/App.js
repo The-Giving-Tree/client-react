@@ -5,19 +5,6 @@ import { Provider as StyletronProvider } from 'styletron-react';
 import { Helmet } from 'react-helmet';
 import { LightTheme, BaseProvider } from 'baseui';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Constants from './components/Constants';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import User from './components/User';
-import Leaderboard from './components/Leaderboard';
-import About from './components/About';
-import HowItWorks from './components/HowItWorks';
-import Guidelines from './components/Guidelines';
-import Setting from './components/Setting';
-import Submit from './components/Submit';
-import Post from './components/Post';
-import Draft from './components/Draft';
-import ResetPassword from './components/ResetPassword';
 
 // Import Tailwind CSS
 import './assets/css/styles.css';
@@ -25,10 +12,25 @@ import './assets/css/styles.css';
 // TODO: Eventually we'll replace this with component-bound css, and tailwind
 import './App.css';
 
+// Components
+import Constants from './components/Constants';
+
 // Views / Pages
 import ErrorPage from './views/ErrorPage/ErrorPage';
 import Home from './views/Home/Home';
 import NewsFeedPage from './views/NewsFeed/NewsFeedPage';
+import Submit from './views/Submit';
+import Post from './views/Post';
+import Signup from './views/Signup';
+import Leaderboard from './views/Leaderboard';
+import About from './views/About';
+import HowItWorks from './views/HowItWorks';
+import Guidelines from './views/Guidelines';
+import Login from './views/Login';
+import User from './views/User';
+import Draft from './views/Draft';
+import ResetPassword from './views/ResetPassword';
+import Setting from './views/Setting';
 
 const engine = new Styletron();
 

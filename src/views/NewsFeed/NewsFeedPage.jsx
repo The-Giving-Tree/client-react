@@ -1,6 +1,6 @@
 import * as React from 'react';
 // Custom Components
-import Navigation from '../../components/Navigation/Navigation';
+import Navigation from '../../components/Navigation';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import NewsfeedTable from '../NewsFeed/NewsfeedTable';
 import LeaderboardTable from '../../components/LeaderboardTable/LeaderboardTable';
@@ -24,8 +24,8 @@ import {
   initiateReset,
   login
 } from '../../store/actions/auth/auth-actions';
-import NewsFeedCard from './NewsFeedCard/NewsFeedCard';
-import HelpMenu from '../../components/HelpMenu/HelpMenu';
+import TaskCard from '../../components/TaskCard';
+import HelpMenu from '../../components/HelpMenu';
 
 function NewsFeedPage(props) {
   const {
@@ -213,12 +213,19 @@ function NewsFeedPage(props) {
         feed: 'Discover'
       });
     }
-  }, [latLng, address, !openCustomAddress]);
+  }, [
+    loadNewsfeedDispatch,
+    currentPage, 
+    latLng, 
+    address, 
+    !openCustomAddress,
+    props.match.url
+  ]);
 
   const render = () => {
     news.map((item, i) => {
-      items.push(
-        <NewsFeedCard item={item} key={i} user={user} className="mb-4"
+      return items.push(
+        <TaskCard item={item} key={i} user={user} className="mb-4"
         index={i} />
       );
     });

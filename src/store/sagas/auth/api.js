@@ -309,12 +309,12 @@ const loadUser = async (env, username) => {
   }
 };
 
-const isEmpty = obj => {
-  for (var key in obj) {
-    if (obj.hasOwnProperty(key)) return false;
-  }
-  return true;
-};
+// const isEmpty = obj => {
+//   for (var key in obj) {
+//     if (obj.hasOwnProperty(key)) return false;
+//   }
+//   return true;
+// };
 
 const getLeaderboard = async (env, location = 'global', token) => {
   try {

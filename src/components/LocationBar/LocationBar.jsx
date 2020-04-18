@@ -42,7 +42,6 @@ class LocationBar extends React.Component {
       .then(res => getLatLng(res[0]))
       .then(latLng => {
         this.setState({ latLng: latLng });
-        console.log(this.state);
       });
   }
 

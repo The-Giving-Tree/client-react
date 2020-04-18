@@ -7,9 +7,6 @@
   -webkit-backdrop-filter: blur(27.2px);
   backdrop-filter: blur(27.2px);
   font-size: 0.625rem;
-}
-
-.sidebar-nav-xs ul {
   border-top: 1px solid #DBDBDB;
 }
 
@@ -18,28 +15,17 @@
   height: 1.5rem;
 }
 
-
-/* Text in the menu items */
-.sidebar-nav-xs li {
-  line-height: normal;
-  border-right: 1px solid #dbdbdb;
-}
-.sidebar-nav-xs li:last-of-type {
-  line-height: normal;
-  border-right: none;
-}
-
 /* Active menu item styles (Mobile menu) */
-.sidebar-nav-xs li.nav-item-active {
+.sidebar-nav-xs .nav-item-active {
   color: #059305;
 }
 
-.sidebar-nav-xs li.nav-item-active svg:not(.icon-create):not(.icon-leaderboard) path {
+.sidebar-nav-xs a.nav-item-active svg:not(.icon-create):not(.icon-leaderboard) path {
   stroke: #059305;
 }
 
-.sidebar-nav-xs li.nav-item-active svg.icon-create path,
-.sidebar-nav-xs li.nav-item-active svg.icon-leaderboard path {
+.sidebar-nav-xs a.nav-item-active svg.icon-create path,
+.sidebar-nav-xs a.nav-item-active svg.icon-leaderboard path {
   fill: #059305;
 }
 
@@ -66,10 +52,6 @@
 /* ======= Media Queries ================ */
 
 @media all and (max-width: 414px) {
-  .sidebar-nav-xs {
-    display: block;
-  }
-
   .sidebar-nav-sm {
     display: none;
   }

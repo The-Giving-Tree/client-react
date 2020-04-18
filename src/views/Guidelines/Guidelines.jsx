@@ -1,20 +1,11 @@
 /* eslint-disable */
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import Navigation from './Navigation/Navigation';
-import Footer from './Footer/Footer';
+import Navigation from '../../components/Navigation';
+import Footer from '../../components/Footer';
 import { geolocated } from 'react-geolocated';
 import { connect } from 'react-redux';
 import { hotjar } from 'react-hotjar';
-import {
-  Link,
-  DirectLink,
-  Element,
-  Events,
-  animateScroll as scroll,
-  scrollSpy,
-  scroller
-} from 'react-scroll';
 
 import {
   getCurrentUser,
@@ -28,7 +19,7 @@ import {
   addReply,
   selectMenu,
   getLeaderboard
-} from '../store/actions/auth/auth-actions';
+} from '../../store/actions/auth/auth-actions';
 
 function Guidelines(props) {
   const { 

@@ -2,12 +2,12 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Tabs, Tab } from 'baseui/tabs';
-import Navigation from './Navigation/Navigation';
+import Navigation from '../../components/Navigation';
 import { geolocated } from 'react-geolocated';
 import { StatefulPopover, PLACEMENT } from 'baseui/popover';
 import { connect } from 'react-redux';
 import { hotjar } from 'react-hotjar';
-import Sidebar from './Sidebar/Sidebar';
+import Sidebar from '../../components/Sidebar/Sidebar';
 
 import {
   getCurrentUser,
@@ -21,8 +21,8 @@ import {
   addReply,
   selectMenu,
   getLeaderboard
-} from '../store/actions/auth/auth-actions';
-import HelpMenu from './HelpMenu/HelpMenu';
+} from '../../store/actions/auth/auth-actions';
+import HelpMenu from '../../components/HelpMenu';
 
 function Leaderboard(props) {
   const {

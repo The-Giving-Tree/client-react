@@ -7,17 +7,16 @@ import Check from 'baseui/icon/check';
 import { Notification } from 'baseui/notification';
 import { hotjar } from 'react-hotjar';
 import { Button, SHAPE } from 'baseui/button';
-import { useHistory, Redirect, Link } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import { 
   Modal, ModalHeader, ModalBody, ModalFooter, ModalButton
 } from 'baseui/modal';
-import Navigation from '../../components/Navigation/Navigation';
+import Navigation from '../../components/Navigation';
 import { StyledAction } from 'baseui/card';
 import { Input } from 'baseui/input';
 import { connect } from 'react-redux';
 
-import Footer from '../../components/Footer/Footer';
-import Constants from '../../components/Constants';
+import Footer from '../../components/Footer';
 
 import './Home.css';
 
