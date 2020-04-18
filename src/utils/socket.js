@@ -1,7 +1,7 @@
 import openSocket from 'socket.io-client';
 import axios from 'axios';
 import ROUTES from './routes';
-const socket = openSocket(ROUTES[process.env.NODE_ENV].socket);
+const socket = openSocket(ROUTES[process.env.REACT_APP_NODE_ENV].socket);
 
 // subscribe to a userId's notification - must be the jwt token
 function subscribeToNotifications(userId, cb) {
@@ -17,7 +17,7 @@ function subscribeToNotifications(userId, cb) {
     localStorage.setItem('sessionId', socket.id);
 
     axios
-      .post(`${ROUTES[process.env.NODE_ENV].giving_tree}/socket`, { sessionId: socket.id }, headers)
+      .post(`${ROUTES[process.env.REACT_APP_NODE_ENV].giving_tree}/socket`, { sessionId: socket.id }, headers)
       .then(success => {
         console.log('success updated socket');
       })

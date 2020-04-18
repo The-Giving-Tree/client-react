@@ -102,7 +102,7 @@ function Signup(props) {
 
   const handleSignup = async () => {
     await signupDispatch({
-      env: process.env.NODE_ENV,
+      env: process.env.REACT_APP_NODE_ENV,
       name,
       email,
       username,

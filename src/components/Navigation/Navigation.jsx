@@ -110,7 +110,7 @@ function Navigation(props) {
   const refresh = async () => {
     if (authenticated && !user.username) {
       await getCurrentUserDispatch({
-        env: process.env.NODE_ENV
+        env: process.env.REACT_APP_NODE_ENV
       });
     }
   };
@@ -196,7 +196,7 @@ function Navigation(props) {
         onItemSelect={item => {
           close();
           if (item.item.label === 'Clear All Notifications') {
-            clearAllNotificationsDispatch({ env: process.env.NODE_ENV });
+            clearAllNotificationsDispatch({ env: process.env.REACT_APP_NODE_ENV });
           } else {
             history.push(`/post/${item.item.postId}/?user=${user._id}`);
           }
@@ -256,7 +256,7 @@ function Navigation(props) {
               ref={(inp) => searchInp = inp }
               className="bg-transparent px-3 py-2 w-full outline-none"
               onChange={(e) => {
-                searchDispatch({ env: process.env.NODE_ENV, query: e.target.value });
+                searchDispatch({ env: process.env.REACT_APP_NODE_ENV, query: e.target.value });
                 setShouldCloseSearchResults(false);
               }} />
               {searchResults.length !== 0 && !shouldCloseSearchResults && (
@@ -412,7 +412,7 @@ function Navigation(props) {
                     break;
                   case 'Log Out':
                     logoutDispatch({
-                      env: process.env.NODE_ENV
+                      env: process.env.REACT_APP_NODE_ENV
                     });
                     break;
                   default:

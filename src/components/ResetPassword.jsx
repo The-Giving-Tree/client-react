@@ -97,7 +97,7 @@ function ResetPassword(props) {
   }
 
   function handleConfirmPassword() {
-    confirmPasswordDispatch({ env: process.env.NODE_ENV, password: password, token: token });
+    confirmPasswordDispatch({ env: process.env.REACT_APP_NODE_ENV, password: password, token: token });
   }
 
   if (confirmPasswordSuccess) {

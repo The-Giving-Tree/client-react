@@ -11,7 +11,7 @@ function LeaderboardTable(props) {
 
   React.useEffect(() => {
     getLeaderboardDispatch({
-      env: process.env.NODE_ENV,
+      env: process.env.REACT_APP_NODE_ENV,
       location: 'global'
     });
   }, []);

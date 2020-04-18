@@ -43,7 +43,7 @@ function About(props) {
   const refresh = async () => {
     if (authenticated && !user.username) {
       await getCurrentUserDispatch({
-        env: process.env.NODE_ENV
+        env: process.env.REACT_APP_NODE_ENV
       });
     }
   };
@@ -75,7 +75,7 @@ function About(props) {
   }
 
   React.useEffect(() => {
-    getLeaderboardDispatch({ env: process.env.NODE_ENV, location: 'global' });
+    getLeaderboardDispatch({ env: process.env.REACT_APP_NODE_ENV, location: 'global' });
   }, []);
 
   return (

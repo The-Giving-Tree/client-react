@@ -112,7 +112,7 @@ function NewsFeedPageOLD(props) {
           setSort('Discover');
           console.log('loading discover');
           loadNewsfeedDispatch({
-            env: process.env.NODE_ENV,
+            env: process.env.REACT_APP_NODE_ENV,
             page: Number(currentPage),
             location: latLng,
             feed: 'Discover'
@@ -123,7 +123,7 @@ function NewsFeedPageOLD(props) {
         if (newsfeedSort !== 'Ongoing') {
           setSort('Ongoing');
           loadNewsfeedDispatch({
-            env: process.env.NODE_ENV,
+            env: process.env.REACT_APP_NODE_ENV,
             page: Number(currentPage),
             location: latLng,
             feed: 'Ongoing'
@@ -134,7 +134,7 @@ function NewsFeedPageOLD(props) {
         if (newsfeedSort !== 'Completed') {
           setSort('Completed');
           loadNewsfeedDispatch({
-            env: process.env.NODE_ENV,
+            env: process.env.REACT_APP_NODE_ENV,
             page: Number(currentPage),
             location: latLng,
             feed: 'Completed'
@@ -145,7 +145,7 @@ function NewsFeedPageOLD(props) {
         if (newsfeedSort !== 'Global') {
           setSort('Global');
           loadNewsfeedDispatch({
-            env: process.env.NODE_ENV,
+            env: process.env.REACT_APP_NODE_ENV,
             page: Number(currentPage),
             feed: 'Global'
           });
@@ -155,7 +155,7 @@ function NewsFeedPageOLD(props) {
         if (newsfeedSort !== 'Popular') {
           setSort('Popular');
           loadNewsfeedDispatch({
-            env: process.env.NODE_ENV,
+            env: process.env.REACT_APP_NODE_ENV,
             page: Number(currentPage),
             feed: 'Popular'
           });
@@ -165,7 +165,7 @@ function NewsFeedPageOLD(props) {
         if (newsfeedSort !== 'Newest') {
           setSort('Newest');
           loadNewsfeedDispatch({
-            env: process.env.NODE_ENV,
+            env: process.env.REACT_APP_NODE_ENV,
             page: Number(currentPage),
             location: latLng,
             feed: 'Newest'
@@ -373,13 +373,13 @@ function NewsFeedPageOLD(props) {
     switch (type) {
       case 'Post':
         await upvoteDispatch({
-          env: process.env.NODE_ENV,
+          env: process.env.REACT_APP_NODE_ENV,
           postId: _id
         });
         break;
       case 'Comment':
         await upvoteDispatch({
-          env: process.env.NODE_ENV,
+          env: process.env.REACT_APP_NODE_ENV,
           postId,
           commentId: _id
         });
@@ -393,13 +393,13 @@ function NewsFeedPageOLD(props) {
     switch (type) {
       case 'Post':
         await downvoteDispatch({
-          env: process.env.NODE_ENV,
+          env: process.env.REACT_APP_NODE_ENV,
           postId: _id
         });
         break;
       case 'Comment':
         await downvoteDispatch({
-          env: process.env.NODE_ENV,
+          env: process.env.REACT_APP_NODE_ENV,
           postId,
           commentId: _id
         });
@@ -414,7 +414,7 @@ function NewsFeedPageOLD(props) {
     } else if (Number(currentPage) < Number(pages)) {
       let nextPage = Number(currentPage) + 1;
       await loadNewsfeedDispatch({
-        env: process.env.NODE_ENV,
+        env: process.env.REACT_APP_NODE_ENV,
         location: latLng,
         page: nextPage,
         feed: newsfeedSort
@@ -510,7 +510,7 @@ function NewsFeedPageOLD(props) {
   React.useEffect(() => {
     if (props.match.url === '/home/discover') {
       loadNewsfeedDispatch({
-        env: process.env.NODE_ENV,
+        env: process.env.REACT_APP_NODE_ENV,
         page: Number(currentPage),
         location: latLng,
         feed: 'Discover'
@@ -1046,13 +1046,13 @@ function NewsFeedPageOLD(props) {
                                     // post comment if post parent, reply if comment parent
                                     if (item.parent.type === 'Post') {
                                       await addCommentDispatch({
-                                        env: process.env.NODE_ENV,
+                                        env: process.env.REACT_APP_NODE_ENV,
                                         postId: item.parent._id,
                                         newComment: event.target.value
                                       });
                                     } else if (item.parent.type === 'Comment') {
                                       await addReplyDispatch({
-                                        env: process.env.NODE_ENV,
+                                        env: process.env.REACT_APP_NODE_ENV,
                                         postId: item.postId,
                                         commentId: item._id,
                                         newReply: event.target.value
@@ -1158,7 +1158,7 @@ function NewsFeedPageOLD(props) {
                                 )
                               ) {
                                 claimTaskDispatch({
-                                  env: process.env.NODE_ENV,
+                                  env: process.env.REACT_APP_NODE_ENV,
                                   postId: item._id
                                 });
 
@@ -1214,7 +1214,7 @@ function NewsFeedPageOLD(props) {
 
                             if (cancelReason) {
                               unclaimTaskDispatch({
-                                env: process.env.NODE_ENV,
+                                env: process.env.REACT_APP_NODE_ENV,
                                 postId: item._id,
                                 cancelReason
                               });
@@ -1355,7 +1355,7 @@ function NewsFeedPageOLD(props) {
             onClick={() => {
               if (eta && missing && deliverer && postId) {
                 completeTaskDispatch({
-                  env: process.env.NODE_ENV,
+                  env: process.env.REACT_APP_NODE_ENV,
                   postId: postId,
                   trackingDetails: {
                     method: 'manual',

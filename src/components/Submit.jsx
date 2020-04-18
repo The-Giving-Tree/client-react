@@ -82,7 +82,7 @@ function Submit(props) {
   React.useEffect(() => {
     console.log('new update');
     async function updateUser() {
-      await getCurrentUserDispatch({ env: process.env.NODE_ENV });
+      await getCurrentUserDispatch({ env: process.env.REACT_APP_NODE_ENV });
     }
 
     updateUser();
@@ -92,7 +92,7 @@ function Submit(props) {
   React.useEffect(() => {
     async function submitDraft() {
       await publishPostDispatch({
-        env: process.env.NODE_ENV,
+        env: process.env.REACT_APP_NODE_ENV,
         postId: submittedDraft._id,
         data: {
           title,
@@ -558,7 +558,7 @@ function Submit(props) {
 
                     if (isEmpty(submittedDraft)) {
                       submitDraftDispatch({
-                        env: process.env.NODE_ENV,
+                        env: process.env.REACT_APP_NODE_ENV,
                         data: {
                           address,
                           requestType: selectedRequest,
@@ -637,7 +637,7 @@ function Submit(props) {
                 </div>
                 <div
                   onClick={() =>
-                    handleSeenSubmitDispatch({ env: process.env.NODE_ENV, type: 'submit' })
+                    handleSeenSubmitDispatch({ env: process.env.REACT_APP_NODE_ENV, type: 'submit' })
                   }
                   style={{ cursor: 'pointer', color: 'black' }}
                 >

@@ -110,13 +110,13 @@ function Draft(props) {
   const editor = useMemo(() => withRichText(withHistory(withReact(createEditor()))), []);
 
   React.useEffect(() => {
-    getDraftDispatch({ env: process.env.NODE_ENV, draftId: id });
+    getDraftDispatch({ env: process.env.REACT_APP_NODE_ENV, draftId: id });
   }, [id, getDraftDispatch]);
 
   React.useEffect(() => {
     console.log('new update');
     async function updateUser() {
-      await getCurrentUserDispatch({ env: process.env.NODE_ENV });
+      await getCurrentUserDispatch({ env: process.env.REACT_APP_NODE_ENV });
     }
 
     updateUser();
@@ -193,7 +193,7 @@ function Draft(props) {
                 </div>
                 <div
                   onClick={() =>
-                    handleSeenSubmitDispatch({ env: process.env.NODE_ENV, type: 'submit' })
+                    handleSeenSubmitDispatch({ env: process.env.REACT_APP_NODE_ENV, type: 'submit' })
                   }
                   style={{ cursor: 'pointer', color: 'black' }}
                 >
@@ -301,7 +301,7 @@ function Draft(props) {
                           if (isEmpty(submittedDraft)) {
                             // create new draft and store on store
                             submitDraftDispatch({
-                              env: process.env.NODE_ENV,
+                              env: process.env.REACT_APP_NODE_ENV,
                               title,
                               text: JSON.stringify(slateValue),
                               categories: tags.join(',')
@@ -309,7 +309,7 @@ function Draft(props) {
                           } else {
                             // update existing draft and update on store
                             saveDraftDispatch({
-                              env: process.env.NODE_ENV,
+                              env: process.env.REACT_APP_NODE_ENV,
                               postId: submittedDraft._id,
                               title,
                               text: JSON.stringify(slateValue),
@@ -332,7 +332,7 @@ function Draft(props) {
                         onClick={() => {
                           // take existing draft and publish it (notify followers and make publically shareable)
                           publishPostDispatch({
-                            env: process.env.NODE_ENV,
+                            env: process.env.REACT_APP_NODE_ENV,
                             postId: submittedDraft._id,
                             title,
                             text: JSON.stringify(slateValue),
@@ -410,7 +410,7 @@ function Draft(props) {
                                   if (isEmpty(submittedDraft)) {
                                     // create new draft and store on store
                                     submitDraftDispatch({
-                                      env: process.env.NODE_ENV,
+                                      env: process.env.REACT_APP_NODE_ENV,
                                       title,
                                       text: JSON.stringify(slateValue),
                                       categories: tags.join(',')
@@ -418,7 +418,7 @@ function Draft(props) {
                                   } else {
                                     // update existing draft and update on store
                                     saveDraftDispatch({
-                                      env: process.env.NODE_ENV,
+                                      env: process.env.REACT_APP_NODE_ENV,
                                       postId: submittedDraft._id,
                                       title,
                                       text: JSON.stringify(slateValue),

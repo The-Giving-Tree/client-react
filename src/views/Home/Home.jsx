@@ -92,7 +92,7 @@ function Home(props) {
 
   const handleSignup = async () => {
     signupDispatch({
-      env: process.env.NODE_ENV,
+      env: process.env.REACT_APP_NODE_ENV,
       name,
       email,
       username,
@@ -103,7 +103,7 @@ function Home(props) {
 
   const handleLogin = async () => {
     loginDispatch({
-      env: process.env.NODE_ENV,
+      env: process.env.REACT_APP_NODE_ENV,
       username,
       password,
       rememberMe: true // by default
@@ -318,7 +318,7 @@ function Home(props) {
                   size={'compact'}
                   onClick={() => {
                     initiateResetDispatch({
-                      env: process.env.NODE_ENV,
+                      env: process.env.REACT_APP_NODE_ENV,
                       email: resetEmail
                     });
 

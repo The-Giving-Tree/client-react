@@ -61,7 +61,7 @@ function User(props) {
   // load on page load
   React.useEffect(() => {
     loadUserDispatch({
-      env: process.env.NODE_ENV,
+      env: process.env.REACT_APP_NODE_ENV,
       username: id
     });
   }, [id, loadUserDispatch]);
@@ -75,7 +75,7 @@ function User(props) {
 
   React.useEffect(() => {
     loadUserDispatch({
-      env: process.env.NODE_ENV,
+      env: process.env.REACT_APP_NODE_ENV,
       username: id
     });
   }, [props.updatedProfile, id, loadUserDispatch]);
@@ -157,9 +157,9 @@ function User(props) {
   function handleClick() {
     // following => unfollow
     if (userFollowsProfile) {
-      unfollowDispatch({ env: process.env.NODE_ENV, userId: foundUser._id });
+      unfollowDispatch({ env: process.env.REACT_APP_NODE_ENV, userId: foundUser._id });
     } else {
-      followDispatch({ env: process.env.NODE_ENV, userId: foundUser._id });
+      followDispatch({ env: process.env.REACT_APP_NODE_ENV, userId: foundUser._id });
     }
   }
 
@@ -911,7 +911,7 @@ function User(props) {
                               onClick={() => {
                                 // submit dispatch
                                 updateProfileDispatch({
-                                  env: process.env.NODE_ENV,
+                                  env: process.env.REACT_APP_NODE_ENV,
                                   summary: summaryText,
                                   rawImage: image.raw || '',
                                   rawHeader: header.raw || ''
@@ -1042,7 +1042,7 @@ function User(props) {
                               if (code === 13 && event.target.value !== '') {
                                 // submit dispatch
                                 updateProfileDispatch({
-                                  env: process.env.NODE_ENV,
+                                  env: process.env.REACT_APP_NODE_ENV,
                                   summary: summaryText,
                                   rawImage: image.raw || '',
                                   rawHeader: header.raw || ''

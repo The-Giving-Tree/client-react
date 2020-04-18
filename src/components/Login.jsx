@@ -56,7 +56,7 @@ function Login(props) {
 
   const handleLogin = async () => {
     await loginDispatch({
-      env: process.env.NODE_ENV,
+      env: process.env.REACT_APP_NODE_ENV,
       username,
       password,
       rememberMe: true // by default
@@ -171,7 +171,7 @@ function Login(props) {
                       size={'compact'}
                       onClick={() => {
                         initiateResetDispatch({
-                          env: process.env.NODE_ENV,
+                          env: process.env.REACT_APP_NODE_ENV,
                           email: resetEmail
                         });
 
