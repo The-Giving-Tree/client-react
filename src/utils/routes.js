@@ -7,9 +7,13 @@ const ROUTES = {
     giving_tree: 'http://localhost:3000',
     socket: 'http://localhost:3000'
   },
-  sandbox: { // staging as well
+  staging: {
     giving_tree: 'https://api-staging.givingtreeproject.org',
     socket: 'https://api-staging.givingtreeproject.org'
+  },
+  sandbox: {
+    giving_tree: 'http://localhost:3000',
+    socket: 'http://localhost:3000'
   },
   local: {
     giving_tree: 'http://localhost:3000',
