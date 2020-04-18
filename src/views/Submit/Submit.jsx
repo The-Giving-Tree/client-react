@@ -3,23 +3,23 @@ import ReactDOM from 'react-dom';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import moment, { isMoment } from 'moment';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import Navigation from './Navigation/Navigation';
+import Navigation from '../../components/Navigation';
 import { Card } from 'baseui/card';
 import { Tag } from 'baseui/tag';
-import Sidebar from './Sidebar/Sidebar';
+import Sidebar from '../../components/Sidebar';
 import Datetime from 'react-datetime';
 import { hotjar } from 'react-hotjar';
 
 import { connect } from 'react-redux';
-import { getCurrentUser, loadUser, selectMenu } from '../store/actions/auth/auth-actions';
+import { getCurrentUser, loadUser, selectMenu } from '../../store/actions/auth/auth-actions';
 import {
   submitDraft,
   saveDraft,
   publishPost,
   handleSeenSubmit,
   uploadPhoto
-} from '../store/actions/user/user-actions';
-import HelpMenu from './HelpMenu/HelpMenu';
+} from '../../store/actions/user/user-actions';
+import HelpMenu from '../../components/HelpMenu';
 
 import './Submit.css';
 import 'react-datetime/css/react-datetime.css';
@@ -59,7 +59,7 @@ function Submit(props) {
   const [cartQuantity, setCartQuantity] = React.useState('');
   const [cartName, setCartName] = React.useState('');
   const [description, setDescription] = useState('');
-  const [dueDate, setDueDate] = useState('');
+  // const [dueDate, setDueDate] = useState('');
   
   // Datepicker state
   const neededByMoment = moment(new Date()).startOf('day').add(1, 'day').set('hour', 12).set('minutes', 0);
@@ -154,7 +154,7 @@ function Submit(props) {
         </thead>
         <tbody>
           {cart.map((item, i) => (
-            <tr className={i % 2 === 0 && `bg-gray-100`}>
+            <tr className={i % 2 === 0 && `bg-gray-100`} key={i}>
               <td className={`border px-4 py-2`}>{item.name}</td>
               <td className={`border px-4 py-2`}>{item.quantity}</td>
               <td className={`border px-4 py-2`} style={{ width: 50, cursor: 'pointer' }}>
@@ -203,8 +203,8 @@ function Submit(props) {
         <div className="mt-4 sm:flex w-full">
           <div className="sm:mr-3 w-full mb-4 sm:mb-0">
             <label
-              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-last-name"
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="grid-last-name"
             >
               Name
             </label>
@@ -221,15 +221,15 @@ function Submit(props) {
           </div>
           <div className="w-full">
             <label
-              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-state"
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="grid-state"
             >
               Type of Request
             </label>
-            <div class="relative">
+            <div className="relative">
               <select
                 value={selectedRequest}
-                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-state"
                 onChange={e => {
                   setRequest(e.target.value.toLowerCase());
@@ -239,9 +239,9 @@ function Submit(props) {
                 <option value="supplies">Supplies</option>
                 <option value="miscellaneous">Miscellaneous</option>
               </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                 <svg
-                  class="fill-current h-4 w-4"
+                  className="fill-current h-4 w-4"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                 >
@@ -252,8 +252,8 @@ function Submit(props) {
           </div>
         </div>
         <label
-          class="block uppercase mt-4 tracking-wide text-gray-700 text-xs font-bold mb-2"
-          for="grid-last-name"
+          className="block uppercase mt-4 tracking-wide text-gray-700 text-xs font-bold mb-2"
+          htmlFor="grid-last-name"
         >
           Request Summary
         </label>
@@ -276,9 +276,9 @@ function Submit(props) {
         ></textarea>
         <div className="sm:flex sm:items-center mt-4">
           <label
-            class="block uppercase tracking-wide text-gray-700 text-xs font-bold 
+            className="block uppercase tracking-wide text-gray-700 text-xs font-bold 
             mb-2 sm:mb-0 mr-2"
-            for="grid-last-name"
+            htmlFor="grid-last-name"
           >
             Needed By:
           </label>
@@ -297,7 +297,7 @@ function Submit(props) {
         <div className="mt-10 mb-4">
           <label
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            for="grid-last-name"
+            htmlFor="grid-last-name"
           >
             Preferred Contact Method
           </label>
@@ -339,7 +339,7 @@ function Submit(props) {
                   placeholder="Phone Number"
                 />
                 {!validNumber && (
-                  <p class="text-red-500 text-xs italic">Please enter a valid number.</p>
+                  <p className="text-red-500 text-xs italic">Please enter a valid number.</p>
                 )}
               </div>
             </div>
@@ -366,7 +366,7 @@ function Submit(props) {
                   placeholder="Email"
                 />
                 {!validEmail && (
-                  <p class="text-red-500 text-xs italic">Please enter a valid email.</p>
+                  <p className="text-red-500 text-xs italic">Please enter a valid email.</p>
                 )}
               </div>
             </div>
@@ -394,8 +394,8 @@ function Submit(props) {
         />
 
         <label
-          class="block mt-4 uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-          for="grid-last-name"
+          className="block mt-4 uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          htmlFor="grid-last-name"
         >
           Delivery Address
         </label>
@@ -448,7 +448,7 @@ function Submit(props) {
                 type="text"
               />
               {!validAddress && (
-                <p class="text-red-500 text-xs italic">Please enter a valid address.</p>
+                <p className="text-red-500 text-xs italic">Please enter a valid address.</p>
               )}
               <div className="autocomplete-dropdown-container">
                 {loading && <div>Loading...</div>}
@@ -702,8 +702,8 @@ function Submit(props) {
                   {!checkout ? (
                     <React.Fragment>
                       <label
-                        class="block mt-4 uppercase tracking-wide text-gray-700 text-sm font-bold mb-2"
-                        for="grid-last-name"
+                        className="block mt-4 uppercase tracking-wide text-gray-700 text-sm font-bold mb-2"
+                        htmlFor="grid-last-name"
                       >
                         I want to:
                       </label>
@@ -711,8 +711,8 @@ function Submit(props) {
                   ) : (
                     <div className="flex justify-center" style={{ width: '100%' }}>
                       <label
-                        class="block mt-4 uppercase tracking-wide text-gray-700 text-sm font-bold mb-2"
-                        for="grid-last-name"
+                        className="block mt-4 uppercase tracking-wide text-gray-700 text-sm font-bold mb-2"
+                        htmlFor="grid-last-name"
                       >
                         Create Request
                       </label>

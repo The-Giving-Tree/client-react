@@ -14,7 +14,7 @@ function LeaderboardTable(props) {
       env: process.env.REACT_APP_NODE_ENV,
       location: 'global'
     });
-  }, []);
+  }, [getLeaderboardDispatch]);
 
   const getLeaderboardIcon = place => {
     switch (place.toString()) {

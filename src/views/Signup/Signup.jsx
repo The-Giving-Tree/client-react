@@ -12,12 +12,12 @@ import { Button, SHAPE } from 'baseui/button';
 import { useStyletron } from 'baseui';
 import Alert from 'baseui/icon/alert';
 import Check from 'baseui/icon/check';
-import { register } from '../store/actions/auth/auth-actions';
+import { register } from '../../store/actions/auth/auth-actions';
 import Media from 'react-media';
 import passwordValidator from 'password-validator';
 import { hotjar } from 'react-hotjar';
-import Navigation from './Navigation/Navigation';
-import StickyFooter from './StickyFooter/StickyFooter';
+import Navigation from '../../components/Navigation';
+import StickyFooter from '../../components/StickyFooter/StickyFooter';
 
 var schema = new passwordValidator();
 schema

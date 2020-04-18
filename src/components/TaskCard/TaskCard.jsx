@@ -3,21 +3,22 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import moment from 'moment';
-import Tag from '../../../components/Tag/Tag';
-import Avatar from '../../../components/Avatar/Avatar';
-import './NewsFeedCard.css';
-
 import { getDistance } from 'geolib';
 import { 
   upvote, downvote, claimTask, unclaimTask, completeTask
-} from '../../../store/actions/auth/auth-actions';
+} from '../../store/actions/auth/auth-actions';
 import { ChevronUp, ChevronDown } from 'baseui/icon';
 import { StatefulPopover, PLACEMENT } from 'baseui/popover';
 import { StatefulMenu } from 'baseui/menu';
-
 import Confetti from 'react-confetti';
 
-class NewsFeedCard extends React.Component {
+import './TaskCard.css';
+
+// Components
+import Tag from '../Tag';
+import Avatar from '../Avatar';
+
+class TaskCard extends React.Component {
 
   constructor(props) {
     super(props);
@@ -56,7 +57,7 @@ class NewsFeedCard extends React.Component {
   /**
    * Set the voting index for this post
    *
-   * @memberof NewsFeedCard
+   * @memberof TaskCard
    */
   setVoteIndex() {
     if (this.props.item.downVotes.includes(this.props.user._id) &&
@@ -79,7 +80,7 @@ class NewsFeedCard extends React.Component {
    * Remove an item from the ongoing feed when it's released
    *
    * @param {*} id
-   * @memberof NewsFeedCard
+   * @memberof TaskCard
    */
   removeOngoing(id) {
     const prevOngoing = this.state.helpArrayOngoing;
@@ -95,7 +96,7 @@ class NewsFeedCard extends React.Component {
    * Remove an item from the discover feed when it's claimed
    *
    * @param {*} id
-   * @memberof NewsFeedCard
+   * @memberof TaskCard
    */
   removeDiscover(id) {
     const prevDiscover = this.state.helpArrayDiscover;
@@ -113,7 +114,7 @@ class NewsFeedCard extends React.Component {
    *
    * @param {*} i
    * @returns
-   * @memberof NewsFeedCard
+   * @memberof TaskCard
    */
   hideCard(i) {
     return this.props.match.url === '/home/discover'
@@ -126,7 +127,7 @@ class NewsFeedCard extends React.Component {
   /**
    * Set the tags that will be shown on this card. Also sets the status tags.
    *
-   * @memberof NewsFeedCard
+   * @memberof TaskCard
    */
   setTags() {
     const tags = [];
@@ -153,7 +154,7 @@ class NewsFeedCard extends React.Component {
   /**
    * Get the details of the task from the item.text string
    *
-   * @memberof NewsFeedCard
+   * @memberof TaskCard
    */
   setDetails() {
     const item = this.props.item;
@@ -183,7 +184,7 @@ class NewsFeedCard extends React.Component {
    * Mask the users telephone number until the task has been claimed.
    *
    * @param {*} number
-   * @memberof NewsFeedCard
+   * @memberof TaskCard
    */
   maskPhoneNumber(number) {
     return `***-***-${number.substring(
@@ -195,7 +196,7 @@ class NewsFeedCard extends React.Component {
    * the phone number
    *
    * @returns
-   * @memberof NewsFeedCard
+   * @memberof TaskCard
    */
   getPhoneNumber() {
     if (this.props.match.url === '/home/ongoing') {
@@ -210,7 +211,7 @@ class NewsFeedCard extends React.Component {
    *
    * @param {*} requestLocation
    * @returns
-   * @memberof NewsFeedCard
+   * @memberof TaskCard
    */
   calculateDistance(requestLocation) {
     if (requestLocation && requestLocation.lat && requestLocation.lng && this.props.coords) {
@@ -239,7 +240,7 @@ class NewsFeedCard extends React.Component {
    *
    * @param {*} cart
    * @returns
-   * @memberof NewsFeedCard
+   * @memberof TaskCard
    */
   foodCartJSX(cart) {
     return cart.length === 0 ? (
@@ -387,7 +388,7 @@ class NewsFeedCard extends React.Component {
    * @param {*} type
    * @param {*} _id
    * @param {string} [postId='']
-   * @memberof NewsFeedCard
+   * @memberof TaskCard
    */
   async handleUpClick(type, _id, postId = '') {
     switch (type) {
@@ -415,7 +416,7 @@ class NewsFeedCard extends React.Component {
    * @param {*} type
    * @param {*} _id
    * @param {string} [postId='']
-   * @memberof NewsFeedCard
+   * @memberof TaskCard
    */
   async handleDownClick(type, _id, postId = '') {
     switch (type) {
@@ -440,7 +441,7 @@ class NewsFeedCard extends React.Component {
   /**
    * Check the vote count on render (logs to console);
    *
-   * @memberof NewsFeedCard
+   * @memberof TaskCard
    */
   setVoteCount() {
     const propsTotal = this.props.item.voteTotal;
@@ -478,7 +479,7 @@ class NewsFeedCard extends React.Component {
         this.props.history.push(`/post/${this.props.item._id}`)
         window.scrollTo(0,0);
       }}
-      className={`${this.props.className} NewsFeedCard rounded shadow bg-white 
+      className={`${this.props.className} TaskCard rounded shadow bg-white 
       p-4 block cursor-pointer ${this.hideCard(this.props.item._id) ? 
       'hidden' : ''}`}>
         {this.state.showConfetti && 
@@ -793,5 +794,5 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({});
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(NewsFeedCard)
+  connect(mapStateToProps, mapDispatchToProps)(TaskCard)
 );

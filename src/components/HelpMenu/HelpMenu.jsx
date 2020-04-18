@@ -35,8 +35,6 @@ class HelpMenu extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.props)
-    console.log(this.state);
   }
   
   showFeedbackModal(val) {
@@ -169,7 +167,6 @@ class HelpMenu extends React.Component {
             </ModalButton>
             <ModalButton disabled={this.state.sendingFeedback}
             size={'compact'} onClick={() => {
-              console.log(this.state)
               this.handleFeedback();
             }}>
               {this.state.sendingFeedback ? (
@@ -200,7 +197,10 @@ class HelpMenu extends React.Component {
           <div className="HelpMenuContent">
             <ul className="list-none">
               <li className="cta">
-                <button onClick={ () => { window.Intercom('show'); close(); } }>Live chat with our team &nbsp; 💬</button>
+                <button onClick={ () => { window.Intercom('show'); close(); } }>
+                  Live chat with our team 
+                  <span aria-label="Speech bubble emoji" className="ml-1" role="img">💬</span>
+                </button>
               </li>
               <li className="divider relative"></li>
               <li>
@@ -240,10 +240,18 @@ class HelpMenu extends React.Component {
           </div>
         )}
         >
-          <button className="text-xs flex items-center h-8 w-8">
-            <img className="block w-full"
-            src="https://d1ppmvgsdgdlyy.cloudfront.net/information.svg" 
-            alt="Help menu"/>
+          <button className="text-xs flex items-center justify-center h-8 w-8">
+            <svg 
+              width="12" 
+              height="18" 
+              viewBox="0 0 12 18" 
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M1.5 4.68744C1.5 4.68744 1.5675 3.14056 3.07219 1.90025C3.96562 1.16385 5.03859 0.950565 6 0.93744C6.87797 0.926658 7.66266 1.07525 8.13188 1.304C8.93391 1.69681 10.5 2.65306 10.5 4.68744C10.5 6.82822 9.13219 7.79853 7.57734 8.86775C6.0225 9.93697 5.625 10.9856 5.625 12.1874" stroke="#232735" strokeWidth="1.875" strokeMiterlimit="10" strokeLinecap="round"/>
+              <path d="M5.625 17.2495C6.45343 17.2495 7.125 16.5779 7.125 15.7495C7.125 14.9211 6.45343 14.2495 5.625 14.2495C4.79657 14.2495 4.125 14.9211 4.125 15.7495C4.125 16.5779 4.79657 17.2495 5.625 17.2495Z" fill="#232735"/>
+            </svg>
+
           </button>
         </StatefulPopover>
       </div>

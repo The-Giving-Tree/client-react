@@ -8,7 +8,7 @@ import moment from 'moment';
 import { StatefulTooltip } from 'baseui/tooltip';
 import { Button, SHAPE, KIND, SIZE } from 'baseui/button';
 import { StatefulMenu } from 'baseui/menu';
-import Navigation from './Navigation/Navigation';
+import Navigation from '../../components/Navigation';
 import { Redirect } from 'react-router-dom';
 import { Card, StyledBody } from 'baseui/card';
 import { useStyletron } from 'baseui';
@@ -18,15 +18,15 @@ import { ContextMenu, hideMenu, ContextMenuTrigger } from 'react-contextmenu';
 // Import the Slate editor factory.
 
 import { connect } from 'react-redux';
-import { ButtonEditor, Icon, Toolbar } from './submitHelper';
-import { getCurrentUser, loadUser } from '../store/actions/auth/auth-actions';
+import { ButtonEditor, Icon, Toolbar } from '../../components/submitHelper';
+import { getCurrentUser, loadUser } from '../../store/actions/auth/auth-actions';
 import {
   submitDraft,
   getDraft,
   saveDraft,
   publishPost,
   handleSeenSubmit
-} from '../store/actions/user/user-actions';
+} from '../../store/actions/user/user-actions';
 
 const InputReplacement = ({ tags, removeTag, ...restProps }) => {
   const [css] = useStyletron();

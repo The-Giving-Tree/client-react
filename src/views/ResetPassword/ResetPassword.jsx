@@ -16,7 +16,7 @@ import Alert from 'baseui/icon/alert';
 import Check from 'baseui/icon/check';
 import { connect } from 'react-redux';
 import Media from 'react-media';
-import { login, initiateReset, confirmPassword } from '../store/actions/auth/auth-actions';
+import { login, initiateReset, confirmPassword } from '../../store/actions/auth/auth-actions';
 import passwordValidator from 'password-validator';
 var schema = new passwordValidator();
 schema

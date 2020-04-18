@@ -15,10 +15,19 @@ class Avatar extends React.Component {
   }
 
   componentDidMount() {
-    this.setImage();
+    if (this.props.user.username) { // Set the image if the user is defined
+      this.setImage();
+    }
   }
 
-  componentDidUpdate(prevProps, prevState) { }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.user !== prevProps.user) {
+      this.setImage();
+    }
+  }
+
+  componentWillUnmount() {
+  }
 
   /**
    * TODO: Add description of what this function does.
@@ -62,7 +71,7 @@ class Avatar extends React.Component {
    *
    * @memberof Avatar
    */
-  setImage() {    
+  setImage() {
     const imgUrl = this.generateHash(this.props.user.username,
       this.props.user.profileVersion);
 

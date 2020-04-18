@@ -21,11 +21,6 @@ ul,ol {
   padding-inline-start: 0;
 }
 
-
-.green-placeholder ::placeholder {
-  color:    #03a87c;
-}
-
 .side-table-heading {
   font-style: normal;
   font-weight: 500;

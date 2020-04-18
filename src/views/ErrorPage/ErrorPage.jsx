@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Navigation from '../../components/Navigation/Navigation';
+import Navigation from '../../components/Navigation';
 
 class ErrorPage extends Component {
   render() {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 // Custom Components
-import Navigation from '../../components/Navigation/Navigation';
+import Navigation from '../../components/Navigation';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import NewsfeedTable from '../NewsFeed/NewsfeedTable';
 import LeaderboardTable from '../../components/LeaderboardTable/LeaderboardTable';
@@ -440,7 +440,6 @@ function NewsFeedPageOLD(props) {
 
   const removeDiscover = id => {
     setHelpArrayDiscover(prevDiscover => {
-      console.log('HERERERE', prevDiscover);
       return {
       ...prevDiscover,
       [id]: !prevDiscover[id]

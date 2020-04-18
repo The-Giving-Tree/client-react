@@ -31,6 +31,7 @@ import {
 
 import './Navigation.css';
 import ModalLoginSignUp from '../Modals/LoginSignUp/ModalLoginSignUp';
+import Avatar from '../Avatar/Avatar';
 
 
 function Navigation(props) {
@@ -101,7 +102,7 @@ function Navigation(props) {
         hide_default_launcher: true
       });
     }
-  }, [user._id, addToNotificationsDispatch]);
+  }, [user, user._id, addToNotificationsDispatch]);
 
   React.useEffect(() => {
     console.log('updated notification');
@@ -136,18 +137,6 @@ function Navigation(props) {
     let half = str.replace(new RegExp('<em>', 'g'), '');
     let whole = half.replace(new RegExp('</em>', 'g'), '');
     return whole;
-  }
-
-  function generateHash(username = '', version) {
-    const secret = 'givingtree';
-    const hash = require('crypto')
-      .createHmac('sha256', secret)
-      .update(username.toLowerCase())
-      .digest('hex');
-
-    const suffix = Number(version) === 0 || !version ? '' : `%3Fver%3D${version}`;
-    const url = `https://d1ppmvgsdgdlyy.cloudfront.net/user/${hash}${suffix}`;
-    return url;
   }
 
   const notificationMenu = close => {
@@ -222,16 +211,6 @@ function Navigation(props) {
       />
     );
   };
-
-  function stringToHslColor(str = 'a', s, l) {
-    var hash = 0;
-    for (var i = 0; i < str.length; i++) {
-      hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    var h = hash % 360;
-    return 'hsl(' + h + ', ' + s + '%, ' + l + '%)';
-  }
 
   // If the user IS logged in, display this nav...
   if (authenticated) {
@@ -427,49 +406,13 @@ function Navigation(props) {
         >
           <div className="flex-shrink-0">
             <div
-              className="profilePic flex items-center lg:hidden"
-              style={{
-                width: 32,
-                height: 32,
-                background: `url(${generateHash(
-                  user.username,
-                  user.profileVersion
-                )}), url(https://d1ppmvgsdgdlyy.cloudfront.net/alphabet/${user.username &&
-                  user.username[0].toUpperCase()}.svg), ${stringToHslColor(user.username, 80, 45)}`,
-                backgroundPosition: 'center',
-                backgroundSize: 'cover',
-                borderRadius: '50%',
-                cursor: 'pointer',
-                backgroundRepeat: 'no-repeat'
-              }}
-            ></div>
-            <div
-              className="hidden lg:flex items-center px-4 py-2 rounded-full 
-              bg-gray-200"
+              className="flex items-center lg:px-4 lg:py-2 rounded-full 
+              lg:bg-gray-200"
             >
-              <div
-                className="profilePic"
-                style={{
-                  width: 32,
-                  height: 32,
-                  background: `url(${generateHash(
-                    user.username,
-                    user.profileVersion
-                  )}), url(https://d1ppmvgsdgdlyy.cloudfront.net/alphabet/${user.username &&
-                    user.username[0].toUpperCase()}.svg), ${stringToHslColor(
-                    user.username,
-                    80,
-                    45
-                  )}`,
-                  backgroundPosition: 'center',
-                  backgroundSize: 'cover',
-                  borderRadius: '50%',
-                  marginRight: 10,
-                  cursor: 'pointer',
-                  backgroundRepeat: 'no-repeat'
-                }}
-              />
-              {user.username && user.username.length < 12 ? user.username : 'Profile'}
+              <Avatar user={user} className="lg:mr-3" />
+              <span className="hidden lg:inline">
+                {user.username && user.username.length < 12 ? user.username : 'Profile'}
+              </span>
             </div>
           </div>
         </StatefulPopover>

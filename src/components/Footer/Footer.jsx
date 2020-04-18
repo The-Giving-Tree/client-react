@@ -2,7 +2,6 @@ import * as React from 'react';
 import { HashLink as Link } from 'react-router-hash-link';
 import Constants from '../Constants';
 import ModalLoginSignUp from '../Modals/LoginSignUp/ModalLoginSignUp';
-import Button from '../Button';
 
 function Footer(props) {
   require('dotenv').config();

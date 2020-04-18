@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, SIZE } from 'baseui/button';
-import Navigation from './Navigation/Navigation';
+import Navigation from '../../components/Navigation';
 import { Avatar } from 'baseui/avatar';
 import { useHistory } from 'react-router-dom';
 import { Card, StyledBody } from 'baseui/card';
@@ -14,7 +14,7 @@ import { geolocated } from 'react-geolocated';
 import { Input } from 'baseui/input';
 import { StatefulTooltip } from 'baseui/tooltip';
 import Dropzone from 'react-dropzone';
-import Sidebar from './Sidebar/Sidebar';
+import Sidebar from '../../components/Sidebar/Sidebar';
 
 import { connect } from 'react-redux';
 
@@ -25,8 +25,8 @@ import {
   unfollow,
   updateProfile,
   selectMenu
-} from '../store/actions/auth/auth-actions';
-import StickyFooter from './StickyFooter/StickyFooter';
+} from '../../store/actions/auth/auth-actions';
+import StickyFooter from '../../components/StickyFooter/StickyFooter';
 
 function User(props) {
   const {
@@ -248,7 +248,7 @@ function User(props) {
         </thead>
         <tbody>
           {cart.map((item, i) => (
-            <tr className={i % 2 === 0 && `bg-gray-100`}>
+            <tr className={i % 2 === 0 && `bg-gray-100`} key={i}>
               <td className={`border px-4 py-2`}>{item.name}</td>
               <td className={`border px-4 py-2`}>{item.quantity}</td>
             </tr>
@@ -260,9 +260,8 @@ function User(props) {
 
   var postElements = <StyledBody>No requests!</StyledBody>;
   if (!foundUserNull && !isEmpty(foundUser) && foundUser.posts.length > 0) {
-    console.log(foundUser.posts);
-    postElements = foundUser.posts.map(post => (
-      <Card
+    postElements = foundUser.posts.map((post, i) => (
+      <Card key={i}
         overrides={{
           Root: {
             style: {
@@ -453,8 +452,8 @@ function User(props) {
     <StyledBody>{foundUser.username} has not commented on anything yet!</StyledBody>
   );
   if (!foundUserNull && !isEmpty(foundUser) && foundUser.comments.length > 0) {
-    commentElements = foundUser.comments.map(comment => (
-      <div>
+    commentElements = foundUser.comments.map((comment, i) => (
+      <div key={i}>
         <Card
           overrides={{
             Root: {
@@ -559,8 +558,8 @@ function User(props) {
   }
 
   function createVoteFeed(votes) {
-    let response = votes.map(vote => (
-      <div>
+    let response = votes.map((vote, i) => (
+      <div key={i}>
         <Card
           overrides={{
             Root: {
@@ -709,11 +708,6 @@ function User(props) {
     }
   } else {
     downvoteFeed = <StyledBody>{foundUser.username} hasn't downvoted anything yet!</StyledBody>;
-  }
-
-  function dayAge(date) {
-    var diff = new Date() - new Date(date);
-    return diff / 1000 / (60 * 60 * 24);
   }
 
   return (

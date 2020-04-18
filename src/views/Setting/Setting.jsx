@@ -6,12 +6,12 @@ import {
   StyledNavigationList as NavigationList
 } from 'baseui/header-navigation';
 import { Button } from 'baseui/button';
-import Navigation from './Navigation/Navigation';
+import Navigation from '../../components/Navigation';
 import { Block } from 'baseui/block';
 import { connect } from 'react-redux';
 import { hotjar } from 'react-hotjar';
 
-import { getCurrentUser, loadUser, logoutAll } from '../store/actions/auth/auth-actions';
+import { getCurrentUser, loadUser, logoutAll } from '../../store/actions/auth/auth-actions';
 
 // check to see if valid user or not
 // if valid, show
