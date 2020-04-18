@@ -62,6 +62,12 @@ function App() {
           a.appendChild(r);
       })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`}
           </script>
+          <script>
+            {`window.Intercom("boot", {
+              app_id: "ndydnuux",
+              hide_default_launcher: true
+            });`}
+          </script>
         </Helmet>
         <BrowserRouter>
           <Switch>

@@ -4,7 +4,7 @@
   right: 1.5rem;
 }
 
-.HelpMenuContent li:not(.divider) {
+.HelpMenuContent li:not(.divider):not(.text-sm) {
   padding: .5rem 1rem;
 }
 
@@ -22,6 +22,10 @@
   left: 0;
   transform: translateY(-50%);
   width: 100%;
+}
+
+.HelpMenuContent .cta {
+  color: #0E71EB;
 }
 
 @media all and (min-width: 415px) {

@@ -199,6 +199,10 @@ class HelpMenu extends React.Component {
         content={({ close }) => (
           <div className="HelpMenuContent">
             <ul className="list-none">
+              <li className="cta">
+                <button onClick={ () => { window.Intercom('show'); close(); } }>Live chat with our team &nbsp; 💬</button>
+              </li>
+              <li className="divider relative"></li>
               <li>
                 <NavLink to="/how-it-works">How it works</NavLink>
               </li>
@@ -219,25 +223,15 @@ class HelpMenu extends React.Component {
                 </a>
               </li>
               <li>
-                <a href="mailto: team.givingtree@gmail.com">
-                  Email us: team.givingtree@gmail.com
-                </a>
-              </li>
-              <li>
-                <a href="mailto:team.givingtree@gmail.com?subject=Bug%20Report">
-                  Something broken? Let us know
-                </a>
-              </li>
-              <li>
                 <button onClick={() => this.showFeedbackModal(true)}>Give feedback</button>
               </li>
               <li className="divider relative"></li>
-              <li>
+              <li className="text-sm px-4 pb-1 pt-2">
                 <NavLink to="/about">
                   About us
                 </NavLink>
               </li>
-              <li>
+              <li className="text-sm px-4 pt-1 pb-2">
                 <NavLink to="/about#privacy-policy">
                   Privacy
                 </NavLink>
