@@ -4,6 +4,7 @@ import Navigation from '../../components/Navigation/Navigation';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import NewsfeedTable from '../NewsFeed/NewsfeedTable';
 import LeaderboardTable from '../../components/LeaderboardTable/LeaderboardTable';
+import LocationBar from '../../components/LocationBar';
 // Libraries
 import queryString from 'query-string';
 import { hotjar } from 'react-hotjar';
@@ -49,6 +50,9 @@ function NewsFeedPage(props) {
   const [newsfeedDictionary] = React.useState({});
   const authenticated = localStorage.getItem('giving_tree_jwt');
   const [news] = React.useState([]);
+  const location = getLocation();
+
+  console.log("SAVED LOC: ", location)
 
   const items = [];
   const parsed = queryString.parse(props.location.search);
@@ -133,6 +137,27 @@ function NewsFeedPage(props) {
     }
   }
 
+  /**
+   * Retrieve the user's location from local storage
+   * By default, set to Earth.
+   */
+  function getLocation() {
+    const loc = localStorage.getItem('user_location');
+
+    if (loc) {  
+      return JSON.parse(localStorage.getItem('user_location'))
+    } else {
+      return {
+        name: 'Earth 🌍',
+        latLng: {
+          lat: '',
+          lng: ''
+        }
+      }
+    }
+    
+  }
+
   // remove items
   const resetItems = () => {
     window.location = `/home/discover?lat=${latLng.lat}&lng=${latLng.lng}`; 
@@ -174,23 +199,8 @@ function NewsFeedPage(props) {
   }, [updatedNews]);
 
   React.useEffect(() => {
-    setLatLng(parsed); // initialize
+    setLatLng(location.latLng); // initialize
     hotjar.initialize('1751072', 6);
-
-    if (parsed.lat === '37.7749295' && parsed.lng === '-122.4194155') {
-      setAddress('San Francisco, CA');
-    } else if (parsed.lat === '34.0522342' && parsed.lng === '-118.2436849') {
-      setAddress('Los Angeles, CA');
-    } else if (parsed.lat === '43.653226' && parsed.lng === '-79.3831843') {
-      setAddress('Toronto, ON, Canada');
-    } else if (parsed.lat === '49.2827291' && parsed.lng === '-123.1207375') {
-      setAddress('Vancouver, BC, Canada');
-    } else if (parsed.lat === '40.7127753' && parsed.lng === '-74.0059728') {
-      setAddress('New York City, NY');
-    } else if (!parsed.lat && !parsed.lng) {
-      setAddress('Earth');
-    }
-
     selectMenuDispatch({ selectMenu: 'Food' });
   }, []);
 
@@ -217,7 +227,7 @@ function NewsFeedPage(props) {
   render();
 
   return (
-    <div>
+    <React.Fragment>
       <Navigation selectMenuDispatch={selectMenuDispatch} 
       searchBarPosition="center" />
       <div className="lg:max-w-4xl xl:max-w-screen-xl w-full mx-auto py-12 px-6">
@@ -226,6 +236,8 @@ function NewsFeedPage(props) {
             <Sidebar {...props} />
           </div>
           <section className="w-full xl:px-6">
+            <h2 className="text-lg font-bold">Requests near you</h2>
+            <LocationBar location={location} className="mb-4" />
             <NewsfeedTable
               {...props}
               authenticated={authenticated}
@@ -371,8 +383,8 @@ function NewsFeedPage(props) {
           </section>
         </div>
       </div>
-      <HelpMenu user={user} />     
-    </div>
+      <HelpMenu user={user} />  
+    </React.Fragment>
   );
 }
 

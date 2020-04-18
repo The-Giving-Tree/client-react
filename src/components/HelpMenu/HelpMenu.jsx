@@ -169,7 +169,6 @@ class HelpMenu extends React.Component {
             </ModalButton>
             <ModalButton disabled={this.state.sendingFeedback}
             size={'compact'} onClick={() => {
-              console.log(this.state)
               this.handleFeedback();
             }}>
               {this.state.sendingFeedback ? (

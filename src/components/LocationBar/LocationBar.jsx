@@ -17,6 +17,9 @@ class LocationBar extends React.Component {
     };
   }
 
+  componentDidMount() {
+  }
+
   /**
    * Updates the location state with the input from the search field
    *
@@ -53,17 +56,52 @@ class LocationBar extends React.Component {
     this.setState({ showChangeLocation: val });
   }
 
+  setLocalStorage(obj) {
+    localStorage.setItem('user_location', obj)
+  }
+
+  updateLocation() {
+    // If no location is specified, clear storage, refresh page.
+    if (!this.state.locationName) {
+      this.setLocalStorage('');
+      return window.location = '/home/discover';
+    }
+
+    // Stringify the user's defined location values
+    const jsonStr = JSON.stringify({
+      name: this.state.locationName,
+      latLng: {
+        lat: this.state.latLng.lat,
+        lng: this.state.latLng.lng
+      }
+    })
+    // Update the location in the local storage.
+    this.setLocalStorage(jsonStr)
+    console.log("NEW STATE: ", this.state);
+    const latLng = this.state.latLng;
+    if (latLng.lat && latLng.lng) {
+      window.location = `/home/discover?lat=${latLng.lat}&lng=${latLng.lng}`;
+    }
+    // Hide the edit location input field
+    this.toggleChangeLocation(false);
+  }
+
+  getLocationName() {
+    if (!this.props.location || !this.props.location.name) return 'Earth 🌍';
+    return this.props.location.name;
+  }
+
   render() {
     return (
-      <div>
-        {// What to display when the location is set
+      <React.Fragment>
+        {// What to display when the location is set/before the user changes location
         !this.state.showChangeLocation ? (
-          <div className="py-2">
+          <div className={`py-2 ${this.props.className}`}>
             <span className="mr-2">
               Your current location:
             </span>
             <span>
-              {!this.props.location.name ? 'Earth 🌍' : this.props.location.name}
+              {this.getLocationName()}
             </span>
             <button
               className="ml-2 underline text-indigo-600"
@@ -74,7 +112,7 @@ class LocationBar extends React.Component {
           </div>
         ) : (
           // What to display when the user clicks to change location
-          <div className="flex items-center w-full">
+          <div className={`flex items-center w-full ${this.props.className}`}>
             <div className="flex justify-between items-center w-full mr-4 relative">
               <PlacesAutocomplete
                 value={this.state.locationName}
@@ -127,20 +165,13 @@ class LocationBar extends React.Component {
             </button>
             <button
               className="rounded-full px-4 py-2 bg-blue-600 text-white font-semibold"
-              onClick={() => {
-                this.props.setLocation({
-                  name: this.state.locationName,
-                  lat: this.state.latLng.lat,
-                  lng: this.state.latLng.lng
-                });
-                this.toggleChangeLocation(false);
-              }}
+              onClick={() => this.updateLocation()}
             >
               Save
             </button>
           </div>
         )}
-      </div>
+      </React.Fragment>
     );
   }
 }

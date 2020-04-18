@@ -40,7 +40,7 @@ function NewsfeedTable(props) {
 
   return (
     <div>
-      {openCustomAddress ? (
+      {/* {openCustomAddress ? (
         <div className="flex justify-between items-center my-3">
           <PlacesAutocomplete
             value={address}
@@ -148,7 +148,7 @@ function NewsfeedTable(props) {
             </div>
           </div>
         )
-      )}
+      )} */}
       <InfiniteScroll
         pageStart={1}
         loadMore={() => setUpdateNews(true)}
