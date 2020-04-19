@@ -411,7 +411,6 @@ class ModalLoginSignUp extends React.Component {
   forgotPassBody() {
     if (!this.props.initiateResetSuccess) {
       return (
-      
         <div>
           <h2 className="text-center text-2xl mb-6">Forgot password</h2>
           <p className="mb-4">Please enter your email: </p>
@@ -507,7 +506,10 @@ class ModalLoginSignUp extends React.Component {
               padding: '3rem 0',
               borderRadius: '6px',
               position: 'absolute',
-              top: '10%'
+              maxWidth: 'calc(100% - 2rem)',
+              margin: '0 auto',
+              top: '50%',
+              transform: 'translateY(-50%)'
             }
           }
         }}>

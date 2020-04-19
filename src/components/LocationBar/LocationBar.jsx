@@ -157,13 +157,13 @@ class LocationBar extends React.Component {
               </PlacesAutocomplete>
             </div>
             <button
-              className="rounded-full px-4 py-2 bg-transparent border border-gray-600 mr-3 ml-auto"
+              className="rounded-md px-3 py-2 bg-transparent border border-gray-600 mr-2 ml-auto text-sm"
               onClick={() => this.toggleChangeLocation(false)}
             >
               Cancel
             </button>
             <button
-              className="rounded-full px-4 py-2 bg-blue-600 text-white font-semibold"
+              className="rounded-md px-4 py-2 bg-blue-600 text-sm text-white font-semibold"
               onClick={() => this.updateLocation()}
             >
               Save

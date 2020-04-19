@@ -51,11 +51,7 @@ function NewsFeedPage(props) {
   const authenticated = localStorage.getItem('giving_tree_jwt');
   const [news] = React.useState([]);
   const location = getLocation();
-
-  console.log("SAVED LOC: ", location)
-
   const items = [];
-  const parsed = queryString.parse(props.location.search);
 
   // id dictates the type of feed
   let id = props.match.params ? props.match.params[0].toLowerCase() : '';

@@ -11,3 +11,8 @@ TODO: Remove this when we remove BaseUI from client.
 .ModalLoginSignUp input[placeholder="Password"] + button:not(.bg-green-700) {
   padding: 0;
 }
+
+.ModalLoginSignUp {
+  max-height: 70vh;
+  overflow-y: auto;
+}
