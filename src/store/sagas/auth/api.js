@@ -515,6 +515,24 @@ const clearNotifications = async (env, token) => {
   }
 };
 
+const loadStats = async (env, token) => {
+  try {
+    const headers = { Authorization: `Bearer ${token}` };
+
+    const data = await Axios.get(
+      `${ROUTES[env].giving_tree}/v1/stats`,
+      {
+        headers
+      }
+    );
+    return data;
+  } catch (e) {
+    const error = e.response.data ? e.response.data : e;
+    Sentry.captureException(new Error(JSON.stringify(error)));
+    throw error;
+  }
+};
+
 const Api = {
   login,
   initiateReset,
@@ -541,7 +559,8 @@ const Api = {
   loadUser,
   register,
   logout,
-  logoutAll
+  logoutAll,
+  loadStats
 };
 
 export default Api;
