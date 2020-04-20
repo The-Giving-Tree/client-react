@@ -59,7 +59,10 @@ const initialState = {
   userRanking: 0,
   loadLeaderboardLoading: false,
   loadLeaderboardSuccess: false,
-  loadLeaderboardFailure: false
+  loadLeaderboardFailure: false,
+
+  stats: {},
+  loadingStats: false,
 };
 
 const auth = (state = initialState, action) => {
@@ -450,6 +453,16 @@ const auth = (state = initialState, action) => {
       });
     case ACTION_TYPE.LOGOUT_SUCCESS:
       return Object.assign({}, state, initialState);
+    case ACTION_TYPE.LOAD_STATS_REQUESTED:
+      return Object.assign({}, state, {
+        loadingStats: true
+      });
+    case ACTION_TYPE.LOAD_STATS_SUCCESS:
+      return Object.assign({}, state, {
+        stats: action.payload,
+        loadingStats: false
+      });
+    
     default:
       return state;
   }

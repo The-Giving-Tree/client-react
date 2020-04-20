@@ -16,6 +16,7 @@ module.exports = Object.freeze({
     NEWSFEED: '/home/discover',
     ONGOING: '/home/ongoing',
     COMPLETED: '/home/completed',
-    GLOBAL: '/home/global'
+    GLOBAL: '/home/global',
+    STATS: '/stats'
   }
 });

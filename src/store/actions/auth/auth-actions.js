@@ -158,3 +158,8 @@ export const logoutAll = payload => ({
   type: ACTION_TYPE.LOGOUT_ALL_REQUESTED,
   payload
 });
+
+export const loadStats = payload => ({
+  type: ACTION_TYPE.LOAD_STATS_REQUESTED,
+  payload
+});
