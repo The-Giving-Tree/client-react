@@ -4,11 +4,11 @@ body {
   margin: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
+/** ==================================
 
+    Typography
+
+===================================== */
 /* Custom font typeface */
 @font-face {
   font-family: 'Avenir LT Std';
@@ -44,6 +44,21 @@ code {
       url('./assets/fonts/AvenirLTStd-Roman.svg#AvenirLTStd-Roman') format('svg');
   font-weight: normal;
   font-style: normal;
+}
+
+body {
+  font-size: 1rem;
+}
+
+@media all and (min-width: 1280px) {
+  body {
+    font-size: .875rem;
+  }
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
 
 /* XL Devices/Desktop */

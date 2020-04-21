@@ -1,72 +1,15 @@
-/* eslint-disable */
 import * as React from 'react';
-import { useHistory } from 'react-router-dom';
 import Navigation from '../../components/Navigation';
 import Footer from '../../components/Footer';
-import { geolocated } from 'react-geolocated';
-import { connect } from 'react-redux';
 import { hotjar } from 'react-hotjar';
 
 import {
-  getCurrentUser,
-  loadNewsfeed,
-  claimTask,
-  unclaimTask,
-  completeTask,
-  upvote,
-  downvote,
-  addComment,
-  addReply,
-  selectMenu,
-  getLeaderboard
-} from '../../store/actions/auth/auth-actions';
-
-import { ReactComponent as LogoText } from '../../assets/logos/tgt-text-and-logo-beta.svg';
+  ReactComponent as LogoText
+} from '../../assets/logos/tgt-text-and-logo-beta.svg';
 
 function About(props) {
-  const { user, getCurrentUserDispatch, getLeaderboardDispatch, userRanking, leaderboard } = props;
-
-  const history = useHistory();
-  const [activeKey, setActiveKey] = React.useState('0');
-
-  let items = [];
-  const authenticated = localStorage.getItem('giving_tree_jwt');
-  const refresh = async () => {
-    if (authenticated && !user.username) {
-      await getCurrentUserDispatch({
-        env: process.env.REACT_APP_NODE_ENV
-      });
-    }
-  };
-
   React.useEffect(() => {
     hotjar.initialize('1751072', 6);
-  }, []);
-
-  function generateHash(username = '', version) {
-    const secret = 'givingtree';
-    const hash = require('crypto')
-      .createHmac('sha256', secret)
-      .update(username.toLowerCase())
-      .digest('hex');
-
-    const suffix = Number(version) === 0 || !version ? '' : `%3Fver%3D${version}`;
-    const url = `https://d1ppmvgsdgdlyy.cloudfront.net/user/${hash}${suffix}`;
-    return url;
-  }
-
-  function stringToHslColor(str, s, l) {
-    var hash = 0;
-    for (var i = 0; i < str.length; i++) {
-      hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    var h = hash % 360;
-    return 'hsl(' + h + ', ' + s + '%, ' + l + '%)';
-  }
-
-  React.useEffect(() => {
-    getLeaderboardDispatch({ env: process.env.REACT_APP_NODE_ENV, location: 'global' });
   }, []);
 
   return (
@@ -96,10 +39,12 @@ function About(props) {
       <section className="py-12">
         <div className="lg:max-w-4xl xl:max-w-screen-xl mx-auto px-6 block md:flex items-center">
           <div className="md:w-1/2 mb-6 md:mb-0">
-            <img className="rounded-lg" style={{
-              maxHeight: 400
-            }}
-            src="https://d1ppmvgsdgdlyy.cloudfront.net/whoweare.jpg" />
+            <img className="rounded-lg" 
+              style={{
+                maxHeight: 400
+              }}
+              alt="Group of people standing together looking at a sunset"
+              src="https://d1ppmvgsdgdlyy.cloudfront.net/whoweare.jpg" />
           </div>
           <div className="md:w-1/2 md:p-6">
             <h2 className="mb-6 font-bold text-4xl">Who we are</h2>
@@ -120,10 +65,12 @@ function About(props) {
             <p>You can also get in touch with us <a className="text-green-600" href="mailto:team.givingtree@gmail.com">by email</a> if you like what we are doing, or have ideas on how we can improve. If you would like to provide in-depth feedback on our site’s usability and features, make sure your email has the term “<strong>USER INTERVIEW</strong>” in the subject line so we know you’re interested in participating!</p>
           </div>
           <div className="md:w-1/2 md:p-6">
-            <img className="rounded-lg mx-auto" style={{
-              maxHeight: 300
-            }}
-            src="https://d1ppmvgsdgdlyy.cloudfront.net/getinvolved.png" />
+            <img className="rounded-lg mx-auto" 
+              style={{
+                maxHeight: 300
+              }}
+              alt="A light bulb"
+              src="https://d1ppmvgsdgdlyy.cloudfront.net/getinvolved.png" />
           </div>
         </div>
       </section>
@@ -131,10 +78,12 @@ function About(props) {
       <section className="py-12">
         <div className="lg:max-w-4xl xl:max-w-screen-xl mx-auto px-6 block md:flex items-center">
           <div className="md:w-1/2 mb-6 md:mb-0">
-            <img className="rounded-lg" style={{
-              maxHeight: 400
-            }}
-            src="https://d1ppmvgsdgdlyy.cloudfront.net/contactus.jpg" />
+            <img className="rounded-lg" 
+              style={{
+                maxHeight: 400
+              }}
+              alt="Old woman using a mobile phone"
+              src="https://d1ppmvgsdgdlyy.cloudfront.net/contactus.jpg" />
           </div>
           <div className="md:w-1/2 md:p-6">
             <h2 className="mb-6 font-bold text-4xl">Contact us</h2>
@@ -154,10 +103,12 @@ function About(props) {
             <p>Need to report an incident, and/or the malicious or inappropriate behavior of another user? Please <a className="text-green-600" href="mailto:team.givingtree@gmail.com">email us</a> with the word “<strong>REPORT</strong>” in the subject line.</p>
           </div>
           <div className="md:w-1/2 md:p-6">
-            <img className="rounded-lg mx-auto" style={{
-              maxHeight: 300
-            }}
-            src="https://d1ppmvgsdgdlyy.cloudfront.net/gethelp.png" />
+            <img className="rounded-lg mx-auto" 
+              style={{
+                maxHeight: 300
+              }}
+              alt="Customer service agent with headset on a laptop"
+              src="https://d1ppmvgsdgdlyy.cloudfront.net/gethelp.png" />
           </div>
         </div>
       </section>
@@ -183,36 +134,8 @@ function About(props) {
   );
 }
 
-const mapDispatchToProps = dispatch => ({
-  getCurrentUserDispatch: payload => dispatch(getCurrentUser(payload)),
-  loadNewsfeedDispatch: payload => dispatch(loadNewsfeed(payload)),
-  claimTaskDispatch: payload => dispatch(claimTask(payload)),
-  unclaimTaskDispatch: payload => dispatch(unclaimTask(payload)),
-  completeTaskDispatch: payload => dispatch(completeTask(payload)),
-  upvoteDispatch: payload => dispatch(upvote(payload)),
-  downvoteDispatch: payload => dispatch(downvote(payload)),
-  addCommentDispatch: payload => dispatch(addComment(payload)),
-  addReplyDispatch: payload => dispatch(addReply(payload)),
-  selectMenuDispatch: payload => dispatch(selectMenu(payload)),
-  getLeaderboardDispatch: payload => dispatch(getLeaderboard(payload))
-});
-
-const mapStateToProps = state => ({
-  user: state.auth.user,
-  newsfeed: state.auth.newsfeed,
-  currentPage: state.auth.currentPage,
-  selectMenu: state.auth.selectMenu,
-  pages: state.auth.pages,
-  numOfResults: state.auth.numOfResults,
-  newsfeedSuccess: state.auth.newsfeedSuccess,
-  newsfeedUpdated: state.auth.newsfeedUpdated,
-  newsfeedLoading: state.auth.newsfeedLoading,
-  userRanking: state.auth.userRanking,
-  leaderboard: state.auth.leaderboard
-});
-
 About.defaultProps = {};
 
 About.propTypes = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(geolocated()(About));
+export default About;

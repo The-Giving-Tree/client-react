@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 
 class Avatar extends React.Component {
 
@@ -85,19 +84,26 @@ class Avatar extends React.Component {
       this.setFallBack();
     })
   }
+  
 
   /**
    * Check to see if the image exists at the hashed location
    *
    * @memberof Avatar
    */
-  checkImage = path =>
-    new Promise((resolve, reject) => {
-      const img = new Image();
+  checkImage(path) {
+    return new Promise((resolve, reject) => {
+      let img = new Image();
+      img.onload = (e) => {
+        resolve({path, status: 'ok'})
+      };
+      img.onerror = (e) => {
+        reject({path, status: 'error'})
+      };
       img.src = path;
-      img.onload = () => resolve({path, status: 'ok'});
-      img.onerror = () => reject({path, status: 'error'});
+      img = null;
     });
+  }
 
   /**
    * Set a fallback profile image. Take the first letter of their username,
@@ -123,7 +129,9 @@ class Avatar extends React.Component {
         backgroundColor: this.state.color
       }}>
         {this.state.src ? (
-          <img src={
+          <img 
+            loading="lazy"
+            src={
             this.state.src} alt={`Avatar for: ${this.props.user.username}`}/>
         ) : (
           <span className="text-white text-xl">{this.state.initial}</span>
@@ -134,8 +142,4 @@ class Avatar extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({});
-
-const mapStateToProps = state => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Avatar);
+export default Avatar;

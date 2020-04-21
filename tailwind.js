@@ -4,6 +4,7 @@ module.exports = {
   separator: ':',
   theme: {
     screens: {
+      xs: '415px',
       sm: '640px',
       md: '768px',
       lg: '1024px',
@@ -11,7 +12,6 @@ module.exports = {
     },
     colors: {
       transparent: 'transparent',
-
       black: '#000',
       white: '#fff',
 
@@ -234,7 +234,7 @@ module.exports = {
     },
     fontFamily: {
       sans: [
-        'Avenir LT Std',
+        // 'Avenir LT Book',
         'system-ui',
         '-apple-system',
         'BlinkMacSystemFont',
@@ -264,8 +264,8 @@ module.exports = {
       xl: '1.25rem',
       '2xl': '1.5rem',
       '3xl': '1.875rem',
-      '4xl': '2.25rem',
-      '5xl': '3rem',
+      '4xl': '2rem',
+      '5xl': '2.75rem',
       '6xl': '4rem',
     },
     fontWeight: {
