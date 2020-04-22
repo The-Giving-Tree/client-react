@@ -736,7 +736,7 @@ class TaskCard extends React.Component {
             </div>
         </div>
         )}
-        {this.props.match.url === '/home/ongoing' && (
+        {this.props.match.url === '/home/ongoing' && this.props.item.authorId._id !== this.props.user._id && (
           <div className="flex justify-between items-center">
             <button className="uppercase text-xs text-red-600" onClick={(e) => {
               e.stopPropagation()
