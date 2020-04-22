@@ -312,6 +312,7 @@ function Submit(props) {
               <span className="mr-2">phone (recommended)</span>
               <div className={contactMethod === 'phone' ? '' : `hidden`}>
                 <input
+                  name="Phone number"
                   style={{ width: 200, height: 32 }}
                   onChange={e => {
                     var phoneValue = e.target.value;
