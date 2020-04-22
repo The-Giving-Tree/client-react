@@ -25,6 +25,7 @@ import {
 } from '../../store/actions/auth/auth-actions';
 import TaskCard from '../../components/TaskCard';
 import HelpMenu from '../../components/HelpMenu';
+import Heading from '../../components/Heading';
 
 function NewsFeedPage(props) {
   const {
@@ -233,7 +234,6 @@ function NewsFeedPage(props) {
             <Sidebar {...props} />
           </div>
           <section className="w-full xl:px-6">
-            <h2 className="text-lg font-bold">Requests near you</h2>
             <LocationBar className="mb-4" location={location} match={props.match} />
             <NewsfeedTable
               {...props}

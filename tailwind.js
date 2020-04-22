@@ -234,7 +234,7 @@ module.exports = {
     },
     fontFamily: {
       sans: [
-        // 'Avenir LT Book',
+        'Avenir Light',
         'system-ui',
         '-apple-system',
         'BlinkMacSystemFont',

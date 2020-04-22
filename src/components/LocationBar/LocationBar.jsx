@@ -198,13 +198,13 @@ class LocationBar extends React.Component {
               {this.props.location.name}
             </span>
             <button
-              className="ml-2 underline text-indigo-600 text-sm"
+              className="ml-4 underline text-indigo-600 text-sm"
               onClick={() => this.toggleChangeLocation(true)}
             >
               (Edit)
             </button>
             {(this.state.latLng.lat && this.state.latLng.lng) && 
-              <button className="ml-2 underline text-indigo-600 text-sm"
+              <button className="ml-4 underline text-indigo-600 text-sm"
                 onClick={() => this.resetLocation()}>
                 (Clear)
               </button>
