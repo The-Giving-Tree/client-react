@@ -503,7 +503,7 @@ class ModalLoginSignUp extends React.Component {
           },
           Dialog: {
             style: {
-              padding: '3rem 0',
+              padding: '2rem 0 1rem 0',
               borderRadius: '6px',
               position: 'absolute',
               maxWidth: 'calc(100% - 2rem)',

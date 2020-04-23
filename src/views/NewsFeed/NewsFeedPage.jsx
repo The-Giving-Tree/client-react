@@ -1,15 +1,21 @@
 import * as React from 'react';
+
 // Custom Components
 import Navigation from '../../components/Navigation';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import NewsfeedTable from '../NewsFeed/NewsfeedTable';
 import LeaderboardTable from '../../components/LeaderboardTable/LeaderboardTable';
 import LocationBar from '../../components/LocationBar';
+import TaskCard from '../../components/TaskCard';
+import HelpMenu from '../../components/HelpMenu';
+import ModalAfterLogin from './components/ModalAfterLogin';
+
 // Libraries
 import { hotjar } from 'react-hotjar';
 import { connect } from 'react-redux';
 import { geolocated } from 'react-geolocated';
 import { useHistory } from 'react-router-dom';
+
 // Base UI
 import { StatefulPopover, PLACEMENT } from 'baseui/popover';
 
@@ -23,9 +29,6 @@ import {
   initiateReset,
   login
 } from '../../store/actions/auth/auth-actions';
-import TaskCard from '../../components/TaskCard';
-import HelpMenu from '../../components/HelpMenu';
-import Heading from '../../components/Heading';
 
 function NewsFeedPage(props) {
   const {
@@ -52,6 +55,9 @@ function NewsFeedPage(props) {
   const [news] = React.useState([]);
   const location = getLocation();
   const items = [];
+
+  // Controls the "on login" modal
+  const [onLoginIsOpen, setOnLoginIsOpen] = React.useState(true);
 
   // id dictates the type of feed
   let id = props.match.params ? props.match.params[0].toLowerCase() : '';
@@ -226,9 +232,17 @@ function NewsFeedPage(props) {
 
   return (
     <React.Fragment>
-      <Navigation selectMenuDispatch={selectMenuDispatch} 
-      searchBarPosition="center" />
-      <div className="lg:max-w-4xl xl:max-w-screen-xl w-full mx-auto py-12 px-6">
+      <Navigation 
+        selectMenuDispatch={selectMenuDispatch} 
+        searchBarPosition="center" />
+      
+      {/* If the user just logged in, show the modal */}
+      {/* {props.loginSuccess && 
+        <ModalAfterLogin isOpen={onLoginIsOpen} setIsOpen={setOnLoginIsOpen} />
+      } */}
+
+      <div 
+        className="lg:max-w-4xl xl:max-w-screen-xl w-full mx-auto py-12 px-6">
         <div className="block xl:flex">
           <div className="xl:pr-6 sidebar-wrapper">
             <Sidebar {...props} />
@@ -380,6 +394,7 @@ function NewsFeedPage(props) {
           </section>
         </div>
       </div>
+
       <HelpMenu user={user} />  
     </React.Fragment>
   );
