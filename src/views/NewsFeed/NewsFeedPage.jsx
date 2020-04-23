@@ -66,7 +66,7 @@ function NewsFeedPage(props) {
       case 'discover':
         if (newsfeedSort !== 'Discover') {
           setSort('Discover');
-          console.log('loading discover', location);
+          console.log('loading discover');
           loadNewsfeedDispatch({
             env: process.env.REACT_APP_NODE_ENV,
             page: Number(currentPage),
