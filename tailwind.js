@@ -4,6 +4,7 @@ module.exports = {
   separator: ':',
   theme: {
     screens: {
+      xs: '415px',
       sm: '640px',
       md: '768px',
       lg: '1024px',
@@ -11,7 +12,6 @@ module.exports = {
     },
     colors: {
       transparent: 'transparent',
-
       black: '#000',
       white: '#fff',
 
@@ -234,6 +234,7 @@ module.exports = {
     },
     fontFamily: {
       sans: [
+        'Avenir Light',
         'system-ui',
         '-apple-system',
         'BlinkMacSystemFont',
@@ -248,8 +249,12 @@ module.exports = {
         '"Segoe UI Symbol"',
         '"Noto Color Emoji"',
       ],
-      serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
-      mono: ['Menlo', 'Monaco', 'Consolas', '"Liberation Mono"', '"Courier New"', 'monospace'],
+      serif: [
+        'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'
+      ],
+      mono: [
+        'Menlo', 'Monaco', 'Consolas', '"Liberation Mono"', '"Courier New"', 'monospace'
+      ],
     },
     fontSize: {
       xs: '0.75rem',
@@ -259,8 +264,8 @@ module.exports = {
       xl: '1.25rem',
       '2xl': '1.5rem',
       '3xl': '1.875rem',
-      '4xl': '2.25rem',
-      '5xl': '3rem',
+      '4xl': '2rem',
+      '5xl': '2.75rem',
       '6xl': '4rem',
     },
     fontWeight: {

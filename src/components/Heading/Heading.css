@@ -1,0 +1,61 @@
+h1 {
+  font-family: 'Avenir Heavy';
+  font-size: 1.5rem;
+}
+
+h2 {
+  font-family: 'Avenir Book';
+  font-size: 1.125rem;
+}
+
+h3 {
+  font-family: 'Avenir Book';
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+h4 {
+  font-family: 'Avenir Book';
+  font-size: .875rem;
+}
+
+h5 {
+  font-family: 'Avenir Book';
+  font-size: .875rem;
+}
+
+h6 {
+  font-family: 'Avenir Book';
+  font-size: .875rem;
+}
+
+@media all and (min-width: 1024px) {
+  h1 {
+    font-size: 2.75rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-family: 'Avenir Medium';
+    font-size: 1.5rem;
+    text-transform: none;
+  }
+
+  h4 {
+    font-family: 'Avenir Medium';
+    font-size: 1.25rem;
+  }
+
+  h5 {
+    font-family: 'Avenir Medium';
+    font-size: 1.125rem;
+  }
+
+  h6 {
+    font-family: 'Avenir Medium';
+    font-size: 1rem;
+  }
+}

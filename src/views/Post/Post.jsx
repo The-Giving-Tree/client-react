@@ -38,6 +38,7 @@ import {
 import { editPost } from '../../store/actions/user/user-actions';
 import LeaderboardTable from '../../components/LeaderboardTable/LeaderboardTable';
 import HelpMenu from '../../components/HelpMenu';
+import Heading from '../../components/Heading';
 
 function Post(props) {
   const {
@@ -744,48 +745,12 @@ function Post(props) {
                 
                 <div>
                   {isEmpty(foundPost) ? (
-                    <Card
-                      overrides={{
-                        Root: {
-                          style: {
-                            width: '100%',
-                            boxShadow: 'none'
-                          }
-                        },
-                        Body: {
-                          style: {
-                            margin: '-10px'
-                          }
-                        }
-                      }}
-                    >
-                      <div
-                        style={{
-                          alignContent: 'center',
-                          display: 'flex',
-                          justifyContent: 'center'
-                        }}
-                      >
-                        <div className="loading-spinner"></div>
-                      </div>
-                    </Card>
+                    <div className="flex justify-center">
+                      <div className="loading-spinner"></div>
+                    </div>
                   ) : (
-                    <React.Fragment>
-                      <Card overrides={{
-                        Root: {
-                          style: {
-                            width: '100%',
-                            boxShadow: 'none'
-                          }
-                        },
-                        Body: {
-                          style: {
-                            margin: '-10px'
-                          }
-                        }
-                        }}
-                      >
-                        <div
+                    <div className="bg-white rounded-lg p-4 shadow">
+                      <div
                           style={{
                             alignContent: 'center',
                             display: 'flex',
@@ -1066,15 +1031,11 @@ function Post(props) {
                                     value={title}
                                   ></Input>
                                 ) : (
-                                  <div
-                                    style={{
-                                      textTransform: 'capitalize',
-                                      fontSize: 16,
-                                      marginTop: 15
-                                    }}
-                                  >
-                                    <strong>{foundPost.title}</strong>
-                                  </div>
+                                  <Heading 
+                                    level="2" 
+                                    className="text-xl">
+                                      {foundPost.title}
+                                  </Heading>
                                 )}
                                 <div
                                   className="mb-4"
@@ -1190,8 +1151,7 @@ function Post(props) {
                         <div style={{ marginTop: 15 }}>
                           {commentFeed}
                         </div>
-                      </Card>
-                    </React.Fragment>
+                    </div>
                   )}
                 </div>
               </div>

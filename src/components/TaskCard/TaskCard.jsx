@@ -12,6 +12,8 @@ import { StatefulPopover, PLACEMENT } from 'baseui/popover';
 import { StatefulMenu } from 'baseui/menu';
 import Confetti from 'react-confetti';
 
+import Heading from '../Heading';
+
 import './TaskCard.css';
 
 // Components
@@ -491,11 +493,16 @@ class TaskCard extends React.Component {
           onClick={(e) => {
             e.stopPropagation()
           }}
-          className="inline-block">
+          className="inline-flex items-center">
             <Avatar user={this.props.item.authorId} />
           </a>
-          <strong className="mx-2 text-sm">
-            {this.props.item.authorId.username}
+          <strong className="mx-2 text-sm text-green-700">
+            <a href={`/user/${this.props.item.authorId.username}`}
+              onClick={(e) => {
+                e.stopPropagation()
+              }}>
+              {this.props.item.authorId.username}
+            </a>
           </strong>
           <small className="mr-3">
             {moment(new Date(this.props.item.createdAt)).fromNow()}
@@ -586,9 +593,9 @@ class TaskCard extends React.Component {
           </div>
           
           <div className="pl-2 w-full">
-            <h3 className="text-xl font-semibold mb-4">
+            <Heading level="3" className="mb-4">
               {this.props.item.title}
-            </h3>
+            </Heading>
             { (this.state.details.address || this.state.details.publicAddress) && (
               <p className="text-sm mb-3">
                 Address: {this.state.details.address || this.state.details.publicAddress}

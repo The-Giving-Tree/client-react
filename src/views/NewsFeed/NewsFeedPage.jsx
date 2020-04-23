@@ -1,16 +1,21 @@
 import * as React from 'react';
+
 // Custom Components
 import Navigation from '../../components/Navigation';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import NewsfeedTable from '../NewsFeed/NewsfeedTable';
 import LeaderboardTable from '../../components/LeaderboardTable/LeaderboardTable';
 import LocationBar from '../../components/LocationBar';
+import TaskCard from '../../components/TaskCard';
+import HelpMenu from '../../components/HelpMenu';
+import ModalAfterLogin from './components/ModalAfterLogin';
+
 // Libraries
-import queryString from 'query-string';
 import { hotjar } from 'react-hotjar';
 import { connect } from 'react-redux';
 import { geolocated } from 'react-geolocated';
 import { useHistory } from 'react-router-dom';
+
 // Base UI
 import { StatefulPopover, PLACEMENT } from 'baseui/popover';
 
@@ -24,8 +29,6 @@ import {
   initiateReset,
   login
 } from '../../store/actions/auth/auth-actions';
-import TaskCard from '../../components/TaskCard';
-import HelpMenu from '../../components/HelpMenu';
 
 function NewsFeedPage(props) {
   const {
@@ -51,11 +54,10 @@ function NewsFeedPage(props) {
   const authenticated = localStorage.getItem('giving_tree_jwt');
   const [news] = React.useState([]);
   const location = getLocation();
-
-  console.log("SAVED LOC: ", location)
-
   const items = [];
-  const parsed = queryString.parse(props.location.search);
+
+  // Controls the "on login" modal
+  const [onLoginIsOpen, setOnLoginIsOpen] = React.useState(true);
 
   // id dictates the type of feed
   let id = props.match.params ? props.match.params[0].toLowerCase() : '';
@@ -74,7 +76,7 @@ function NewsFeedPage(props) {
           loadNewsfeedDispatch({
             env: process.env.REACT_APP_NODE_ENV,
             page: Number(currentPage),
-            location: latLng,
+            location: location.latLng,
             feed: 'Discover'
           });
         }
@@ -85,32 +87,32 @@ function NewsFeedPage(props) {
           loadNewsfeedDispatch({
             env: process.env.REACT_APP_NODE_ENV,
             page: Number(currentPage),
-            location: latLng,
+            location: location.latLng,
             feed: 'Ongoing'
           });
         }
         break;
-      case 'completed':
-        if (newsfeedSort !== 'Completed') {
-          setSort('Completed');
-          loadNewsfeedDispatch({
-            env: process.env.REACT_APP_NODE_ENV,
-            page: Number(currentPage),
-            location: latLng,
-            feed: 'Completed'
-          });
-        }
-        break;
-      case 'global':
-        if (newsfeedSort !== 'Global') {
-          setSort('Global');
-          loadNewsfeedDispatch({
-            env: process.env.REACT_APP_NODE_ENV,
-            page: Number(currentPage),
-            feed: 'Global'
-          });
-        }
-        break;
+      // case 'completed':
+      //   if (newsfeedSort !== 'Completed') {
+      //     setSort('Completed');
+      //     loadNewsfeedDispatch({
+      //       env: process.env.REACT_APP_NODE_ENV,
+      //       page: Number(currentPage),
+      //       location: latLng,
+      //       feed: 'Completed'
+      //     });
+      //   }
+      //   break;
+      // case 'global':
+      //   if (newsfeedSort !== 'Global') {
+      //     setSort('Global');
+      //     loadNewsfeedDispatch({
+      //       env: process.env.REACT_APP_NODE_ENV,
+      //       page: Number(currentPage),
+      //       feed: 'Global'
+      //     });
+      //   }
+      //   break;
       case 'popular':
         if (newsfeedSort !== 'Popular') {
           setSort('Popular');
@@ -127,7 +129,7 @@ function NewsFeedPage(props) {
           loadNewsfeedDispatch({
             env: process.env.REACT_APP_NODE_ENV,
             page: Number(currentPage),
-            location: latLng,
+            location: location.latLng,
             feed: 'Newest'
           });
         }
@@ -142,20 +144,17 @@ function NewsFeedPage(props) {
    * By default, set to Earth.
    */
   function getLocation() {
-    const loc = localStorage.getItem('user_location');
-
-    if (loc) {  
-      return JSON.parse(localStorage.getItem('user_location'))
-    } else {
-      return {
-        name: 'Earth 🌍',
-        latLng: {
-          lat: '',
-          lng: ''
-        }
+    // If there's a saved location, use it
+    const loc = JSON.parse(localStorage.getItem('userLocation'));
+    if (loc && loc.name) return loc;
+    // If no location is saved, set the default state
+    return {
+      name: 'Earth 🌍',
+      latLng: {
+        lat: '',
+        lng: ''
       }
-    }
-    
+    }  
   }
 
   // remove items
@@ -201,24 +200,22 @@ function NewsFeedPage(props) {
   React.useEffect(() => {
     setLatLng(location.latLng); // initialize
     hotjar.initialize('1751072', 6);
-    selectMenuDispatch({ selectMenu: 'Food' });
   }, []);
 
   React.useEffect(() => {
-    if (props.match.url === '/home/discover') {
-      loadNewsfeedDispatch({
-        env: process.env.REACT_APP_NODE_ENV,
-        page: Number(currentPage),
-        location: latLng,
-        feed: 'Discover'
-      });
-    }
+    // if (props.match.url === '/home/discover') {
+    //   loadNewsfeedDispatch({
+    //     env: process.env.REACT_APP_NODE_ENV,
+    //     page: Number(currentPage),
+    //     location: location.latLng,
+    //     feed: 'Discover'
+    //   });
+    // }
   }, [
     loadNewsfeedDispatch,
     currentPage, 
-    latLng, 
-    address, 
-    !openCustomAddress,
+    latLng,  
+    // !openCustomAddress,
     props.match.url
   ]);
 
@@ -235,16 +232,23 @@ function NewsFeedPage(props) {
 
   return (
     <React.Fragment>
-      <Navigation selectMenuDispatch={selectMenuDispatch} 
-      searchBarPosition="center" />
-      <div className="lg:max-w-4xl xl:max-w-screen-xl w-full mx-auto py-12 px-6">
+      <Navigation 
+        selectMenuDispatch={selectMenuDispatch} 
+        searchBarPosition="center" />
+      
+      {/* If the user just logged in, show the modal */}
+      {/* {props.loginSuccess && 
+        <ModalAfterLogin isOpen={onLoginIsOpen} setIsOpen={setOnLoginIsOpen} />
+      } */}
+
+      <div 
+        className="lg:max-w-4xl xl:max-w-screen-xl w-full mx-auto py-12 px-6">
         <div className="block xl:flex">
           <div className="xl:pr-6 sidebar-wrapper">
             <Sidebar {...props} />
           </div>
           <section className="w-full xl:px-6">
-            <h2 className="text-lg font-bold">Requests near you</h2>
-            <LocationBar location={location} className="mb-4" />
+            <LocationBar className="mb-4" location={location} match={props.match} />
             <NewsfeedTable
               {...props}
               authenticated={authenticated}
@@ -390,6 +394,7 @@ function NewsFeedPage(props) {
           </section>
         </div>
       </div>
+
       <HelpMenu user={user} />  
     </React.Fragment>
   );
