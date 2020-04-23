@@ -224,8 +224,6 @@ function NewsFeedPage(props) {
 
   render();
 
-  console.log(props.user)
-
   return (
     <React.Fragment>
       <Navigation selectMenuDispatch={selectMenuDispatch} 
