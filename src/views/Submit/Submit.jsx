@@ -43,6 +43,7 @@ function Submit(props) {
     getCurrentUserDispatch
   } = props;
 
+  const maxSummaryChar = 150;
   const [title, setTitle] = React.useState('');
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
@@ -59,6 +60,7 @@ function Submit(props) {
   const [cartQuantity, setCartQuantity] = React.useState('');
   const [cartName, setCartName] = React.useState('');
   const [description, setDescription] = useState('');
+  const [summaryCharCounter, setSummaryCharCounter] = useState('Maximum characters: ' + maxSummaryChar)
   // const [dueDate, setDueDate] = useState('');
   
   // Datepicker state
@@ -183,6 +185,23 @@ function Submit(props) {
     return re.test(email);
   }
 
+  function updateSummaryCharCounter(value) {
+    if (value.length == 0) {
+      setSummaryCharCounter('Maximum characters: ' + maxSummaryChar)
+    } else if (value.length <= maxSummaryChar) {
+      let charRemaining = maxSummaryChar - value.length;
+      setSummaryCharCounter('Characters remaining: ' + charRemaining)
+    } else {
+      let charOverflow = value.length - maxSummaryChar;
+      if (charOverflow == 1) {
+        setSummaryCharCounter(charOverflow + ' character too many')
+      } else {
+        setSummaryCharCounter(charOverflow + ' characters too many')
+      }
+    }
+  }
+
+  const validSummary = title.length <= 150;
   const validNumber = phoneNumber === '' || phoneNumber.length >= 10;
   const validEmail = email === '' || validateEmail(email);
   const validAddress = address === '' || !isEmpty(latLng);
@@ -193,6 +212,7 @@ function Submit(props) {
   const allowSubmit =
     cart.length > 0 &&
     name !== '' &&
+    validSummary &&
     !isEmpty(latLng) &&
     contactMethod !== '' &&
     validContactMethod;
@@ -264,16 +284,30 @@ function Submit(props) {
           onChange={e => {
             setTitle(e.target.value);
           }}
+          onInput={e => {
+            updateSummaryCharCounter(e.target.value);
+          }}
           className="appearance-none block w-full bg-gray-200 text-gray-700 
           border border-gray-200 rounded py-3 px-4 leading-tight 
           focus:outline-none focus:bg-white focus:border-gray-500"
           id="summary"
           value={title}
           type="text"
-          maxLength="140"
           placeholder="Briefly explain your request, e.g. Sick and need help 
           grocery shopping"
         ></textarea>
+        <div
+          style={{
+            textAlign: 'right'
+          }}
+        >
+          <label
+            className="italic"
+            id="summaryCharCounter"
+          >
+            {summaryCharCounter}
+          </label>
+        </div>
         <div className="sm:flex sm:items-center mt-4">
           <label
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold 
