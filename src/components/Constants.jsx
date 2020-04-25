@@ -18,5 +18,8 @@ module.exports = Object.freeze({
     COMPLETED: '/home/completed',
     GLOBAL: '/home/global',
     STATS: '/stats'
+  },
+  IMG: {
+    CLOUDFRONT: 'https://d1ppmvgsdgdlyy.cloudfront.net'
   }
 });

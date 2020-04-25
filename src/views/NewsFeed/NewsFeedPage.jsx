@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Media from 'react-media';
 
 // Custom Components
 import Navigation from '../../components/Navigation';
@@ -8,13 +9,14 @@ import LeaderboardTable from '../../components/LeaderboardTable/LeaderboardTable
 import LocationBar from '../../components/LocationBar';
 import TaskCard from '../../components/TaskCard';
 import HelpMenu from '../../components/HelpMenu';
-import ModalAfterLogin from './components/ModalAfterLogin';
+import DeskopOnboarding from './components/DeskopOnboarding';
+import MobileOnboarding from './components/MobileOnboarding/MobileOnboarding';
 
 // Libraries
 import { hotjar } from 'react-hotjar';
 import { connect } from 'react-redux';
 import { geolocated } from 'react-geolocated';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 
 // Base UI
 import { StatefulPopover, PLACEMENT } from 'baseui/popover';
@@ -237,9 +239,33 @@ function NewsFeedPage(props) {
         searchBarPosition="center" />
       
       {/* If the user just logged in, show the modal */}
-      {/* {props.loginSuccess && 
-        <ModalAfterLogin isOpen={onLoginIsOpen} setIsOpen={setOnLoginIsOpen} />
-      } */}
+      {/* {props.loginSuccess &&  */}
+        <Media
+          queries={{
+            xs: '(max-width: 414px)',
+            sm: '(min-width: 415px) and (max-width: 767px)',
+            md: '(min-width: 768px) and (max-width: 1023px)',
+            lg: '(min-width: 1024px) and (max-width: 1279px)',
+            xl: '(min-width: 1280px)'
+          }}
+        >
+          {matches => {
+            if (!matches.xs && !matches.sm) {
+              return(
+                <DeskopOnboarding 
+                  isOpen={onLoginIsOpen} 
+                  setIsOpen={setOnLoginIsOpen} />
+              );
+            } else {
+              return (
+                <MobileOnboarding 
+                  show={onLoginIsOpen} 
+                  setIsOpen={setOnLoginIsOpen} />
+              );
+            }
+          }}
+        </Media>
+      {/* } */}
 
       <div 
         className="lg:max-w-4xl xl:max-w-screen-xl w-full mx-auto py-12 px-6">
