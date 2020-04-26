@@ -9,7 +9,7 @@ import LeaderboardTable from '../../components/LeaderboardTable/LeaderboardTable
 import LocationBar from '../../components/LocationBar';
 import TaskCard from '../../components/TaskCard';
 import HelpMenu from '../../components/HelpMenu';
-import DeskopOnboarding from './components/DeskopOnboarding';
+import DeskopOnboarding from './components/DesktopOnboarding/DeskopOnboarding';
 import MobileOnboarding from './components/MobileOnboarding/MobileOnboarding';
 
 // Libraries
