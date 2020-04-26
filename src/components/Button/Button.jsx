@@ -11,9 +11,11 @@ function Button(props) {
    */
   function setClasses(props) {
     const classes = ['rounded-md'];
-
+    console.log("SIZE IS: ", size)
     // If no size is set, use regular size classes.
-    if (!size && variant !== 'reset') classes.push('py-2 px-4'); 
+    if (!size && variant !== 'reset') {
+      classes.push('py-2 px-4');
+    } else if (size === 'sm') classes.push('py-1 px-2 text-sm');
     
     // Primary button styles
     if (!variant || variant === 'primary') {
@@ -24,12 +26,18 @@ function Button(props) {
       classes.push('bg-transparent text-green-700 border border-green-700')
     }
 
+    if (variant === 'link') {
+      classes.push('text-green-700')
+    }
+
+    if (props.className) classes.push(props.className);
+
     return classes.join(' ');
   }
 
   return(
     <button 
-      className={`btn ${setClasses(props)} ${props.className}`} 
+      className={`btn ${setClasses(props)}`} 
       onClick={props.onClick}
       disabled={props.disabled}
     >

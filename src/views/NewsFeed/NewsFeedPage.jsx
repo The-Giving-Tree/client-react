@@ -259,6 +259,7 @@ function NewsFeedPage(props) {
             } else {
               return (
                 <MobileOnboarding 
+                  history={history}
                   show={onLoginIsOpen} 
                   setIsOpen={setOnLoginIsOpen} />
               );

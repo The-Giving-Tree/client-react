@@ -2,3 +2,40 @@
   z-index: 101;
   overflow-y: auto;
 }
+
+.MobileOnboarding .img-wrap {
+  min-height: 182px;
+}
+
+.MobileOnboarding .step-list {
+  overflow: hidden;
+  background-color: #f2f2f2;
+}
+
+.MobileOnboarding .step-button {
+  z-index: 1;
+}
+
+.MobileOnboarding .step-button:before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: skewX(-22.5deg);
+  content: '';
+  border-left: 1px solid white;
+  background-color: #f2f2f2;
+  z-index: -1;
+}
+.MobileOnboarding .step-button:nth-of-type(1):before {
+  border-left: 0;
+  transform: none;
+  right: -8px;
+}
+.MobileOnboarding .step-button.active:before {
+  background-color: #8CBF3F;
+}
+.MobileOnboarding .step-button.complete:before {
+  background-color: #1E853B;
+}
