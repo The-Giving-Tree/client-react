@@ -25,6 +25,9 @@ export default class MobileOnboarding extends React.Component {
     this.props.setIsOpen(val);
   }
 
+  // TODO: When we have time to refactor, let's turn these steps in to
+  // components
+
   /**
    * Retrieves the JSX based on the currently active step
    *
