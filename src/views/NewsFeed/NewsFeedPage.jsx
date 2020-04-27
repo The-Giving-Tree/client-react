@@ -253,6 +253,7 @@ function NewsFeedPage(props) {
             if (!matches.xs && !matches.sm) {
               return(
                 <DeskopOnboarding 
+                  history={history}
                   isOpen={onLoginIsOpen} 
                   setIsOpen={setOnLoginIsOpen} />
               );

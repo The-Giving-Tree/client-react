@@ -11,7 +11,6 @@ function Button(props) {
    */
   function setClasses(props) {
     const classes = ['rounded-md'];
-    console.log("SIZE IS: ", size)
     // If no size is set, use regular size classes.
     if (!size && variant !== 'reset') {
       classes.push('py-2 px-4');
