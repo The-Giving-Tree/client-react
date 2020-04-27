@@ -16,7 +16,7 @@ import MobileOnboarding from './components/MobileOnboarding/MobileOnboarding';
 import { hotjar } from 'react-hotjar';
 import { connect } from 'react-redux';
 import { geolocated } from 'react-geolocated';
-import { useHistory, Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 // Base UI
 import { StatefulPopover, PLACEMENT } from 'baseui/popover';
@@ -234,12 +234,11 @@ function NewsFeedPage(props) {
 
   return (
     <React.Fragment>
-      <Navigation 
-        selectMenuDispatch={selectMenuDispatch} 
-        searchBarPosition="center" />
+      {/* Main Header & Navigation */}
+      <Navigation selectMenuDispatch={selectMenuDispatch} />
       
       {/* If the user just logged in, show the modal */}
-      {/* {props.loginSuccess &&  */}
+      {props.loginSuccess && 
         <Media
           queries={{
             xs: '(max-width: 414px)',
@@ -267,8 +266,9 @@ function NewsFeedPage(props) {
             }
           }}
         </Media>
-      {/* } */}
+      }
 
+      {/* Begin template for page layout */}
       <div 
         className="lg:max-w-4xl xl:max-w-screen-xl w-full mx-auto py-12 px-6">
         <div className="block xl:flex">
