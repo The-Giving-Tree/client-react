@@ -185,6 +185,7 @@ function Submit(props) {
     return re.test(email);
   }
 
+  // Function to update char counter below summary on input event
   function updateSummaryCharCounter(value) {
     if (value.length == 0) {
       setSummaryCharCounter('Maximum characters: ' + maxSummaryChar)
