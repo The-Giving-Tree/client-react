@@ -8,7 +8,7 @@ import { StatefulTooltip } from 'baseui/tooltip';
 import { StatefulPopover, PLACEMENT } from 'baseui/popover';
 import Navigation from '../../components/Navigation';
 import { geolocated } from 'react-geolocated';
-import { Card, StyledBody } from 'baseui/card';
+import { StyledBody } from 'baseui/card';
 import { Block } from 'baseui/block';
 import { getDistance } from 'geolib';
 import { ChevronUp, ChevronDown } from 'baseui/icon';
