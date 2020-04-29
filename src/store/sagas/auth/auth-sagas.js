@@ -655,6 +655,25 @@ export function* logoutAll(action) {
   }
 }
 
+export function* loadStats(action) {
+  try {
+    const token = localStorage.getItem('giving_tree_jwt');
+    const data = yield call(
+      Api.loadStats,
+      action.payload.env,
+      token
+    );
+
+    yield put({
+      type: ACTION_TYPE.LOAD_STATS_SUCCESS,
+      payload: data.data
+    });
+  } catch (error) {
+    console.log('error loading stats: ', error);
+    yield put({ type: ACTION_TYPE.LOAD_STATS_FAILURE, payload: error });
+  }
+}
+
 export default function* watchAuthSagas() {
   yield takeLatest(ACTION_TYPE.CONFIRM_PASSWORD_REQUESTED, confirmPassword);
   yield takeLatest(ACTION_TYPE.UPDATE_PROFILE_REQUESTED, updateProfile);
@@ -683,4 +702,5 @@ export default function* watchAuthSagas() {
   yield takeLatest(ACTION_TYPE.LOGOUT_REQUESTED, logout);
   yield takeLatest(ACTION_TYPE.LOGOUT_ALL_REQUESTED, logoutAll);
   yield takeLatest(ACTION_TYPE.GET_LEADERBOARD_REQUESTED, getLeaderboard);
+  yield takeLatest(ACTION_TYPE.LOAD_STATS_REQUESTED, loadStats);
 }

@@ -47,7 +47,7 @@ class Sidebar extends React.Component {
       <aside className="">
         {/* Mobile Nav HERE */}
         <nav className="sidebar-nav-xs fixed w-full flex">
-          <a href="/home/discover" className={`flex flex-col justify-start px-2 py-3 ${(this.isLocation('/home/discover')) ? 'nav-item-active' : ''} border border-right border-gray-200 flex-grow-1 flex-shrink-1 flex-basis-0 border-r border-gray-200 w-full text-center`}>
+          <a href="/home/discover" className={`flex flex-col justify-end p-2 ${(this.isLocation('/home/discover')) ? 'nav-item-active' : ''} border border-right border-gray-200 flex-grow-1 flex-shrink-1 flex-basis-0 border-r border-gray-200 w-full text-center`}>
             <IconHome className="mb-1 mx-auto" />
             <span className="label-wrap">
               Requests<br/>Feed
@@ -55,7 +55,7 @@ class Sidebar extends React.Component {
           </a>
 
           <a href={(authenticated) ? '/submit' : '/signup'} 
-            className={`px-2 py-3 flex flex-col justify-start border-r border-gray-200 mx-auto ${(this.isLocation('/submit')) ? 'nav-item-active' : ''} w-full text-center`}>
+            className={`p-2 flex flex-col justify-end border-r border-gray-200 mx-auto ${(this.isLocation('/submit')) ? 'nav-item-active' : ''} w-full text-center`}>
               <IconCreate className="icon-create mb-1 mx-auto" />
               <span className="label-wrap">
                 Create<br/>Request
@@ -63,7 +63,7 @@ class Sidebar extends React.Component {
           </a>
 
           
-          <a href="/home/ongoing" className={`flex flex-col justify-start border-r border-gray-200 mx-auto px-2 py-3 ${(this.isLocation('/home/ongoing')) ? 'nav-item-active' : ''} w-full text-center`}>
+          <a href="/home/ongoing" className={`flex flex-col justify-end border-r border-gray-200 mx-auto p-2 ${(this.isLocation('/home/ongoing')) ? 'nav-item-active' : ''} w-full text-center`}>
             <IconActivity className="mb-1 mx-auto" />
             <span className="label-wrap">
               Your<br/>Activity
@@ -72,7 +72,7 @@ class Sidebar extends React.Component {
           
 
           <a href="/leaderboard"
-            className={`px-2 py-3 ${(this.isLocation('/leaderboard')) ? 'nav-item-active' : ''} border-r border-gray-200 w-full text-center flex flex-col justify-start`}>
+            className={`p-2 ${(this.isLocation('/leaderboard')) ? 'nav-item-active' : ''} border-r border-gray-200 w-full text-center flex flex-col justify-end`}>
               <IconLeaderboard className="icon-leaderboard mb-1 mx-auto" />
               <span className="label-wrap">
                 View<br/>Leaderboard
@@ -129,9 +129,9 @@ class Sidebar extends React.Component {
               </button>
             </li>
 
-            <li className={`text-black transition duration-150 xl:my-2 mx-2 md:mx-4 xl:hidden xl:mx-0 relative ${(this.isLocation('/home/ongoing')) ? 'nav-item-active' : ''}`}>
+            <li className={`text-black transition duration-150 xl:my-2 mx-2 md:mx-4 xl:hidden xl:mx-0 relative ${(this.isLocation('/leaderboard')) ? 'nav-item-active' : ''}`}>
               <button onClick={() => {
-                window.location = '/home/ongoing';
+                window.location = '/leaderboard';
               }}
                 className="flex flex-col xl:flex-row items-center justify-center 
                 xl:justify-start">

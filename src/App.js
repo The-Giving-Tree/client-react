@@ -31,6 +31,7 @@ import User from './views/User';
 import Draft from './views/Draft';
 import ResetPassword from './views/ResetPassword';
 import Setting from './views/Setting';
+import Stats from './views/Stats';
 
 const engine = new Styletron();
 
@@ -88,6 +89,7 @@ function App() {
             <Route exact path={Constants.PATHS.SIGNUP} component={Signup} />
             <Route exact path={Constants.PATHS.SUBMIT} component={Submit} />
             <Route exact path={Constants.PATHS.SETTING} component={Setting} />
+            <Route exact path={Constants.PATHS.STATS} component={Stats} />
             <Route exact path={Constants.PATHS.DRAFT} component={Draft} />
             <Route exact path={'/settings'} component={Setting} />
             <Route path="/user/:id" component={User} />

@@ -53,7 +53,7 @@ function Submit(props) {
   const [postal, setPostal] = useState('');
   const [publicAddress, setPublicAddress] = useState('');
   const [cart, setCart] = React.useState([]);
-  const [selectedRequest, setRequest] = React.useState('food');
+  const [selectedRequest, setRequest] = React.useState('food/supplies');
   const [checkout, setCheckout] = React.useState(false);
   let [changedCart, setChangedCart] = useState(0);
   const [cartQuantity, setCartQuantity] = React.useState('');
@@ -71,10 +71,8 @@ function Submit(props) {
     if (selectMenu !== '') {
       setCheckout(true);
 
-      if (selectMenu === 'Food') {
-        setRequest('food');
-      } else if (selectMenu === 'Supplies') {
-        setRequest('supplies');
+      if (selectMenu === 'Food/Supplies') {
+        setRequest('food/supplies');
       }
     }
   }, [titleStore, selectMenu]);
@@ -129,14 +127,6 @@ function Submit(props) {
     }
     return true;
   };
-
-  const transportationJSX = (
-    <div>
-      <div>Pickup</div>
-      <div>Dropoff</div>
-      <div>Date</div>
-    </div>
-  );
 
   const validCart = cartName && cartQuantity && Number(cartQuantity) > 0;
 
@@ -235,8 +225,7 @@ function Submit(props) {
                   setRequest(e.target.value.toLowerCase());
                 }}
               >
-                <option value="food">Food</option>
-                <option value="supplies">Supplies</option>
+                <option value="food/supplies">Food / Supplies</option>
                 <option value="miscellaneous">Miscellaneous</option>
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -312,6 +301,7 @@ function Submit(props) {
               <span className="mr-2">phone (recommended)</span>
               <div className={contactMethod === 'phone' ? '' : `hidden`}>
                 <input
+                  name="Phone number"
                   style={{ width: 200, height: 32 }}
                   onChange={e => {
                     var phoneValue = e.target.value;
@@ -487,10 +477,8 @@ function Submit(props) {
             value={cartName}
             type="text"
             placeholder={
-              selectedRequest === 'food'
+              selectedRequest === 'food/supplies'
                 ? `Item name, brand, and store location`
-                : selectedRequest === 'supplies'
-                ? 'Item name, brand, and store location'
                 : ''
             }
           />
@@ -501,9 +489,6 @@ function Submit(props) {
             className="mx-4 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             style={{ width: 100 }}
             value={cartQuantity}
-            id={
-              selectedRequest === 'food' ? `food` : selectedRequest === 'supplies' ? 'supplies' : ''
-            }
             type="number"
             placeholder="Quantity"
             min="1"

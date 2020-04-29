@@ -10,14 +10,26 @@ function Button(props) {
    * @param {*} props 
    */
   function setClasses(props) {
-    const classes = [];
-
+    const classes = ['rounded-md'];
     // If no size is set, use regular size classes.
-    if (!size) classes.push('py-2 px-6'); 
+    if (!size && variant !== 'reset') {
+      classes.push('py-2 px-4');
+    } else if (size === 'sm') classes.push('py-1 px-2 text-sm');
     
+    // Primary button styles
     if (!variant || variant === 'primary') {
-      classes.push('bg-green-700 hover:bg-green-900 text-white font-semibold rounded-md');
+      classes.push('bg-green-700 hover:bg-green-900 border border-green-700 text-white font-semibold');
     }
+
+    if (variant === 'outline') {
+      classes.push('bg-transparent text-green-700 border border-green-700')
+    }
+
+    if (variant === 'link') {
+      classes.push('text-green-700')
+    }
+
+    if (props.className) classes.push(props.className);
 
     return classes.join(' ');
   }
