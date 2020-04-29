@@ -72,32 +72,30 @@ function App() {
             });`}
           </script>
         </Helmet>
-        <BrowserRouter>
-          <Switch>
-            <Route exact path={Constants.PATHS.HOME} component={Home} />
-            <Route
-              exact
-              path={`/home/(discover|ongoing|completed|global)`}
-              component={NewsFeedPage}
-            />
-            <Route exact path={Constants.PATHS.LEADERBOARD} component={Leaderboard} />
-            <Route exact path={Constants.PATHS.ABOUT} component={About} />
-            <Route exact path={Constants.PATHS.HOWITWORKS} component={HowItWorks} />
-            <Route exact path={Constants.PATHS.GUIDELINES} component={Guidelines} />
-            <Route exact path="/home/:id" component={Home} />
-            <Route exact path={Constants.PATHS.LOGIN} component={Login} />
-            <Route exact path={Constants.PATHS.SIGNUP} component={Signup} />
-            <Route exact path={Constants.PATHS.SUBMIT} component={Submit} />
-            <Route exact path={Constants.PATHS.SETTING} component={Setting} />
-            <Route exact path={Constants.PATHS.STATS} component={Stats} />
-            <Route exact path={Constants.PATHS.DRAFT} component={Draft} />
-            <Route exact path={'/settings'} component={Setting} />
-            <Route path="/user/:id" component={User} />
-            <Route path="/post/:id" component={Post} />
-            <Route path="/reset-password/:token" component={ResetPassword} />
-            <Route render={props => <ErrorPage {...props} errorCode="404" />} /> />
-          </Switch>
-        </BrowserRouter>
+        <Switch>
+          <Route exact path={Constants.PATHS.HOME} component={Home} />
+          <Route
+            exact
+            path={`/home/(discover|ongoing|completed|global)`}
+            component={NewsFeedPage}
+          />
+          <Route exact path={Constants.PATHS.LEADERBOARD} component={Leaderboard} />
+          <Route exact path={Constants.PATHS.ABOUT} component={About} />
+          <Route exact path={Constants.PATHS.HOWITWORKS} component={HowItWorks} />
+          <Route exact path={Constants.PATHS.GUIDELINES} component={Guidelines} />
+          <Route exact path="/home/:id" component={Home} />
+          <Route exact path={Constants.PATHS.LOGIN} component={Login} />
+          <Route exact path={Constants.PATHS.SIGNUP} component={Signup} />
+          <Route exact path={Constants.PATHS.SUBMIT} component={Submit} />
+          <Route exact path={Constants.PATHS.SETTING} component={Setting} />
+          <Route exact path={Constants.PATHS.STATS} component={Stats} />
+          <Route exact path={Constants.PATHS.DRAFT} component={Draft} />
+          <Route exact path={'/settings'} component={Setting} />
+          <Route path="/user/:id" component={User} />
+          <Route path="/post/:id" component={Post} />
+          <Route path="/reset-password/:token" component={ResetPassword} />
+          <Route render={props => <ErrorPage {...props} errorCode="404" />} /> />
+        </Switch>
       </BaseProvider>
     </StyletronProvider>
   );
