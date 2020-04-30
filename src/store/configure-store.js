@@ -12,7 +12,7 @@ const sagaMiddleware = createSagaMiddleware();
 export default function configureStore(preloadedState) {
   let store;
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV !== 'development') {
     store = createStore(
       createRootReducer(history), // root reducer with router state
       preloadedState,
@@ -22,7 +22,7 @@ export default function configureStore(preloadedState) {
     store = createStore(
       createRootReducer(history), // root reducer with router state
       preloadedState,
-      compose(applyMiddleware(sagaMiddleware), routerMiddleware(history))
+      compose(applyMiddleware(sagaMiddleware, routerMiddleware(history)))
     );
   }
 
