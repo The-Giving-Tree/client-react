@@ -1,4 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
+import { push, replace } from 'connected-react-router';
+
 import ACTION_TYPE from '../../actions/auth/action-types';
 import Api from './api';
 
@@ -564,6 +566,7 @@ export function* logout(action) {
     yield put({
       type: ACTION_TYPE.LOGOUT_SUCCESS
     });
+    yield put(replace('/'));
   } catch (error) {
     yield put({ type: ACTION_TYPE.LOGOUT_FAILURE, payload: error });
     localStorage.removeItem('giving_tree_jwt');
@@ -658,11 +661,7 @@ export function* logoutAll(action) {
 export function* loadStats(action) {
   try {
     const token = localStorage.getItem('giving_tree_jwt');
-    const data = yield call(
-      Api.loadStats,
-      action.payload.env,
-      token
-    );
+    const data = yield call(Api.loadStats, action.payload.env, token);
 
     yield put({
       type: ACTION_TYPE.LOAD_STATS_SUCCESS,
