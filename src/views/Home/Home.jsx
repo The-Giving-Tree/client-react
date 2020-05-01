@@ -90,10 +90,6 @@ function Home(props) {
     });
   };
 
-  // const authenticated = localStorage.getItem('giving_tree_jwt');
-
-  console.log('login succ', props, props.loginSuccess);
-
   React.useEffect(() => {
     hotjar.initialize('1751072', 6);
   }, []);
