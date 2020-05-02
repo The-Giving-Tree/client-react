@@ -346,11 +346,8 @@ function Post(props) {
                           backgroundRepeat: 'no-repeat'
                         }}
                       />
-                      <a style={{ 
-                          textDecoration: 'none',
-                          color: 'rgb(0, 121, 211)'
-                        }}
-                        className="mr-2"
+                      <a style={{ textDecoration: 'none' }}
+                        className="mr-2 text-green-700"
                         href={`/user/${childComment.username}`}
                       >
                         <strong>{childComment.username}</strong>
@@ -750,10 +747,8 @@ function Post(props) {
                             <div>
                               <strong>
                                 <a
-                                  style={{
-                                    color: 'rgb(0, 121, 211)',
-                                    textDecoration: 'none'
-                                  }}
+                                  className="text-green-700"
+                                  style={{ textDecoration: 'none' }}
                                   href={`/user/${foundPost.username}`}
                                 >
                                   {foundPost.username}
