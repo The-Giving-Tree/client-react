@@ -150,6 +150,20 @@ class TaskCard extends React.Component {
       )
     }
 
+    const date = new Date().getTime();
+    const expiry = new Date(this.props.item.dueDate).getTime();
+    // If today's date is greater than the expiry/due date
+    if (date > expiry) {
+      tags.push(
+        <Tag 
+          label="Expired" 
+          type="generic" 
+          key={tags.length} 
+          className="ml-1 mb-1"
+        />
+      )
+    }
+
     return tags;
   }
 
