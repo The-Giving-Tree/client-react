@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Media from 'react-media';
 
 // Custom Components
 import Navigation from '../../components/Navigation';
@@ -8,7 +9,8 @@ import LeaderboardTable from '../../components/LeaderboardTable/LeaderboardTable
 import LocationBar from '../../components/LocationBar';
 import TaskCard from '../../components/TaskCard';
 import HelpMenu from '../../components/HelpMenu';
-import ModalAfterLogin from './components/ModalAfterLogin';
+import DeskopOnboarding from './components/DesktopOnboarding/DeskopOnboarding';
+import MobileOnboarding from './components/MobileOnboarding/MobileOnboarding';
 
 // Libraries
 import { hotjar } from 'react-hotjar';
@@ -246,15 +248,41 @@ function NewsFeedPage(props) {
 
   return (
     <React.Fragment>
-      <Navigation 
-        selectMenuDispatch={selectMenuDispatch} 
-        searchBarPosition="center" />
+      {/* Main Header & Navigation */}
+      <Navigation selectMenuDispatch={selectMenuDispatch} />
       
       {/* If the user just logged in, show the modal */}
-      {/* {props.loginSuccess && 
-        <ModalAfterLogin isOpen={onLoginIsOpen} setIsOpen={setOnLoginIsOpen} />
-      } */}
+      {props.loginSuccess && 
+        <Media
+          queries={{
+            xs: '(max-width: 414px)',
+            sm: '(min-width: 415px) and (max-width: 767px)',
+            md: '(min-width: 768px) and (max-width: 1023px)',
+            lg: '(min-width: 1024px) and (max-width: 1279px)',
+            xl: '(min-width: 1280px)'
+          }}
+        >
+          {matches => {
+            if (!matches.xs && !matches.sm) {
+              return(
+                <DeskopOnboarding 
+                  history={history}
+                  isOpen={onLoginIsOpen} 
+                  setIsOpen={setOnLoginIsOpen} />
+              );
+            } else {
+              return (
+                <MobileOnboarding 
+                  history={history}
+                  show={onLoginIsOpen} 
+                  setIsOpen={setOnLoginIsOpen} />
+              );
+            }
+          }}
+        </Media>
+      }
 
+      {/* Begin template for page layout */}
       <div 
         className="lg:max-w-4xl xl:max-w-screen-xl w-full mx-auto py-12 px-6">
         <div className="block xl:flex">

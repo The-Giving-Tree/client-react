@@ -226,12 +226,12 @@ class HelpMenu extends React.Component {
                 <button onClick={() => this.showFeedbackModal(true)}>Give feedback</button>
               </li>
               <li className="divider relative"></li>
-              <li className="text-sm px-4 pb-1 pt-2">
+              <li className="">
                 <NavLink to="/about">
                   About us
                 </NavLink>
               </li>
-              <li className="text-sm px-4 pt-1 pb-2">
+              <li className="">
                 <NavLink to="/about#privacy-policy">
                   Privacy
                 </NavLink>

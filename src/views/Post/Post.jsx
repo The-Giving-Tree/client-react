@@ -15,7 +15,9 @@ import { ChevronUp, ChevronDown } from 'baseui/icon';
 import { Drawer } from 'baseui/drawer';
 import { Notification } from 'baseui/notification';
 import moment from 'moment';
-import { Modal, ModalHeader, ModalBody, ModalFooter, ModalButton } from 'baseui/modal';
+import { 
+  Modal, ModalHeader, ModalBody, ModalFooter, ModalButton
+} from 'baseui/modal';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import { connect } from 'react-redux';
 import { hotjar } from 'react-hotjar';
