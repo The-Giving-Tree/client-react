@@ -137,37 +137,6 @@ function Post(props) {
     return true;
   };
 
-  const getLeaderboardIcon = place => {
-    switch (place.toString()) {
-      case '1':
-        return (
-          <img
-            src="https://d1ppmvgsdgdlyy.cloudfront.net/1st.svg"
-            alt="1st"
-            style={{ height: 20 }}
-          />
-        );
-      case '2':
-        return (
-          <img
-            src="https://d1ppmvgsdgdlyy.cloudfront.net/2nd.svg"
-            alt="2nd"
-            style={{ height: 20 }}
-          />
-        );
-      case '3':
-        return (
-          <img
-            src="https://d1ppmvgsdgdlyy.cloudfront.net/3rd.svg"
-            alt="3rd"
-            style={{ height: 20 }}
-          />
-        );
-      default:
-        return place;
-    }
-  };
-
   const handlePostLoad = async id => {
     if (!loadPostFailure && (isEmpty(foundPost) || !updated)) {
       await loadPostDispatch({
@@ -703,18 +672,13 @@ function Post(props) {
       )}
       <div className="lg:max-w-4xl xl:max-w-screen-xl w-full mx-auto py-12 px-6">
         <div className="block xl:flex">
-          <div className="xl:pr-6 sidebar-wrapper">
-            <Sidebar {...props} />
-          </div>
+          <Sidebar {...props} className="xl:pr-6 sidebar-wrapper" />
           <div className="w-full xl:px-6">
             {/* ELEMENT TO SHOW IF THERE IS AN ERROR MESSAGE */}
             {errorMessage && (
               <div
-                style={{
-                  color: 'rgb(204, 50, 63)',
-                  width: '50%',
-                  textAlign: 'center'
-                }}
+                style={{ color: 'rgb(204, 50, 63)' }} 
+                className="w-1/2 text-center"
               >
                 {errorMessage}
               </div>
@@ -1157,42 +1121,45 @@ function Post(props) {
               </div>
             )}
           </div>
-          <div className="hidden xl:block xl:pl-6 w-full" style={{
-            maxWidth: '344px'
-          }}>
+          <div 
+            className="hidden xl:block xl:pl-6 w-full" 
+            style={{
+              maxWidth: '344px'
+            }}
+          >
             <div className="bg-white shadow-lg rounded-lg p-6">
-            <div className="flex justify-between items-center mb-4">
-              <div className="text-left" style={{ fontWeight: 300 }}>
-                <div
-                  style={{
-                    fontStyle: 'normal',
-                    fontWeight: 500,
-                    lineHeight: '20px',
-                    color: '#545454',
-                    paddingTop: '0px'
-                  }}
-                  className={`mb-4`}
-                >
-                  Leaderboard<br/>
-                  <span style={{
-                    fontStyle: 'normal',
-                    fontWeight: 'normal',
-                    fontSize: 12,
-                    lineHeight: '14px',
-                    color: '#545454'
-                  }}>
-                    Most helpful people in your area
-                  </span>
+              <div className="flex justify-between items-center mb-4">
+                <div className="text-left" style={{ fontWeight: 300 }}>
+                  <div
+                    style={{
+                      fontStyle: 'normal',
+                      fontWeight: 500,
+                      lineHeight: '20px',
+                      color: '#545454',
+                      paddingTop: '0px'
+                    }}
+                    className={`mb-4`}
+                  >
+                    Leaderboard<br/>
+                    <span style={{
+                      fontStyle: 'normal',
+                      fontWeight: 'normal',
+                      fontSize: 12,
+                      lineHeight: '14px',
+                      color: '#545454'
+                    }}>
+                      Most helpful people in your area
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <button
-              className="bg-transparent hover:bg-gray-600 text-gray-700 
-              font-semibold hover:text-white py-1 px-3 border border-gray-600 
-              hover:border-transparent transition duration-150 rounded"
-              style={{ outline: 'none' }}
-              onClick={() => history.push('/leaderboard')}>
-                <span style={{ fontSize: 12 }}>See full list</span>
-              </button>
+                <button
+                className="bg-transparent hover:bg-gray-600 text-gray-700 
+                font-semibold hover:text-white py-1 px-3 border border-gray-600 
+                hover:border-transparent transition duration-150 rounded"
+                style={{ outline: 'none' }}
+                onClick={() => history.push('/leaderboard')}>
+                  <span style={{ fontSize: 12 }}>See full list</span>
+                </button>
               </div>
               <div
                 style={{
@@ -1282,9 +1249,7 @@ function Post(props) {
                   </StatefulPopover>
                 </div>
               )}
-            </div>
-            
-            
+            </div> 
           </div>
         </div>
       </div>
