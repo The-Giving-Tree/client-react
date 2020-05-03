@@ -14,7 +14,7 @@ export default class DesktopOnboarding extends React.Component {
       activeStep: 0,
       userRole: ''
     }
-
+    // Tell the parent component the open/closed state.
     this.setIsOpen = this.setIsOpen.bind(this);
   }
 
@@ -66,7 +66,7 @@ export default class DesktopOnboarding extends React.Component {
       <React.Fragment>
         <Heading 
           level="1" 
-          className="text-hlgreen text-center mb-6 text-lg md:text-xl"
+          className="text-hlgreen text-center mb-6 text-2xl"
         >
           Welcome to the Giving Tree 
           <span className="ml-3" role="img" aria-label="Tree emoji">🌳</span>
@@ -213,14 +213,14 @@ export default class DesktopOnboarding extends React.Component {
         </div>
         <div className="flex items-center px-10">
           <Button 
-            size="sm"
+            size="lg"
             variant="link"
             className="mr-auto"
             onClick={() => this.prevStep()}
           >Back</Button>
           <div className="mx-auto">{this.stepDots()}</div>
           <Button
-            size="sm"
+            size="lg"
             variant="link"
             className="ml-auto"
             onClick={() => this.nextStep()}
@@ -240,7 +240,7 @@ export default class DesktopOnboarding extends React.Component {
     return(
       <React.Fragment>
         <div className="text-center my-auto px-10">
-          <p className="mb-8 text-xl font-bold">
+          <p className="mb-8 text-2xl font-bold">
             Let's get started!
           </p>
           <div className={`mb-6 flex items-center justify-between ${role === 'helper' ? 'flex-row-reverse' : ''}`}>
@@ -252,9 +252,7 @@ export default class DesktopOnboarding extends React.Component {
               <div>
                 <Button 
                   variant="primary"
-                  onClick={(e) => {
-                    this.props.history.push('/submit');
-                  }}
+                  onClick={(e) => this.props.history.push('/submit')}
                 >
                   Create request
                 </Button>
@@ -294,7 +292,20 @@ export default class DesktopOnboarding extends React.Component {
               </p>
             </div>
           </div>
-
+        </div>
+        <div className="grid grid-cols-3 px-10">
+          <div className="text-left">
+            <Button 
+              size="lg"
+              variant="link"
+              className="mr-auto"
+              onClick={() => this.prevStep()}
+            >Back</Button>
+          </div>
+          <div className="flex flex-col items-center justify-center">
+            <div>{this.stepDots()}</div>
+          </div>
+          <div className=""></div>
         </div>
       </React.Fragment> 
     );
@@ -353,6 +364,7 @@ export default class DesktopOnboarding extends React.Component {
   modalJSX() {
     return(
       <Modal
+        closeable={false}
         isOpen={this.props.isOpen} 
         onClose={() => this.close()}
         overrides={{
@@ -385,8 +397,6 @@ export default class DesktopOnboarding extends React.Component {
       </Modal>
     );
   }
-
-
 
   render() {
     return(
