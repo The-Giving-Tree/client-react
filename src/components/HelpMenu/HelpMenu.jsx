@@ -41,10 +41,22 @@ class HelpMenu extends React.Component {
     this.setState({ feedbackModalOpen: val })
   }
 
+  /**
+   * Update a key in the state object
+   *
+   * @param {*} key The key in the state object
+   * @param {*} val The new value
+   * @memberof HelpMenu
+   */
   setStateVal(key, val) {
     this.setState({ [key]: val})
   }
 
+  /**
+   * Send feedback
+   *
+   * @memberof HelpMenu
+   */
   handleFeedback(){
     this.setStateVal('sendingFeedback', true);
     const msg = {
@@ -77,11 +89,9 @@ class HelpMenu extends React.Component {
       console.log('error while submitting feedback: ', err);
       alert('error while submitting feedback!');
     });
-    };
+  };
 
   render() {
-
-
     return (
       <div className="HelpMenu rounded-full shadow-lg bg-white">
         {/* GIVE FEEDBACK MODAL! */}
