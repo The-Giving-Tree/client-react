@@ -112,7 +112,7 @@ function NewsfeedTable(props) {
               Cancel
             </button>
             <button
-              className={`ml-4 bg-indigo-500 hover:bg-indigo-700 text-white py-2 px-3 rounded focus:outline-none focus:shadow-outline`}
+              className={`ml-4 bg-blue-500 hover:bg-blue-700 text-white py-2 px-3 rounded focus:outline-none focus:shadow-outline`}
               type="button"
               onClick={() => {
                 if (address) {
@@ -140,7 +140,7 @@ function NewsfeedTable(props) {
               &nbsp;
               <span
                 onClick={() => setOpenCustomAddress(true)}
-                className="text-indigo-600 hover:text-indigo-800 transition duration-150"
+                className="text-blue-600 hover:text-blue-800 transition duration-150"
                 style={{ cursor: 'pointer' }}
               >
                 (edit)
@@ -172,7 +172,7 @@ function NewsfeedTable(props) {
             <div className="mb-2">
               No requests yet -{' '}
               <span
-                className={`text-indigo-600 hover:text-indigo-800 transition duration-150`}
+                className={`text-blue-600 hover:text-blue-800 transition duration-150`}
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
                   selectMenuDispatch({ selectMenu: '' }); // to show base page

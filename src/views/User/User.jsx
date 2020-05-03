@@ -422,7 +422,7 @@ function User(props) {
     <StyledBody>
       No drafts available.{' '}
       <a
-        className="text-indigo-600 hover:text-indigo-800"
+        className="text-blue-600 hover:text-blue-800"
         style={{ textDecoration: 'none' }}
         href={'/submit'}
       >

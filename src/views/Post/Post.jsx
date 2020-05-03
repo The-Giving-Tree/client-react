@@ -1239,7 +1239,7 @@ function Post(props) {
                       className="text-left mt-4"
                     >
                       Want to improve your ranking?{' '}
-                      <span className="font-bold hover:text-indigo-600 transition duration-150">
+                      <span className="font-bold hover:text-blue-600 transition duration-150">
                         Find out how
                       </span>
                     </div>
