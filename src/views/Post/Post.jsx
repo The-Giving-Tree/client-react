@@ -33,8 +33,7 @@ import {
   upvote,
   downvote,
   addReply,
-  markSeen,
-  getLeaderboard
+  markSeen
 } from '../../store/actions/auth/auth-actions';
 
 import { editPost } from '../../store/actions/user/user-actions';
@@ -55,7 +54,6 @@ function Post(props) {
     editCommentDispatch,
     deleteCommentDispatch,
     deletePostDispatch,
-    getLeaderboardDispatch,
     userRanking,
     addCommentDispatch,
     coords,
@@ -127,7 +125,6 @@ function Post(props) {
 
   React.useEffect(() => {
     hotjar.initialize('1751072', 6);
-    getLeaderboardDispatch({ env: process.env.REACT_APP_NODE_ENV, location: 'global' });
   }, []);
 
   const cart = text ? text.cart : [];
@@ -1303,7 +1300,6 @@ const mapDispatchToProps = dispatch => ({
   deleteCommentDispatch: payload => dispatch(deleteComment(payload)),
   markSeenDispatch: payload => dispatch(markSeen(payload)),
   editPostDispatch: payload => dispatch(editPost(payload)),
-  getLeaderboardDispatch: payload => dispatch(getLeaderboard(payload)),
   addReplyDispatch: payload => dispatch(addReply(payload)),
   loadPostDispatch: payload => dispatch(loadPost(payload)),
   upvoteDispatch: payload => dispatch(upvote(payload)),
