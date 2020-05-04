@@ -44,7 +44,7 @@ class Sidebar extends React.Component {
   render() {
     const authenticated = localStorage.getItem('giving_tree_jwt');
     return (
-      <aside className="">
+      <aside className={`${this.props.className ? this.props.className : ''}`}>
         {/* Mobile Nav HERE */}
         <nav className="sidebar-nav-xs fixed w-full flex">
           <a href="/home/discover" className={`flex flex-col justify-end p-2 ${(this.isLocation('/home/discover')) ? 'nav-item-active' : ''} border border-right border-gray-200 flex-grow-1 flex-shrink-1 flex-basis-0 border-r border-gray-200 w-full text-center`}>

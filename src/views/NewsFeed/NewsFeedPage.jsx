@@ -223,10 +223,24 @@ function NewsFeedPage(props) {
 
   const render = () => {
     news.map((item, i) => {
-      return items.push(
-        <TaskCard item={item} key={i} user={user} className="mb-4"
-        index={i} />
-      );
+      // If the user is viewing the 'discover' page...
+      if (newsfeedSort === 'Discover') {
+        const date = new Date();
+        const expired = (date > new Date(item.dueDate));
+        // Check the item is NOT expired, then add to array.
+        if (!expired) {
+          return items.push(
+            <TaskCard item={item} key={i} user={user} className="mb-4"
+            index={i} />
+          );
+        }
+      } else {
+        // if the user is viewing any other page, push all tasks to the array.
+        return items.push(
+          <TaskCard item={item} key={i} user={user} className="mb-4"
+          index={i} />
+        );
+      }
     });
   };
 
