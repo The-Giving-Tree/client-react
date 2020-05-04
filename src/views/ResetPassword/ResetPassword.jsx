@@ -234,7 +234,7 @@ function ResetPassword(props) {
         </Media>
         <p className="my-3 text-sm">
           New to Giving Tree?{' '}
-          <a className="text-indigo-600 hover:text-indigo-800" href="/signup">
+          <a className="text-blue-600 hover:text-blue-800" href="/signup">
             Sign Up
           </a>
         </p>

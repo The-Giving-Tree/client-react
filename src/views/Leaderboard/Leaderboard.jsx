@@ -127,7 +127,7 @@ function Leaderboard(props) {
               </td>
               <td
                 onClick={() => history.push(`/user/${item.username}`)}
-                className={`px-4 py-2 text-left hover:text-indigo-600 transition duration-150`}
+                className={`px-4 py-2 text-left hover:text-blue-600 transition duration-150`}
                 style={{
                   cursor: 'pointer',
                   fontSize: '14px',

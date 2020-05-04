@@ -302,14 +302,14 @@ function Submit(props) {
 
   // Function to update char counter below summary on input event
   function updateSummaryCharCounter(value) {
-    if (value.length == 0) {
+    if (value.length === 0) {
       setSummaryCharCounter('Maximum characters: ' + maxSummaryChar)
     } else if (value.length <= maxSummaryChar) {
       let charRemaining = maxSummaryChar - value.length;
       setSummaryCharCounter('Characters remaining: ' + charRemaining)
     } else {
       let charOverflow = value.length - maxSummaryChar;
-      if (charOverflow == 1) {
+      if (charOverflow === 1) {
         setSummaryCharCounter(charOverflow + ' character too many')
       } else {
         setSummaryCharCounter(charOverflow + ' characters too many')
@@ -644,7 +644,7 @@ function Submit(props) {
           />
           <button
             className={`${
-              validCart ? 'bg-indigo-500 hover:bg-indigo-700' : 'bg-gray-500'
+              validCart ? 'bg-blue-500 hover:bg-blue-700' : 'bg-gray-500'
             } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
             type="button"
             style={{ outline: 'none', cursor: validCart ? 'pointer' : 'not-allowed' }}
@@ -771,7 +771,7 @@ function Submit(props) {
                   <br />
                   <br />
                   To receive help, either make a request or call/text us at{' '}
-                  <a className="text-indigo-600 hover:text-indigo-800" href="tel:+1415-964-4261">
+                  <a className="text-blue-600 hover:text-blue-800" href="tel:+1415-964-4261">
                     415-964-4261
                   </a>{' '}
                   to have us make one on your behalf. <br />
@@ -784,84 +784,7 @@ function Submit(props) {
               <Redirect to={`/post/${submittedPost._id}`} />
             ) : (
               <div className="bg-white shadow-lg rounded-lg p-6 mb-8">
-                <div 
-                  className="flex justify-between items-center my-4 mb-6" 
-                  style={{ height: 36 }}>
-                  {!checkout ? (
-                    <label
-                      className="block mt-4 uppercase tracking-wide text-gray-700 text-sm font-bold mb-2"
-                      htmlFor="grid-last-name"
-                    >
-                      I want to:
-                    </label>
-                  ) : (
-                    <div 
-                      className="flex justify-center" 
-                      style={{ width: '100%' }}
-                    >
-                      <label
-                        className="block mt-4 uppercase tracking-wide text-gray-700 text-sm font-bold mb-2"
-                        htmlFor="grid-last-name"
-                      >
-                        Create Request
-                      </label>
-                    </div>
-                  )}
-                </div>
-                {!checkout && (
-                  <div className="sm:flex items-center justify-around">
-                    <div
-                      onClick={() => {
-                        alert('please call or text +1 415-964-4261');
-                      }}
-                      className={`mb-6 sm:mb-0 max-w-sm submit-card relative
-                      rounded overflow-hidden shadow-lg border
-                      hover:border-indigo-600 rounded-lg hover:text-green-600 
-                      transition duration-150 mx-auto md:mx-auto`}
-                      style={{ 
-                        cursor: 'pointer',
-                      }}
-                    >
-                      <div className="px-6 py-8 text-center" style={{
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        position: 'absolute',
-                        width: '100%'
-                      }}>
-                        <div className={`font-bold text-xl`}>Call or Text</div>
-                      </div>
-                    </div>
-                    <div
-                      onClick={() => {
-                        setCheckout(true);
-                      }}
-                      className={`max-w-sm rounded  hover:border-indigo-600 
-                      overflow-hidden shadow-lg border mx-auto md:mx-auto rounded-lg submit-card relative
-                      ${selectedRequest === 'supplies' && 'border-indigo-600'} 
-                      transition duration-150`}
-                      style={{ 
-                        cursor: 'pointer',
-                      }}
-                    >
-                      <div className="px-6 py-8 text-center" style={{
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        position: 'absolute',
-                        width: '100%'
-                      }}>
-                        <div
-                          className={`font-bold text-xl text-center ${selectedRequest ===
-                            'supplies' && 'text-green-600'}`}
-                        >
-                          Submit Request Online
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                {checkout && formJSX()}
+                {formJSX()}
               </div>
             )}
           </section>

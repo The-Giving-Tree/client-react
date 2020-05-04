@@ -295,7 +295,7 @@ class TaskCard extends React.Component {
     ) : (
       <React.Fragment>
         <div
-          className="bg-indigo-100 border-l-4 border-indigo-500 text-indigo-700 
+          className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 
           text-sm p-4 mt-8"
           role="alert"
         >
@@ -317,7 +317,7 @@ class TaskCard extends React.Component {
     ) : (
       <React.Fragment>
         <div
-          className="bg-indigo-100 border-l-4 border-indigo-500 text-indigo-700 p-4 mt-8"
+          className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mt-8"
           role="alert"
         >
           {item.trackingDetails && (
@@ -360,7 +360,7 @@ class TaskCard extends React.Component {
           >
             <span
               onClick={() => this.props.history.push(`/user/${item.assignedUser.username}`)}
-              className="hover:text-indigo-800"
+              className="hover:text-blue-800"
             >
               {item.assignedUser.username}
             </span>
