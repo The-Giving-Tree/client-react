@@ -72,16 +72,14 @@ function Submit(props) {
 
   const [editArray, setEditArray] = React.useState([]);
   const [editCart, setEditCart] = React.useState([]);
+  const validCart = cartName && cartQuantity && Number(cartQuantity) > 0;
 
   // initialize state
   React.useEffect(() => {
     setTitle(titleStore);
     if (selectMenu !== '') {
       setCheckout(true);
-
-      if (selectMenu === 'Food/Supplies') {
-        setRequest('food/supplies');
-      }
+      if (selectMenu === 'Food/Supplies') setRequest('food/supplies');
     }
   }, [titleStore, selectMenu]);
 
@@ -137,8 +135,6 @@ function Submit(props) {
     }
     return true;
   };
-
-  const validCart = cartName && cartQuantity && Number(cartQuantity) > 0;
 
   /**
    * Returns the JSX for the list of items the user has added to their cart
@@ -527,15 +523,18 @@ function Submit(props) {
             <span className="">in app comments</span>
           </label>
         </div>
-        <label className="block mb-2 ml-6 text-gray-700 font-bold">Special instructions</label>
-        <input
+        <label 
+        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mr-2">
+          Special instructions
+        </label>
+        <textarea
           onChange={e => setDescription(e.target.value)}
-          className="appearance-none mt-4 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="description"
           value={description}
           type="text"
           placeholder="Add any special instructions regarding your circumstances, needs, and/or delivery preferences here."
-        />
+        ></textarea>
 
         <label
           className="block mt-4 uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -664,63 +663,11 @@ function Submit(props) {
             Add
           </button>
         </div>
-        <div className="flex justify-between items-center mt-6">
-          <span />
+        <div className="flex justify-end items-center mt-6">
           <div>
             {selectedRequest !== '' && (
               <button
-                onClick={() => {
-                  if (
-                    title &&
-                    latLng.lat &&
-                    latLng.lng &&
-                    address &&
-                    description &&
-                    neededBy &&
-                    cart.length > 0
-                  ) {
-                    let foodString = {
-                      address,
-                      type: selectedRequest,
-                      description,
-                      cart,
-                      contactMethod,
-                      email,
-                      name,
-                      postal,
-                      dueDate: neededBy,
-                      location: latLng,
-                      phoneNumber
-                    };
-
-                    if (isEmpty(submittedDraft)) {
-                      submitDraftDispatch({
-                        env: process.env.REACT_APP_NODE_ENV,
-                        data: {
-                          address,
-                          requestType: selectedRequest,
-                          description,
-                          cart,
-                          contactMethod,
-                          email,
-                          name,
-                          postal,
-                          dueDate: neededBy,
-                          location: latLng,
-                          phoneNumber,
-                          title,
-                          text: ' ',
-                          categories: [selectedRequest].join(','),
-                          publicAddress
-                        }
-                      });
-                    } else {
-                      alert('draft already submitted');
-                    }
-                  } else {
-                    alert('please fill out all fields');
-                  }
-                }}
+                onClick={() => submitForm()}
                 disabled={!allowSubmit}
                 style={{ outline: 'none', cursor: allowSubmit ? 'pointer' : 'not-allowed' }}
                 className={`${
@@ -735,6 +682,61 @@ function Submit(props) {
       </div>
     );
   };
+
+  /**
+   * Action that is fired when user clicks the submit button
+   *
+   */
+  function submitForm() {
+    if (validateForm()) {
+      if (isEmpty(submittedDraft)) {
+        submitDraftDispatch({
+          env: process.env.REACT_APP_NODE_ENV,
+          data: getFormData()
+        });
+      } else {
+        alert('draft already submitted');
+      }
+    } else {
+      alert('please fill out all fields');
+    }
+  };
+
+  /**
+   * Validate the form before submitting
+   *
+   */
+  function validateForm() {
+    const hasLocation = (latLng && latLng.lat && latLng.lng && address);
+    const hasItems = cart.length > 0;
+    return (hasLocation && title && hasItems && neededBy);
+  }
+
+  /**
+   * Return the form data in an object for use in dispatch
+   *
+   * @returns
+   */
+  function getFormData() {
+    const desc = (!description) ? 'N/A' : description;
+    return {
+      address,
+      requestType: selectedRequest,
+      desc,
+      cart,
+      contactMethod,
+      email,
+      name,
+      postal,
+      dueDate: neededBy,
+      location: latLng,
+      phoneNumber,
+      title,
+      text: ' ',
+      categories: [selectedRequest].join(','),
+      publicAddress
+    }
+  }
 
   return (
     <div>
