@@ -420,16 +420,19 @@ function Submit(props) {
             {summaryCharCounter}
           </label>
         </div>
-        <div className="sm:flex sm:items-center mt-4">
+        <div className="mt-4">
           <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold 
-            mb-2 sm:mb-0 mr-2"
+            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mr-2"
             htmlFor="grid-last-name"
           >
             Needed By:
           </label>
           <Datetime
-            value={neededBy}
+            inputProps={{
+              className: 'bg-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500',
+              placeholder: moment.localeData().longDateFormat('L')
+            }}
+            // value={neededBy}
             onChange={(val) => {
               if (isMoment(val)) setNeededBy(val);
             }}
