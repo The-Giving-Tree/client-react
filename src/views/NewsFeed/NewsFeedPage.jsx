@@ -94,27 +94,6 @@ function NewsFeedPage(props) {
           });
         }
         break;
-      // case 'completed':
-      //   if (newsfeedSort !== 'Completed') {
-      //     setSort('Completed');
-      //     loadNewsfeedDispatch({
-      //       env: process.env.REACT_APP_NODE_ENV,
-      //       page: Number(currentPage),
-      //       location: latLng,
-      //       feed: 'Completed'
-      //     });
-      //   }
-      //   break;
-      // case 'global':
-      //   if (newsfeedSort !== 'Global') {
-      //     setSort('Global');
-      //     loadNewsfeedDispatch({
-      //       env: process.env.REACT_APP_NODE_ENV,
-      //       page: Number(currentPage),
-      //       feed: 'Global'
-      //     });
-      //   }
-      //   break;
       case 'popular':
         if (newsfeedSort !== 'Popular') {
           setSort('Popular');
@@ -203,23 +182,6 @@ function NewsFeedPage(props) {
     setLatLng(location.latLng); // initialize
     hotjar.initialize('1751072', 6);
   }, []);
-
-  React.useEffect(() => {
-    // if (props.match.url === '/home/discover') {
-    //   loadNewsfeedDispatch({
-    //     env: process.env.REACT_APP_NODE_ENV,
-    //     page: Number(currentPage),
-    //     location: location.latLng,
-    //     feed: 'Discover'
-    //   });
-    // }
-  }, [
-    loadNewsfeedDispatch,
-    currentPage, 
-    latLng,  
-    // !openCustomAddress,
-    props.match.url
-  ]);
 
   const render = () => {
     news.map((item, i) => {
