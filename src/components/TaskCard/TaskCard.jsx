@@ -37,9 +37,12 @@ class TaskCard extends React.Component {
       helpArrayOngoing: {}, // Tasks claimed by user (remove from discover)
       showConfetti: false,
     }
+
+    this._mounted = false;
   }
 
   componentDidMount() {
+    this._mounted = true;
     // Set the tags for this post (Food, in progress etc)
     this.setTags();
     // Set the post details (Zip code, phone no. etc.)
@@ -54,6 +57,10 @@ class TaskCard extends React.Component {
 
   componentDidUpdate(prevProps, prevState) { 
     this.setVoteIndex()
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
   }
 
   /**
@@ -147,6 +154,20 @@ class TaskCard extends React.Component {
       tags.push(
         <Tag label={status} type={status} key={tags.length} 
         className="ml-1 mb-1" />
+      )
+    }
+
+    const date = new Date().getTime();
+    const expiry = new Date(this.props.item.dueDate).getTime();
+    // If today's date is greater than the expiry/due date
+    if (date > expiry) {
+      tags.push(
+        <Tag 
+          label="Expired" 
+          type="generic" 
+          key={tags.length} 
+          className="ml-1 mb-1"
+        />
       )
     }
 
@@ -274,7 +295,7 @@ class TaskCard extends React.Component {
     ) : (
       <React.Fragment>
         <div
-          className="bg-indigo-100 border-l-4 border-indigo-500 text-indigo-700 
+          className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 
           text-sm p-4 mt-8"
           role="alert"
         >
@@ -296,7 +317,7 @@ class TaskCard extends React.Component {
     ) : (
       <React.Fragment>
         <div
-          className="bg-indigo-100 border-l-4 border-indigo-500 text-indigo-700 p-4 mt-8"
+          className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mt-8"
           role="alert"
         >
           {item.trackingDetails && (
@@ -339,7 +360,7 @@ class TaskCard extends React.Component {
           >
             <span
               onClick={() => this.props.history.push(`/user/${item.assignedUser.username}`)}
-              className="hover:text-indigo-800"
+              className="hover:text-blue-800"
             >
               {item.assignedUser.username}
             </span>
@@ -395,10 +416,12 @@ class TaskCard extends React.Component {
   async handleUpClick(type, _id, postId = '') {
     switch (type) {
       case 'Post':
-        await this.props.upvoteDispatch({
-          env: process.env.REACT_APP_NODE_ENV,
-          postId: _id
-        });
+        if (this._mounted) {
+          await this.props.upvoteDispatch({
+            env: process.env.REACT_APP_NODE_ENV,
+            postId: _id
+          });
+        }
         break;
       case 'Comment':
         await this.props.upvoteDispatch({

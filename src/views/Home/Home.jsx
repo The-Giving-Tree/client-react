@@ -1,94 +1,25 @@
-/* eslint-disable */
 import * as React from 'react';
-import { Tabs, Tab } from 'baseui/tabs';
-import { useStyletron } from 'baseui';
-import Alert from 'baseui/icon/alert';
-import Check from 'baseui/icon/check';
-import { Notification } from 'baseui/notification';
 import { hotjar } from 'react-hotjar';
-import { Button, SHAPE } from 'baseui/button';
-import { useHistory, Redirect } from 'react-router-dom';
-import { Modal, ModalHeader, ModalBody, ModalFooter, ModalButton } from 'baseui/modal';
+import { Redirect } from 'react-router-dom';
 import Navigation from '../../components/Navigation';
-import { StyledAction } from 'baseui/card';
-import { Input } from 'baseui/input';
 import { connect } from 'react-redux';
 
 import Footer from '../../components/Footer';
 
 import './Home.css';
 
-import { register, selectMenu, initiateReset, login } from '../../store/actions/auth/auth-actions';
-
-import passwordValidator from 'password-validator';
+import { selectMenu, initiateReset } from '../../store/actions/auth/auth-actions';
 import ModalLoginSignUp from '../../components/Modals/LoginSignUp/ModalLoginSignUp';
-var schema = new passwordValidator();
-schema
-  .is()
-  .min(8)
-  .is()
-  .max(100)
-  .has()
-  .uppercase()
-  .has()
-  .lowercase()
-  .has()
-  .has()
-  .digits()
-  .symbols()
-  .has()
-  .not()
-  .spaces();
 
 function Home(props) {
-  const { loginDispatch, signupDispatch, selectMenuDispatch } = props;
-
-  const history = useHistory();
-
-  // signup
-  const [name, setName] = React.useState('');
-  const [username, setUsername] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const { selectMenuDispatch } = props;
 
   // mailchimp subscribe
   const [mailchimpEmail, setMailchimpEmail] = React.useState('');
 
-  const [activeKey, setActiveKey] = React.useState('0');
-
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const enterPressed = async event => {
-    var code = event.keyCode || event.which;
-    if (code === 13) {
-      //13 is the enter keycode
-      if (Number(activeKey) === 0) {
-        handleSignup();
-      } else {
-        handleLogin();
-      }
-    }
-  };
-
-  const handleSignup = async () => {
-    signupDispatch({
-      env: process.env.REACT_APP_NODE_ENV,
-      name,
-      email,
-      username,
-      password,
-      rememberMe: true // by default
-    });
-  };
-
-  const handleLogin = async () => {
-    loginDispatch({
-      env: process.env.REACT_APP_NODE_ENV,
-      username,
-      password,
-      rememberMe: true // by default
-    });
-  };
+  console.log('login succ', props, props.loginSuccess);
 
   React.useEffect(() => {
     hotjar.initialize('1751072', 6);
@@ -106,7 +37,7 @@ function Home(props) {
             <div className="grid grid-cols-1 md:grid-cols-2">
               <div className="col-span-1">
                 <div className="landing-image">
-                  <img src="https://d1ppmvgsdgdlyy.cloudfront.net/homepage/landing.jpg" />
+                  <img src="https://d1ppmvgsdgdlyy.cloudfront.net/homepage/landing.jpg" alt="Illustration of man providing help to old lady" />
                 </div>
                 <em className="block mb-4 text-xs">
                   Image by{' '}
@@ -223,7 +154,6 @@ function Home(props) {
               >
                 <input
                   type="email"
-                  value=""
                   name="EMAIL"
                   class="email"
                   className="w-full md:mr-4 shadow-sm border 
@@ -269,9 +199,7 @@ function Home(props) {
 }
 
 const mapDispatchToProps = dispatch => ({
-  signupDispatch: payload => dispatch(register(payload)),
   selectMenuDispatch: payload => dispatch(selectMenu(payload)),
-  loginDispatch: payload => dispatch(login(payload)),
   initiateResetDispatch: payload => dispatch(initiateReset(payload))
 });
 

@@ -46,7 +46,7 @@ function NewsfeedTable(props) {
             <div className="mb-2">
               No requests yet -{' '}
               <span
-                className={`text-indigo-600 hover:text-indigo-800 transition duration-150`}
+                className={`text-blue-600 hover:text-blue-800 transition duration-150`}
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
                   selectMenuDispatch({ selectMenu: '' }); // to show base page
