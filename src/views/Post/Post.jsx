@@ -1141,38 +1141,6 @@ function Post(props) {
                                       }}
                                     >
                                     </textarea>
-                                    {/* <Input
-                                      overrides={{
-                                        InputContainer: {
-                                          style: {
-                                            border: 0,
-                                            borderRadius: '5px'
-                                          }
-                                        }
-                                      }}
-                                      autoFocus
-                                      value={postComment}
-                                      onChange={event => {
-                                        setPostComment(event.target.value);
-                                        setSuccessComment(false);
-                                      }}
-                                      size={SIZE.compact}
-                                      onKeyPress={event => {
-                                        var code = event.keyCode || event.which;
-                                        if (code === 13 && event.target.value !== '') {
-                                          // submit comment
-                                          addCommentDispatch({
-                                            env: process.env.REACT_APP_NODE_ENV,
-                                            postId: foundPost._id,
-                                            newComment: postComment
-                                          });
-                                          // close
-                                          setSuccessComment(true);
-                                          setPostComment('');
-                                        }
-                                      }}
-                                      placeholder="add a comment..."
-                                    /> */}
                                   </div>
                                 )}
                               </div>
