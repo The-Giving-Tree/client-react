@@ -41,6 +41,8 @@ import LeaderboardTable from '../../components/LeaderboardTable/LeaderboardTable
 import HelpMenu from '../../components/HelpMenu';
 import Heading from '../../components/Heading';
 
+import { ReactComponent as IconTrash } from '../../assets/icons/trash.svg';
+
 function Post(props) {
   const {
     user,
@@ -89,6 +91,8 @@ function Post(props) {
   const [editCart, setEditCart] = React.useState([]);
 
   const [tags, setTags] = React.useState([]);
+
+  const titleField = React.useRef(null);
 
   // not null
   if (parsed !== null && !markSeenBool && !markSeenFailure) {
@@ -629,14 +633,14 @@ function Post(props) {
       <table className="table-auto" style={{ width: '100%' }}>
         <thead>
           <tr>
-            <th className="px-4 py-2">Item Description</th>
-            <th className="px-4 py-2">Quantity</th>
+            <th className="px-4 py-2 text-left">Item Description</th>
+            <th className="px-4 py-2 text-left">Quantity</th>
           </tr>
         </thead>
         <tbody>
           {cart.map((item, i) => (
             <tr className={i % 2 === 0 && `bg-gray-100`} key={i}>
-              <td className={`border px-4 py-2`}>
+              <td className={`border px-4 py-2 text-left`}>
                 {editor ?  (
                   <input
                     onChange={(e) => {
@@ -654,7 +658,23 @@ function Post(props) {
                 ) 
                 }
               </td>
-              <td className={`border px-4 py-2`}>{item.quantity}</td>
+              <td className={`border px-4 py-2 text-left`}>
+                {editor ? (
+                  <input
+                  onChange={(e) => {
+                    const newCart = [...cart]
+                    newCart[i].quantity = e.currentTarget.value;
+                    setEditCart(newCart);
+                  }}
+                  className="w-full py-1 px-2 border border-gray-300 
+                  rounded-md"
+                  type="text"
+                  value={editCart[i].quantity}
+                />
+                ) : (
+                  item.quantity
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -853,7 +873,11 @@ function Post(props) {
                                 !foundPost.completed &&
                                 (editor ? (
                                   <div className="flex items-center">
-                                    <img
+                                    <IconTrash 
+                                      style={{
+                                        fill: '#B91237'
+                                      }}
+                                      className="w-4 h-6 mr-4"
                                       onClick={() => {
                                         if (window.confirm('Are you sure you want to delete?')) {
                                           deletePostDispatch({
@@ -867,16 +891,7 @@ function Post(props) {
                                           }, 2000);
                                         }
                                       }}
-                                      style={{
-                                        objectFit: 'cover',
-                                        maxHeight: 15,
-                                        overflow: 'auto',
-                                        marginRight: 5,
-                                        cursor: 'pointer'
-                                      }}
-                                      src="https://d1ppmvgsdgdlyy.cloudfront.net/trash.svg"
-                                      alt="delete"
-                                    ></img>
+                                    />
                                     <Button
                                       kind={'secondary'}
                                       onClick={() => setEditor(false)}
@@ -927,13 +942,18 @@ function Post(props) {
                                     onClick={() => {
                                       setEditCart(foundPost.cart);
                                       setEditor(true);
+                                      // Needs wrapped in a setTimeout as it
+                                      // isn't available yet.
+                                      setTimeout(() => {
+                                        titleField.current.focus();
+                                      }, 0)
                                     }}
                                     src="https://d1ppmvgsdgdlyy.cloudfront.net/edit.svg"
                                     style={{
                                       cursor: 'pointer',
                                       height: 25,
-                                      marginLeft: 15,
-                                      width: 15
+                                      marginLeft: '1rem',
+                                      width: '1rem'
                                     }}
                                   />
                                 ))}
@@ -1002,13 +1022,16 @@ function Post(props) {
                                 }}
                               >
                                 {editor ? (
-                                  <Input
+                                  <input 
+                                    ref={titleField}
+                                    className="w-full py-1 px-2 border border-gray-300 
+                                    rounded-md"
+                                    type="text"
                                     onChange={event => {
                                       setTitle(event.target.value);
                                     }}
-                                    size={'compact'}
                                     value={title}
-                                  ></Input>
+                                  />
                                 ) : (
                                   <Heading 
                                     level="2" 
