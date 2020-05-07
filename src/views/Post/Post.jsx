@@ -86,6 +86,8 @@ function Post(props) {
   const [successComment, setSuccessComment] = React.useState(false);
   const [editor, setEditor] = React.useState(false);
 
+  const [editCart, setEditCart] = React.useState([]);
+
   const [tags, setTags] = React.useState([]);
 
   // not null
@@ -634,7 +636,24 @@ function Post(props) {
         <tbody>
           {cart.map((item, i) => (
             <tr className={i % 2 === 0 && `bg-gray-100`} key={i}>
-              <td className={`border px-4 py-2`}>{item.name}</td>
+              <td className={`border px-4 py-2`}>
+                {editor ?  (
+                  <input
+                    onChange={(e) => {
+                      const newCart = [...cart]
+                      newCart[i].name = e.currentTarget.value;
+                      setEditCart(newCart);
+                    }}
+                    className="w-full py-1 px-2 border border-gray-300 
+                    rounded-md"
+                    type="text"
+                    value={editCart[i].name}
+                  />
+                ) : (
+                  item.name
+                ) 
+                }
+              </td>
               <td className={`border px-4 py-2`}>{item.quantity}</td>
             </tr>
           ))}
@@ -760,7 +779,6 @@ function Post(props) {
                                 foundPost.createdAt === foundPost.updatedAt ? 'published' : 'updated'
                               } ${moment(new Date(foundPost.updatedAt)).fromNow()}`}</StatefulTooltip>
                             </div>
-                            {/* <div style={{ textTransform: 'capitalize' }}>&nbsp;·&nbsp;{0}&nbsp;Views</div> */}
                           </div>
                           <div className="my-1"
                             style={{
@@ -872,10 +890,12 @@ function Post(props) {
                                     >
                                       Cancel
                                     </Button>
+                                    {/* SAVE BUTTON */}
                                     <Button
                                       disabled={editPostLoading}
                                       kind={KIND.secondary}
                                       onClick={() => {
+                                        // Update the cart
                                         editPostDispatch({
                                           env: process.env.REACT_APP_NODE_ENV,
                                           postId: foundPost._id,
@@ -905,6 +925,7 @@ function Post(props) {
                                   <img
                                     alt="edit"
                                     onClick={() => {
+                                      setEditCart(foundPost.cart);
                                       setEditor(true);
                                     }}
                                     src="https://d1ppmvgsdgdlyy.cloudfront.net/edit.svg"
@@ -1067,7 +1088,31 @@ function Post(props) {
                                 </div>
                                 {!editor && (
                                   <div style={{ paddingTop: 5, paddingBottom: 10 }}>
-                                    <Input
+                                    <textarea 
+                                      className="w-full py-1 px-2 border border-gray-300 
+                                      rounded-md"
+                                      placeholder="Add a comment..."
+                                      onChange={(event) => {
+                                        setPostComment(event.target.value);
+                                        setSuccessComment(false);
+                                      }}
+                                      onKeyPress={event => {
+                                        var code = event.keyCode || event.which;
+                                        if (code === 13 && event.target.value !== '') {
+                                          // submit comment
+                                          addCommentDispatch({
+                                            env: process.env.REACT_APP_NODE_ENV,
+                                            postId: foundPost._id,
+                                            newComment: postComment
+                                          });
+                                          // close
+                                          setSuccessComment(true);
+                                          setPostComment('');
+                                        }
+                                      }}
+                                    >
+                                    </textarea>
+                                    {/* <Input
                                       overrides={{
                                         InputContainer: {
                                           style: {
@@ -1098,7 +1143,7 @@ function Post(props) {
                                         }
                                       }}
                                       placeholder="add a comment..."
-                                    />
+                                    /> */}
                                   </div>
                                 )}
                               </div>
@@ -1117,9 +1162,7 @@ function Post(props) {
           </div>
           <div 
             className="hidden xl:block xl:pl-6 w-full" 
-            style={{
-              maxWidth: '344px'
-            }}
+            style={{ maxWidth: '344px' }}
           >
             <div className="bg-white shadow-lg rounded-lg p-6">
               <div className="flex justify-between items-center mb-4">

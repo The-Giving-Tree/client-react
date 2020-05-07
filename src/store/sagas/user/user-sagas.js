@@ -81,6 +81,7 @@ export function* editPost(action) {
       action.payload.categories,
       token
     );
+
     const submittedPost = data.data;
 
     yield put({
