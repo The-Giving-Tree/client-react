@@ -36,7 +36,7 @@ import {
   markSeen
 } from '../../store/actions/auth/auth-actions';
 
-import { editPost, patchPost } from '../../store/actions/user/user-actions';
+import { patchPost } from '../../store/actions/user/user-actions';
 import LeaderboardTable from '../../components/LeaderboardTable/LeaderboardTable';
 import HelpMenu from '../../components/HelpMenu';
 import Heading from '../../components/Heading';
@@ -61,12 +61,11 @@ function Post(props) {
     coords,
     addReplyDispatch,
     markSeenDispatch,
-    // editPostDispatch,
     patchPostDispatch,
     markSeenBool,
     markSeenFailure,
-    editPostLoading,
-    editPostSuccess
+    patchPostLoading,
+    patchPostSuccess
   } = props;
   const id = props.match.params.id;
   let parsed = queryString.parse(window.location.href);
@@ -106,7 +105,7 @@ function Post(props) {
       id
     });
     setUpdated(false);
-  }, [props.newsfeed, props.newsfeedUpdated, id, loadPostDispatch, editPostSuccess]);
+  }, [props.newsfeed, props.newsfeedUpdated, id, loadPostDispatch, patchPostSuccess]);
 
   React.useEffect(() => {
     console.log('updating state');
@@ -908,7 +907,7 @@ function Post(props) {
                                     </Button>
                                     {/* SAVE BUTTON */}
                                     <Button
-                                      disabled={editPostLoading}
+                                      disabled={patchPostLoading}
                                       kind={KIND.secondary}
                                       onClick={() => {
 
@@ -935,9 +934,9 @@ function Post(props) {
                                         fontSize: '12px'
                                       }}
                                     >
-                                      {editPostLoading
+                                      {patchPostLoading
                                         ? 'Saving...'
-                                        : editPostSuccess
+                                        : patchPostSuccess
                                         ? 'Saved'
                                         : 'Save'}
                                     </Button>
@@ -1276,7 +1275,8 @@ function Post(props) {
                       className="text-left mt-4"
                     >
                       Want to improve your ranking?{' '}
-                      <span className="font-bold hover:text-blue-600 transition duration-150">
+                      <span 
+                        className="font-bold hover:text-blue-600 transition duration-150">
                         Find out how
                       </span>
                     </div>
@@ -1299,7 +1299,6 @@ const mapDispatchToProps = dispatch => ({
   deletePostDispatch: payload => dispatch(deletePost(payload)),
   deleteCommentDispatch: payload => dispatch(deleteComment(payload)),
   markSeenDispatch: payload => dispatch(markSeen(payload)),
-  // editPostDispatch: payload => dispatch(editPost(payload)),
   patchPostDispatch: payload => dispatch(patchPost(payload)),
   addReplyDispatch: payload => dispatch(addReply(payload)),
   loadPostDispatch: payload => dispatch(loadPost(payload)),
@@ -1321,9 +1320,9 @@ const mapStateToProps = state => ({
   loadPostFailure: state.auth.loadPostFailure,
   markSeenBool: state.auth.markSeen,
   markSeenFailure: state.auth.markSeenFailure,
-  editPostLoading: state.user.editPostLoading,
-  editPostSuccess: state.user.editPostSuccess,
-  editPostFailure: state.user.editPostFailure
+  patchPostLoading: state.user.patchPostLoading,
+  patchPostSuccess: state.user.patchPostSuccess,
+  patchPostFailure: state.user.patchPostFailure
 });
 
 Post.defaultProps = {};

@@ -76,7 +76,6 @@ export function* saveDraft(action) {
  * @param {*} action
  */
 export function* patchPost(action) {
-  console.log("SAGA ACTION: ", action)
   try {
     let token = localStorage.getItem('giving_tree_jwt');
     const data = yield call(
@@ -87,7 +86,6 @@ export function* patchPost(action) {
       token
     );
 
-    console.log('DATA HERE: ', data);
     const submittedPost = data.data;
 
     yield put({

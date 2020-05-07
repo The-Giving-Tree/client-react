@@ -26,8 +26,6 @@ const initialState = {
 };
 
 const user = (state = initialState, action) => {
-  console.log("ACTION HERE: ", action)
-
   switch (action.type) {
     case ACTION_TYPES.SUBMIT_DRAFT_REQUESTED:
       return Object.assign({}, state, {
