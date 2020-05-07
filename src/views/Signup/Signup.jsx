@@ -5,7 +5,7 @@ import {
   StyledNavigationList as NavigationList
 } from 'baseui/header-navigation';
 import { Card, StyledAction } from 'baseui/card';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect, useHistory, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Input } from 'baseui/input';
 import { Button, SHAPE } from 'baseui/button';
@@ -37,6 +37,33 @@ schema
   .not()
   .spaces();
 
+const AlreadyRegisteredEmailError = ({ email }) => (
+  <React.Fragment>
+    Oops, it looks like you've already made an account with this email address!
+    Would you like to try <a href="/signup" style={{  color: 'rgb(0, 121, 211)' }}>logging in</a> instead?
+  </React.Fragment>
+)
+
+const alreadyRegisteredUsernameError = username => `Sorry, that username is already taken! Can you please try a different one?`
+
+const prettyErrorMessage = errors => {
+  if (errors) {
+
+    if (errors.email) {
+      if (errors.email.kind === 'unique') {
+        const props = { email: errors.email.value }
+        return AlreadyRegisteredEmailError(props)
+      }
+    }
+
+    if (errors.username) {
+      if (errors.username.kind === 'unique')
+        return alreadyRegisteredUsernameError(errors.username.value)
+    }
+
+  }
+}
+
 function Signup(props) {
   const [name, setName] = React.useState('');
   const [username, setUsername] = React.useState('');
@@ -53,7 +80,8 @@ function Signup(props) {
   // });
   const authenticated = localStorage.getItem('giving_tree_jwt');
 
-  const { signupDispatch, errorMessage, registerLoading } = props;
+  let { signupDispatch, errorMessage, errorObject, registerLoading } = props;
+  errorMessage = prettyErrorMessage(errorObject) || errorMessage
 
   const history = useHistory();
 
@@ -290,6 +318,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   user: state.auth.user,
   errorMessage: state.auth.errorMessage,
+  errorObject: state.auth.errorObject,
   registerLoading: state.auth.registerLoading,
   registerSuccess: state.auth.registerSuccess,
   registerFailure: state.auth.registerFailure

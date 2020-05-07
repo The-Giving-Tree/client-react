@@ -40,6 +40,39 @@ class ModalLoginSignUp extends React.Component {
     this.loginPasswordInput = React.createRef();
   }
 
+  AlreadyRegisteredEmailError = ({ email }) => (
+    <div>
+      Oops, it looks like you've already made an account with this email address!
+      Would you like to try <div onClick={() => {
+            this.setType('login');
+            this.setState({
+              redirected: true,
+            })
+          }} style={{  color: 'rgb(0, 121, 211)',
+          display: "inline" }}>logging in</div> instead?
+    </div>
+  )
+  
+  alreadyRegisteredUsernameError = username => `Sorry, that username is already taken! Can you please try a different one?`
+  
+  prettyErrorMessage = errors => {
+    if (errors) {
+  
+      if (errors.email) {
+        if (errors.email.kind === 'unique') {
+          const props = { email: errors.email.value }
+          return this.AlreadyRegisteredEmailError(props)
+        }
+      }
+  
+      if (errors.username) {
+        if (errors.username.kind === 'unique')
+          return this.alreadyRegisteredUsernameError(errors.username.value)
+      }
+  
+    }
+  }
+  
   componentDidMount() {
     this.setType(this.props.type);
   }
@@ -93,7 +126,9 @@ class ModalLoginSignUp extends React.Component {
    * @memberof ModalLoginSignUp
    */
   setType(val) {
-    this.setState({ type: val });
+    this.setState({
+      type: val,
+    });
   }
 
   /**
@@ -129,7 +164,7 @@ class ModalLoginSignUp extends React.Component {
     return (
       <div>
         <h2 className="text-center text-2xl mb-6">Log in</h2>
-        {this.props.errorMessage && 
+        {!this.state.redirected && this.props.errorMessage && 
           <p className="text-red-700 text-center mb-4">
             {this.props.errorMessage}
           </p>
@@ -138,6 +173,9 @@ class ModalLoginSignUp extends React.Component {
           e.preventDefault();
 
           this.handleLogin(this.loginUsernameInput.current.value, this.loginPasswordInput.current.value);
+          this.setState({
+            redirected: false,
+          })
         }}>
           <input type="text" placeholder="Username" 
           name="username"
@@ -238,11 +276,12 @@ class ModalLoginSignUp extends React.Component {
    * JSX for the signup modal body
    */
   signupModalBody() {
+    const errorMessage = this.prettyErrorMessage(this.props.errorObject) || this.props.errorMessage
     return (
       <div>
         <h2 className="text-center text-2xl mb-6">Sign up</h2>
-        {this.props.errorMessage && <p className="mb-4 text-center text-red-700">
-          {this.props.errorMessage}
+        {!this.state.redirected && errorMessage && <p className="mb-4 text-center text-red-700">
+          {errorMessage}
         </p>}
         <input type="text" 
           placeholder="Name" 
@@ -552,6 +591,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   user: state.auth.user,
   errorMessage: state.auth.errorMessage,
+  errorObject: state.auth.errorObject,
   registerLoading: state.auth.registerLoading,
   registerSuccess: state.auth.registerSuccess,
   registerFailure: state.auth.registerFailure,
