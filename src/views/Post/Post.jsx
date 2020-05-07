@@ -36,7 +36,7 @@ import {
   markSeen
 } from '../../store/actions/auth/auth-actions';
 
-import { editPost } from '../../store/actions/user/user-actions';
+import { editPost, patchPost } from '../../store/actions/user/user-actions';
 import LeaderboardTable from '../../components/LeaderboardTable/LeaderboardTable';
 import HelpMenu from '../../components/HelpMenu';
 import Heading from '../../components/Heading';
@@ -61,7 +61,8 @@ function Post(props) {
     coords,
     addReplyDispatch,
     markSeenDispatch,
-    editPostDispatch,
+    // editPostDispatch,
+    patchPostDispatch,
     markSeenBool,
     markSeenFailure,
     editPostLoading,
@@ -910,13 +911,18 @@ function Post(props) {
                                       disabled={editPostLoading}
                                       kind={KIND.secondary}
                                       onClick={() => {
-                                        // Update the cart
-                                        editPostDispatch({
+
+                                        // Configure the data/payload object
+                                        const data = {
+                                          title: title,
+                                          cart: editCart
+                                        }
+
+                                        // Update the data on save
+                                        patchPostDispatch({
                                           env: process.env.REACT_APP_NODE_ENV,
                                           postId: foundPost._id,
-                                          title,
-                                          text: foundPost.text,
-                                          categories: tags.join(',')
+                                          data: data
                                         });
 
                                         setEditor(false);
@@ -1325,7 +1331,8 @@ const mapDispatchToProps = dispatch => ({
   deletePostDispatch: payload => dispatch(deletePost(payload)),
   deleteCommentDispatch: payload => dispatch(deleteComment(payload)),
   markSeenDispatch: payload => dispatch(markSeen(payload)),
-  editPostDispatch: payload => dispatch(editPost(payload)),
+  // editPostDispatch: payload => dispatch(editPost(payload)),
+  patchPostDispatch: payload => dispatch(patchPost(payload)),
   addReplyDispatch: payload => dispatch(addReply(payload)),
   loadPostDispatch: payload => dispatch(loadPost(payload)),
   upvoteDispatch: payload => dispatch(upvote(payload)),

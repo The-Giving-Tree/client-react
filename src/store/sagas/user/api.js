@@ -84,28 +84,27 @@ const uploadPhoto = async (env, image, token) => {
   }
 };
 
-const editPost = async (env, postId, title, text, categories, token) => {
+/**
+ * Update/Edit an existing post with new data
+ */
+const patchPost = async (env, postId, dataObj, token) => {
   const headers = {
     headers: {
       Authorization: `Bearer ${token}`
     }
   };
 
-  const payload = {
-    categories,
-    text,
-    title
-  };
+  const payload = dataObj;
 
   try {
-    const data = await Axios.put(`${ROUTES[env].giving_tree}/v1/post/${postId}`, payload, headers);
+    const data = await Axios.patch(`${ROUTES[env].giving_tree}/v1/post/${postId}`, payload, headers);
     return data;
   } catch (e) {
     const error = e.response.data ? e.response.data : e;
     Sentry.captureException(new Error(JSON.stringify(error)));
     throw error;
   }
-};
+}
 
 const publishPost = async (env, postId, payload, token) => {
   const headers = {
@@ -153,7 +152,7 @@ const Api = {
   submitDraft,
   saveDraft,
   publishPost,
-  editPost,
+  patchPost,
   markSeen,
   getDraft,
   uploadPhoto

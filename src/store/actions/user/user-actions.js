@@ -15,8 +15,11 @@ export const publishPost = payload => ({
   payload
 });
 
-export const editPost = payload => ({
-  type: ACTION_TYPE.EDIT_POST_REQUESTED,
+/**
+ * Update an existing post
+ */
+export const patchPost = payload => ({
+  type: ACTION_TYPE.PATCH_POST_REQUESTED,
   payload
 });
 

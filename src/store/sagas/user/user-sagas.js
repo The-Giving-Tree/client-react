@@ -69,30 +69,39 @@ export function* saveDraft(action) {
   }
 }
 
-export function* editPost(action) {
+/**
+ * Update the post with some new data
+ *
+ * @export
+ * @param {*} action
+ */
+export function* patchPost(action) {
+  console.log("SAGA ACTION: ", action)
   try {
     let token = localStorage.getItem('giving_tree_jwt');
     const data = yield call(
-      Api.editPost,
+      Api.patchPost,
       action.payload.env,
       action.payload.postId,
-      action.payload.title,
-      action.payload.text,
-      action.payload.categories,
+      action.payload.data,
       token
     );
 
+    console.log('DATA HERE: ', data);
     const submittedPost = data.data;
 
     yield put({
-      type: ACTION_TYPE.EDIT_POST_SUCCESS,
+      type: ACTION_TYPE.PATCH_POST_SUCCESS,
       payload: {
         submittedPost
       }
     });
   } catch (error) {
     console.log('error: ', error);
-    yield put({ type: ACTION_TYPE.EDIT_POST_FAILURE, payload: error });
+    yield put({
+      type: ACTION_TYPE.PATCH_POST_FAILURE, 
+      payload: error
+    });
   }
 }
 
@@ -158,7 +167,7 @@ export default function* watchUserSagas() {
   yield takeLatest(ACTION_TYPE.UPLOAD_PHOTO_REQUESTED, uploadPhoto);
   yield takeLatest(ACTION_TYPE.GET_DRAFT_REQUESTED, getDraft);
   yield takeLatest(ACTION_TYPE.SAVE_DRAFT_REQUESTED, saveDraft);
-  yield takeLatest(ACTION_TYPE.EDIT_POST_REQUESTED, editPost);
+  yield takeLatest(ACTION_TYPE.PATCH_POST_REQUESTED, patchPost);
   yield takeLatest(ACTION_TYPE.PUBLISH_POST_REQUESTED, publishPost);
   yield takeLatest(ACTION_TYPE.SEEN_SUBMIT_TUTORIAL_REQUESTED, markSeen);
 }
