@@ -40,6 +40,7 @@ import { editPost } from '../../store/actions/user/user-actions';
 import LeaderboardTable from '../../components/LeaderboardTable/LeaderboardTable';
 import HelpMenu from '../../components/HelpMenu';
 import Heading from '../../components/Heading';
+import ModalPostSuccess from './components/ModalPostSuccess';
 
 function Post(props) {
   const {
@@ -63,7 +64,9 @@ function Post(props) {
     markSeenBool,
     markSeenFailure,
     editPostLoading,
-    editPostSuccess
+    editPostSuccess,
+    submitPostSuccess,
+    markSeenSubmitTutorial
   } = props;
   const id = props.match.params.id;
   let parsed = queryString.parse(window.location.href);
@@ -85,12 +88,18 @@ function Post(props) {
   const [postComment, setPostComment] = React.useState('');
   const [successComment, setSuccessComment] = React.useState(false);
   const [editor, setEditor] = React.useState(false);
-
   const [tags, setTags] = React.useState([]);
+
+  // controls the modal that shows the next steps after posting a task
+  const [postModal, setPostModal] = React.useState(true);
 
   // not null
   if (parsed !== null && !markSeenBool && !markSeenFailure) {
-    markSeenDispatch({ env: process.env.REACT_APP_NODE_ENV, postId: id, userId: parsed });
+    markSeenDispatch({ 
+      env: process.env.REACT_APP_NODE_ENV, 
+      postId: id, 
+      userId: parsed
+    });
   }
 
   React.useEffect(() => {
@@ -646,6 +655,15 @@ function Post(props) {
   return (
     <div>
       <Navigation searchBarPosition="center" />
+
+      {/* When a post is successfully submitted, display this modal */}
+      {(submitPostSuccess && markSeenSubmitTutorial) && (
+        <ModalPostSuccess 
+          isOpen={postModal} 
+          setIsOpen={setPostModal}
+        />
+      )}
+
       {successComment && (
         <Notification
           autoHideDuration={3000}
@@ -1282,7 +1300,9 @@ const mapStateToProps = state => ({
   markSeenFailure: state.auth.markSeenFailure,
   editPostLoading: state.user.editPostLoading,
   editPostSuccess: state.user.editPostSuccess,
-  editPostFailure: state.user.editPostFailure
+  editPostFailure: state.user.editPostFailure,
+  submitPostSuccess: state.user.submitPostSuccess,
+  markSeenSubmitTutorial: state.user.markSeenSubmitTutorial
 });
 
 Post.defaultProps = {};

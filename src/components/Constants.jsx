@@ -21,5 +21,12 @@ module.exports = Object.freeze({
   },
   IMG: {
     CLOUDFRONT: 'https://d1ppmvgsdgdlyy.cloudfront.net'
+  },
+  BREAKPOINTS: {
+    xs: '(max-width: 414px)',
+    sm: '(min-width: 415px) and (max-width: 767px)',
+    md: '(min-width: 768px) and (max-width: 1023px)',
+    lg: '(min-width: 1024px) and (max-width: 1279px)',
+    xl: '(min-width: 1280px)'
   }
 });

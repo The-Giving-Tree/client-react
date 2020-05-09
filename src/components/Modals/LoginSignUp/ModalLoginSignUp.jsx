@@ -530,7 +530,6 @@ class ModalLoginSignUp extends React.Component {
    * @memberof ModalLoginSignUp
    */
   getTemplate() {
-
     switch(this.state.type) {
       case 'login': {
         return this.loginModalBody();

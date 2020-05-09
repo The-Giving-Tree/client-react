@@ -318,10 +318,6 @@ function Navigation(props) {
         <Link
           className="mr-5 h-6 w-6 inline-block flex-shrink-0"
           to={Constants.PATHS.SUBMIT}
-          onClick={() => {
-            selectMenuDispatch({ selectMenu: '' });
-            window.location = Constants.PATHS.SUBMIT;
-          }}
         >
           <img 
             src="https://d1ppmvgsdgdlyy.cloudfront.net/submit.svg"

@@ -11,6 +11,7 @@ import TaskCard from '../../components/TaskCard';
 import HelpMenu from '../../components/HelpMenu';
 import DeskopOnboarding from './components/DesktopOnboarding/DeskopOnboarding';
 import MobileOnboarding from './components/MobileOnboarding/MobileOnboarding';
+import Constants from '../../components/Constants';
 
 // Libraries
 import { hotjar } from 'react-hotjar';
@@ -215,15 +216,7 @@ function NewsFeedPage(props) {
       
       {/* If the user just logged in, show the modal */}
       {props.loginSuccess && 
-        <Media
-          queries={{
-            xs: '(max-width: 414px)',
-            sm: '(min-width: 415px) and (max-width: 767px)',
-            md: '(min-width: 768px) and (max-width: 1023px)',
-            lg: '(min-width: 1024px) and (max-width: 1279px)',
-            xl: '(min-width: 1280px)'
-          }}
-        >
+        <Media queries={Constants.BREAKPOINTS}>
           {matches => {
             if (!matches.xs && !matches.sm) {
               return(
