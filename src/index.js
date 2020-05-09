@@ -12,7 +12,9 @@ import { history } from './store/configure-store';
 require('dotenv').config();
 const store = configureStore();
 
-Sentry.init({ dsn: 'https://a994116c7f4a426fa4f35e5bbf6f223e@sentry.io/1848751' });
+Sentry.init({ 
+  dsn: 'https://a994116c7f4a426fa4f35e5bbf6f223e@sentry.io/1848751'
+});
 
 ReactDOM.render(
   <Provider store={store}>

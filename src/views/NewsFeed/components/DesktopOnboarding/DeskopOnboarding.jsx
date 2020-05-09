@@ -18,6 +18,10 @@ export default class DesktopOnboarding extends React.Component {
     this.setIsOpen = this.setIsOpen.bind(this);
   }
 
+  componentDidMount() {
+    console.log(this.props);
+  }
+
   /**
    * Tell the parent component that the modal is open/closed
    *
