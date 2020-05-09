@@ -1,13 +1,12 @@
-/* eslint-disable */
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Tabs, Tab } from 'baseui/tabs';
 import Navigation from '../../components/Navigation';
 import { geolocated } from 'react-geolocated';
-import { StatefulPopover, PLACEMENT } from 'baseui/popover';
 import { connect } from 'react-redux';
 import { hotjar } from 'react-hotjar';
-import Sidebar from '../../components/Sidebar/Sidebar';
+import Sidebar from '../../components/Sidebar';
+import Heading from '../../components/Heading';
 
 import {
   getCurrentUser,
@@ -26,8 +25,7 @@ import HelpMenu from '../../components/HelpMenu';
 
 function Leaderboard(props) {
   const {
-    user, getCurrentUserDispatch, getLeaderboardDispatch, userRanking, 
-    leaderboard
+    user, getCurrentUserDispatch, getLeaderboardDispatch, leaderboard
   } = props;
 
   const history = useHistory();
@@ -37,9 +35,7 @@ function Leaderboard(props) {
   const authenticated = localStorage.getItem('giving_tree_jwt');
   const refresh = async () => {
     if (authenticated && !user.username) {
-      await getCurrentUserDispatch({
-        env: process.env.REACT_APP_NODE_ENV
-      });
+      await getCurrentUserDispatch({ env: process.env.REACT_APP_NODE_ENV });
     }
   };
 
@@ -113,7 +109,7 @@ function Leaderboard(props) {
         </thead>
         <tbody>
           {leaderboard.map((item, i) => (
-            <tr className={i % 2 === 0 && `bg-white`}>
+            <tr key={i}>
               <td
                 className={`px-4 py-2 flex justify-center items-center`}
                 style={{
@@ -214,17 +210,13 @@ function Leaderboard(props) {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <Navigation searchBarPosition="center" />
       <div className="lg:max-w-4xl xl:max-w-screen-xl w-full mx-auto py-12 px-6">
         <div className="block xl:flex">
-          <aside className="xl:pr-6 sidebar-wrapper">
-            <Sidebar {...props} />
-          </aside>
+          <Sidebar {...props} className="xl:pr-6 sidebar-wrapper" />
           <section className="w-full">
-            <div className="leaderboard-heading mb-4" style={{ width: '80%' }}>
-              Leaderboard
-            </div>
+            <Heading level="1">Leaderboard</Heading>
             <div className="bg-white rounded-lg p-6 shadow-lg">
               <div className="flex justify-between items-center">
                 <Tabs
@@ -332,7 +324,7 @@ function Leaderboard(props) {
         </div>
       </div>
       <HelpMenu />
-    </div>
+    </React.Fragment>
   );
 }
 
