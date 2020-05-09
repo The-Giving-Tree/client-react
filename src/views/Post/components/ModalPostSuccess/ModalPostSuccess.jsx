@@ -233,7 +233,7 @@ class ModalPostSuccess extends React.Component {
   async dismissForever() {
     await this.props.seenTutorial({
       env: process.env.REACT_APP_NODE_ENV,
-      type: true
+      type: 'submit'
     });
   };
 
@@ -295,7 +295,9 @@ class ModalPostSuccess extends React.Component {
                       <li className="px-3 py-2">
                         <Button
                           variant="reset" 
-                          onClick={() => this.setIsOpen(false)}>
+                          onClick={() => {
+                            this.setIsOpen(false)
+                          }}>
                           Dismiss
                         </Button>
                       </li>
@@ -348,8 +350,6 @@ const mapDispatchToProps = dispatch => ({
   seenTutorial: payload => dispatch(handleSeenSubmit(payload))
 });
 
-const mapStateToProps = state => ({
-  markSeenSubmitTutorial: state.user.markSeenSubmitTutorial
-});
+const mapStateToProps = state => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalPostSuccess);

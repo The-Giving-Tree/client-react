@@ -657,12 +657,12 @@ function Post(props) {
       <Navigation searchBarPosition="center" />
 
       {/* When a post is successfully submitted, display this modal */}
-      {(submitPostSuccess && markSeenSubmitTutorial) && (
+      {/* {(submitPostSuccess && !user.markSeenSubmitTutorial) && ( */}
         <ModalPostSuccess 
           isOpen={postModal} 
           setIsOpen={setPostModal}
         />
-      )}
+      {/* )} */}
 
       {successComment && (
         <Notification
