@@ -8,14 +8,16 @@ import { StatefulTooltip } from 'baseui/tooltip';
 import { StatefulPopover, PLACEMENT } from 'baseui/popover';
 import Navigation from '../../components/Navigation';
 import { geolocated } from 'react-geolocated';
-import { Card, StyledBody } from 'baseui/card';
+import { StyledBody } from 'baseui/card';
 import { Block } from 'baseui/block';
 import { getDistance } from 'geolib';
 import { ChevronUp, ChevronDown } from 'baseui/icon';
 import { Drawer } from 'baseui/drawer';
 import { Notification } from 'baseui/notification';
 import moment from 'moment';
-import { Modal, ModalHeader, ModalBody, ModalFooter, ModalButton } from 'baseui/modal';
+import { 
+  Modal, ModalHeader, ModalBody, ModalFooter, ModalButton
+} from 'baseui/modal';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import { connect } from 'react-redux';
 import { hotjar } from 'react-hotjar';
@@ -31,14 +33,15 @@ import {
   upvote,
   downvote,
   addReply,
-  markSeen,
-  getLeaderboard
+  markSeen
 } from '../../store/actions/auth/auth-actions';
 
-import { editPost } from '../../store/actions/user/user-actions';
+import { patchPost } from '../../store/actions/user/user-actions';
 import LeaderboardTable from '../../components/LeaderboardTable/LeaderboardTable';
 import HelpMenu from '../../components/HelpMenu';
 import Heading from '../../components/Heading';
+
+import { ReactComponent as IconTrash } from '../../assets/icons/trash.svg';
 
 function Post(props) {
   const {
@@ -53,17 +56,16 @@ function Post(props) {
     editCommentDispatch,
     deleteCommentDispatch,
     deletePostDispatch,
-    getLeaderboardDispatch,
     userRanking,
     addCommentDispatch,
     coords,
     addReplyDispatch,
     markSeenDispatch,
-    editPostDispatch,
+    patchPostDispatch,
     markSeenBool,
     markSeenFailure,
-    editPostLoading,
-    editPostSuccess
+    patchPostLoading,
+    patchPostSuccess
   } = props;
   const id = props.match.params.id;
   let parsed = queryString.parse(window.location.href);
@@ -86,7 +88,11 @@ function Post(props) {
   const [successComment, setSuccessComment] = React.useState(false);
   const [editor, setEditor] = React.useState(false);
 
+  const [editCart, setEditCart] = React.useState([]);
+
   const [tags, setTags] = React.useState([]);
+
+  const titleField = React.useRef(null);
 
   // not null
   if (parsed !== null && !markSeenBool && !markSeenFailure) {
@@ -99,7 +105,7 @@ function Post(props) {
       id
     });
     setUpdated(false);
-  }, [props.newsfeed, props.newsfeedUpdated, id, loadPostDispatch, editPostSuccess]);
+  }, [props.newsfeed, props.newsfeedUpdated, id, loadPostDispatch, patchPostSuccess]);
 
   React.useEffect(() => {
     console.log('updating state');
@@ -125,7 +131,6 @@ function Post(props) {
 
   React.useEffect(() => {
     hotjar.initialize('1751072', 6);
-    getLeaderboardDispatch({ env: process.env.REACT_APP_NODE_ENV, location: 'global' });
   }, []);
 
   const cart = text ? text.cart : [];
@@ -135,37 +140,6 @@ function Post(props) {
       if (obj.hasOwnProperty(key)) return false;
     }
     return true;
-  };
-
-  const getLeaderboardIcon = place => {
-    switch (place.toString()) {
-      case '1':
-        return (
-          <img
-            src="https://d1ppmvgsdgdlyy.cloudfront.net/1st.svg"
-            alt="1st"
-            style={{ height: 20 }}
-          />
-        );
-      case '2':
-        return (
-          <img
-            src="https://d1ppmvgsdgdlyy.cloudfront.net/2nd.svg"
-            alt="2nd"
-            style={{ height: 20 }}
-          />
-        );
-      case '3':
-        return (
-          <img
-            src="https://d1ppmvgsdgdlyy.cloudfront.net/3rd.svg"
-            alt="3rd"
-            style={{ height: 20 }}
-          />
-        );
-      default:
-        return place;
-    }
   };
 
   const handlePostLoad = async id => {
@@ -365,11 +339,8 @@ function Post(props) {
                           backgroundRepeat: 'no-repeat'
                         }}
                       />
-                      <a style={{ 
-                          textDecoration: 'none',
-                          color: 'rgb(0, 121, 211)'
-                        }}
-                        className="mr-2"
+                      <a style={{ textDecoration: 'none' }}
+                        className="mr-2 text-green-700"
                         href={`/user/${childComment.username}`}
                       >
                         <strong>{childComment.username}</strong>
@@ -650,15 +621,48 @@ function Post(props) {
       <table className="table-auto" style={{ width: '100%' }}>
         <thead>
           <tr>
-            <th className="px-4 py-2">Item Description</th>
-            <th className="px-4 py-2">Quantity</th>
+            <th className="px-4 py-2 text-left">Item Description</th>
+            <th className="px-4 py-2 text-left">Quantity</th>
           </tr>
         </thead>
         <tbody>
           {cart.map((item, i) => (
             <tr className={i % 2 === 0 && `bg-gray-100`} key={i}>
-              <td className={`border px-4 py-2`}>{item.name}</td>
-              <td className={`border px-4 py-2`}>{item.quantity}</td>
+              <td className={`border px-4 py-2 text-left`}>
+                {editor ?  (
+                  <input
+                    onChange={(e) => {
+                      const newCart = [...cart]
+                      newCart[i].name = e.currentTarget.value;
+                      setEditCart(newCart);
+                    }}
+                    className="w-full py-1 px-2 border border-gray-300 
+                    rounded-md"
+                    type="text"
+                    value={editCart[i].name}
+                  />
+                ) : (
+                  item.name
+                ) 
+                }
+              </td>
+              <td className={`border px-4 py-2 text-left`}>
+                {editor ? (
+                  <input
+                  onChange={(e) => {
+                    const newCart = [...cart]
+                    newCart[i].quantity = e.currentTarget.value;
+                    setEditCart(newCart);
+                  }}
+                  className="w-full py-1 px-2 border border-gray-300 
+                  rounded-md"
+                  type="text"
+                  value={editCart[i].quantity}
+                />
+                ) : (
+                  item.quantity
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -691,18 +695,13 @@ function Post(props) {
       )}
       <div className="lg:max-w-4xl xl:max-w-screen-xl w-full mx-auto py-12 px-6">
         <div className="block xl:flex">
-          <div className="xl:pr-6 sidebar-wrapper">
-            <Sidebar {...props} />
-          </div>
+          <Sidebar {...props} className="xl:pr-6 sidebar-wrapper" />
           <div className="w-full xl:px-6">
             {/* ELEMENT TO SHOW IF THERE IS AN ERROR MESSAGE */}
             {errorMessage && (
               <div
-                style={{
-                  color: 'rgb(204, 50, 63)',
-                  width: '50%',
-                  textAlign: 'center'
-                }}
+                style={{ color: 'rgb(204, 50, 63)' }} 
+                className="w-1/2 text-center"
               >
                 {errorMessage}
               </div>
@@ -774,10 +773,8 @@ function Post(props) {
                             <div>
                               <strong>
                                 <a
-                                  style={{
-                                    color: 'rgb(0, 121, 211)',
-                                    textDecoration: 'none'
-                                  }}
+                                  className="text-green-700"
+                                  style={{ textDecoration: 'none' }}
                                   href={`/user/${foundPost.username}`}
                                 >
                                   {foundPost.username}
@@ -790,7 +787,6 @@ function Post(props) {
                                 foundPost.createdAt === foundPost.updatedAt ? 'published' : 'updated'
                               } ${moment(new Date(foundPost.updatedAt)).fromNow()}`}</StatefulTooltip>
                             </div>
-                            {/* <div style={{ textTransform: 'capitalize' }}>&nbsp;·&nbsp;{0}&nbsp;Views</div> */}
                           </div>
                           <div className="my-1"
                             style={{
@@ -865,7 +861,11 @@ function Post(props) {
                                 !foundPost.completed &&
                                 (editor ? (
                                   <div className="flex items-center">
-                                    <img
+                                    <IconTrash 
+                                      style={{
+                                        fill: '#B91237'
+                                      }}
+                                      className="w-4 h-6 mr-4"
                                       onClick={() => {
                                         if (window.confirm('Are you sure you want to delete?')) {
                                           deletePostDispatch({
@@ -879,16 +879,7 @@ function Post(props) {
                                           }, 2000);
                                         }
                                       }}
-                                      style={{
-                                        objectFit: 'cover',
-                                        maxHeight: 15,
-                                        overflow: 'auto',
-                                        marginRight: 5,
-                                        cursor: 'pointer'
-                                      }}
-                                      src="https://d1ppmvgsdgdlyy.cloudfront.net/trash.svg"
-                                      alt="delete"
-                                    ></img>
+                                    />
                                     <Button
                                       kind={'secondary'}
                                       onClick={() => setEditor(false)}
@@ -902,16 +893,23 @@ function Post(props) {
                                     >
                                       Cancel
                                     </Button>
+                                    {/* SAVE BUTTON */}
                                     <Button
-                                      disabled={editPostLoading}
+                                      disabled={patchPostLoading}
                                       kind={KIND.secondary}
                                       onClick={() => {
-                                        editPostDispatch({
+
+                                        // Configure the data/payload object
+                                        const data = {
+                                          title: title,
+                                          cart: editCart
+                                        }
+
+                                        // Update the data on save
+                                        patchPostDispatch({
                                           env: process.env.REACT_APP_NODE_ENV,
                                           postId: foundPost._id,
-                                          title,
-                                          text: foundPost.text,
-                                          categories: tags.join(',')
+                                          data: data
                                         });
 
                                         setEditor(false);
@@ -924,9 +922,9 @@ function Post(props) {
                                         fontSize: '12px'
                                       }}
                                     >
-                                      {editPostLoading
+                                      {patchPostLoading
                                         ? 'Saving...'
-                                        : editPostSuccess
+                                        : patchPostSuccess
                                         ? 'Saved'
                                         : 'Save'}
                                     </Button>
@@ -935,14 +933,20 @@ function Post(props) {
                                   <img
                                     alt="edit"
                                     onClick={() => {
+                                      setEditCart(foundPost.cart);
                                       setEditor(true);
+                                      // Needs wrapped in a setTimeout as it
+                                      // isn't available yet.
+                                      setTimeout(() => {
+                                        titleField.current.focus();
+                                      }, 0)
                                     }}
                                     src="https://d1ppmvgsdgdlyy.cloudfront.net/edit.svg"
                                     style={{
                                       cursor: 'pointer',
                                       height: 25,
-                                      marginLeft: 15,
-                                      width: 15
+                                      marginLeft: '1rem',
+                                      width: '1rem'
                                     }}
                                   />
                                 ))}
@@ -960,13 +964,16 @@ function Post(props) {
                                 }}
                               >
                                 {editor ? (
-                                  <Input
+                                  <input 
+                                    ref={titleField}
+                                    className="w-full py-1 px-2 border border-gray-300 
+                                    rounded-md"
+                                    type="text"
                                     onChange={event => {
                                       setTitle(event.target.value);
                                     }}
-                                    size={'compact'}
                                     value={title}
-                                  ></Input>
+                                  />
                                 ) : (
                                   <Heading 
                                     level="2" 
@@ -1046,22 +1053,14 @@ function Post(props) {
                                 </div>
                                 {!editor && (
                                   <div style={{ paddingTop: 5, paddingBottom: 10 }}>
-                                    <Input
-                                      overrides={{
-                                        InputContainer: {
-                                          style: {
-                                            border: 0,
-                                            borderRadius: '5px'
-                                          }
-                                        }
-                                      }}
-                                      autoFocus
-                                      value={postComment}
-                                      onChange={event => {
+                                    <textarea 
+                                      className="w-full py-1 px-2 border border-gray-300 
+                                      rounded-md"
+                                      placeholder="Add a comment..."
+                                      onChange={(event) => {
                                         setPostComment(event.target.value);
                                         setSuccessComment(false);
                                       }}
-                                      size={SIZE.compact}
                                       onKeyPress={event => {
                                         var code = event.keyCode || event.which;
                                         if (code === 13 && event.target.value !== '') {
@@ -1076,8 +1075,8 @@ function Post(props) {
                                           setPostComment('');
                                         }
                                       }}
-                                      placeholder="add a comment..."
-                                    />
+                                    >
+                                    </textarea>
                                   </div>
                                 )}
                           </div>
@@ -1092,42 +1091,43 @@ function Post(props) {
               </div>
             )}
           </div>
-          <div className="hidden xl:block xl:pl-6 w-full" style={{
-            maxWidth: '344px'
-          }}>
+          <div 
+            className="hidden xl:block xl:pl-6 w-full" 
+            style={{ maxWidth: '344px' }}
+          >
             <div className="bg-white shadow-lg rounded-lg p-6">
-            <div className="flex justify-between items-center mb-4">
-              <div className="text-left" style={{ fontWeight: 300 }}>
-                <div
-                  style={{
-                    fontStyle: 'normal',
-                    fontWeight: 500,
-                    lineHeight: '20px',
-                    color: '#545454',
-                    paddingTop: '0px'
-                  }}
-                  className={`mb-4`}
-                >
-                  Leaderboard<br/>
-                  <span style={{
-                    fontStyle: 'normal',
-                    fontWeight: 'normal',
-                    fontSize: 12,
-                    lineHeight: '14px',
-                    color: '#545454'
-                  }}>
-                    Most helpful people in your area
-                  </span>
+              <div className="flex justify-between items-center mb-4">
+                <div className="text-left" style={{ fontWeight: 300 }}>
+                  <div
+                    style={{
+                      fontStyle: 'normal',
+                      fontWeight: 500,
+                      lineHeight: '20px',
+                      color: '#545454',
+                      paddingTop: '0px'
+                    }}
+                    className={`mb-4`}
+                  >
+                    Leaderboard<br/>
+                    <span style={{
+                      fontStyle: 'normal',
+                      fontWeight: 'normal',
+                      fontSize: 12,
+                      lineHeight: '14px',
+                      color: '#545454'
+                    }}>
+                      Most helpful people in your area
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <button
-              className="bg-transparent hover:bg-gray-600 text-gray-700 
-              font-semibold hover:text-white py-1 px-3 border border-gray-600 
-              hover:border-transparent transition duration-150 rounded"
-              style={{ outline: 'none' }}
-              onClick={() => history.push('/leaderboard')}>
-                <span style={{ fontSize: 12 }}>See full list</span>
-              </button>
+                <button
+                className="bg-transparent hover:bg-gray-600 text-gray-700 
+                font-semibold hover:text-white py-1 px-3 border border-gray-600 
+                hover:border-transparent transition duration-150 rounded"
+                style={{ outline: 'none' }}
+                onClick={() => history.push('/leaderboard')}>
+                  <span style={{ fontSize: 12 }}>See full list</span>
+                </button>
               </div>
               <div
                 style={{
@@ -1210,16 +1210,15 @@ function Post(props) {
                       className="text-left mt-4"
                     >
                       Want to improve your ranking?{' '}
-                      <span className="font-bold hover:text-indigo-600 transition duration-150">
+                      <span 
+                        className="font-bold hover:text-blue-600 transition duration-150">
                         Find out how
                       </span>
                     </div>
                   </StatefulPopover>
                 </div>
               )}
-            </div>
-            
-            
+            </div> 
           </div>
         </div>
       </div>
@@ -1235,8 +1234,7 @@ const mapDispatchToProps = dispatch => ({
   deletePostDispatch: payload => dispatch(deletePost(payload)),
   deleteCommentDispatch: payload => dispatch(deleteComment(payload)),
   markSeenDispatch: payload => dispatch(markSeen(payload)),
-  editPostDispatch: payload => dispatch(editPost(payload)),
-  getLeaderboardDispatch: payload => dispatch(getLeaderboard(payload)),
+  patchPostDispatch: payload => dispatch(patchPost(payload)),
   addReplyDispatch: payload => dispatch(addReply(payload)),
   loadPostDispatch: payload => dispatch(loadPost(payload)),
   upvoteDispatch: payload => dispatch(upvote(payload)),
@@ -1257,9 +1255,9 @@ const mapStateToProps = state => ({
   loadPostFailure: state.auth.loadPostFailure,
   markSeenBool: state.auth.markSeen,
   markSeenFailure: state.auth.markSeenFailure,
-  editPostLoading: state.user.editPostLoading,
-  editPostSuccess: state.user.editPostSuccess,
-  editPostFailure: state.user.editPostFailure
+  patchPostLoading: state.user.patchPostLoading,
+  patchPostSuccess: state.user.patchPostSuccess,
+  patchPostFailure: state.user.patchPostFailure
 });
 
 Post.defaultProps = {};

@@ -22,7 +22,7 @@ export default function configureStore(preloadedState) {
     store = createStore(
       createRootReducer(history), // root reducer with router state
       preloadedState,
-      compose(applyMiddleware(sagaMiddleware), routerMiddleware(history))
+      compose(applyMiddleware(sagaMiddleware, routerMiddleware(history)))
     );
   }
 

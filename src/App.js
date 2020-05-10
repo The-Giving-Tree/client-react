@@ -4,7 +4,7 @@ import ReactGA from 'react-ga';
 import { Provider as StyletronProvider } from 'styletron-react';
 import { Helmet } from 'react-helmet';
 import { LightTheme, BaseProvider } from 'baseui';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 // Import Tailwind CSS
 import './assets/css/styles.css';

@@ -4,14 +4,15 @@ import PlacesAutocomplete from 'react-places-autocomplete';
 import moment, { isMoment } from 'moment';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import Navigation from '../../components/Navigation';
-import { Card } from 'baseui/card';
 import { Tag } from 'baseui/tag';
 import Sidebar from '../../components/Sidebar';
 import Datetime from 'react-datetime';
 import { hotjar } from 'react-hotjar';
-
+import { StatefulPopover, PLACEMENT } from 'baseui/popover';
 import { connect } from 'react-redux';
-import { getCurrentUser, loadUser, selectMenu } from '../../store/actions/auth/auth-actions';
+import {
+  getCurrentUser, loadUser, selectMenu
+} from '../../store/actions/auth/auth-actions';
 import {
   submitDraft,
   saveDraft,
@@ -20,9 +21,12 @@ import {
   uploadPhoto
 } from '../../store/actions/user/user-actions';
 import HelpMenu from '../../components/HelpMenu';
-
 import './Submit.css';
 import 'react-datetime/css/react-datetime.css';
+import { Redirect } from 'react-router-dom';
+import { ReactComponent as IconDots } from '../../assets/icons/dots-vert.svg';
+import { ReactComponent as IconCheck } from '../../assets/icons/check.svg';
+import { ReactComponent as IconCross } from '../../assets/icons/cross.svg';
 
 export const Portal = ({ children }) => {
   return ReactDOM.createPortal(children, document.body);
@@ -43,6 +47,7 @@ function Submit(props) {
     getCurrentUserDispatch
   } = props;
 
+  const maxSummaryChar = 150;
   const [title, setTitle] = React.useState('');
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
@@ -53,29 +58,28 @@ function Submit(props) {
   const [postal, setPostal] = useState('');
   const [publicAddress, setPublicAddress] = useState('');
   const [cart, setCart] = React.useState([]);
-  const [selectedRequest, setRequest] = React.useState('food');
+  const [selectedRequest, setRequest] = React.useState('food/supplies');
   const [checkout, setCheckout] = React.useState(false);
   let [changedCart, setChangedCart] = useState(0);
   const [cartQuantity, setCartQuantity] = React.useState('');
   const [cartName, setCartName] = React.useState('');
   const [description, setDescription] = useState('');
-  // const [dueDate, setDueDate] = useState('');
+  const [summaryCharCounter, setSummaryCharCounter] = useState('Maximum characters: ' + maxSummaryChar);
   
   // Datepicker state
   const neededByMoment = moment(new Date()).startOf('day').add(1, 'day').set('hour', 12).set('minutes', 0);
   const [neededBy, setNeededBy] = useState(neededByMoment);
+
+  const [editArray, setEditArray] = React.useState([]);
+  const [editCart, setEditCart] = React.useState([]);
+  const validCart = cartName && cartQuantity && Number(cartQuantity) > 0;
 
   // initialize state
   React.useEffect(() => {
     setTitle(titleStore);
     if (selectMenu !== '') {
       setCheckout(true);
-
-      if (selectMenu === 'Food') {
-        setRequest('food');
-      } else if (selectMenu === 'Supplies') {
-        setRequest('supplies');
-      }
+      if (selectMenu === 'Food/Supplies') setRequest('food/supplies');
     }
   }, [titleStore, selectMenu]);
 
@@ -88,7 +92,6 @@ function Submit(props) {
     updateUser();
   }, [props.submitDraftSuccess, props.markSeenSubmitTutorial, getCurrentUserDispatch]);
 
-  /* eslint-disable */
   React.useEffect(() => {
     async function submitDraft() {
       await publishPostDispatch({
@@ -115,7 +118,10 @@ function Submit(props) {
     }
 
     submitDraft();
-  }, [props.submitDraftSuccess, publishPostDispatch, submittedDraft._id]);
+  }, [
+    props.submitDraftSuccess, publishPostDispatch, submittedDraft._id, address,
+    cart, contactMethod, description, email, latLng, name, neededBy, phoneNumber, postal, publicAddress, selectedRequest, title
+  ]);
 
   useEffect(() => {}, [changedCart]);
 
@@ -130,49 +136,156 @@ function Submit(props) {
     return true;
   };
 
-  const transportationJSX = (
-    <div>
-      <div>Pickup</div>
-      <div>Dropoff</div>
-      <div>Date</div>
-    </div>
-  );
-
-  const validCart = cartName && cartQuantity && Number(cartQuantity) > 0;
-
+  /**
+   * Returns the JSX for the list of items the user has added to their cart
+   *
+   * @returns
+   */
   const cartJSX = () => {
     return cart.length === 0 ? (
-      <div className="text-center">Start adding items below</div>
+      <div className="text-center">
+        Start adding items below
+      </div>
     ) : (
-      <table className="table-auto" style={{ width: '100%' }}>
+      <table className="table-auto w-full">
         <thead>
           <tr>
-            <th className="px-4 py-2">Item Description</th>
-            <th className="px-4 py-2">Quantity</th>
+            <th className="px-4 py-2 text-left">Item Description</th>
+            <th className="px-4 py-2 text-left" style={{
+              width: '8.25rem'
+            }}>Quantity</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {cart.map((item, i) => (
-            <tr className={i % 2 === 0 && `bg-gray-100`} key={i}>
-              <td className={`border px-4 py-2`}>{item.name}</td>
-              <td className={`border px-4 py-2`}>{item.quantity}</td>
-              <td className={`border px-4 py-2`} style={{ width: 50, cursor: 'pointer' }}>
-                {' '}
-                <img
-                  onClick={() => {
-                    let cartNow = cart;
-                    cartNow.splice(i, 1);
-                    setCart(cartNow);
-                    setChangedCart((changedCart += 1)); // to update state every time
-                  }}
-                  style={{ objectFit: 'cover', maxHeight: 15, overflow: 'auto' }}
-                  src="https://d1ppmvgsdgdlyy.cloudfront.net/trash.svg"
-                  alt="delete"
-                ></img>
+          {cart.map((item, i) => {
+            return <tr key={i}>
+              <td className={`border px-4 py-2`}>
+                {editArray.includes(i) ? (
+                  <input
+                    onChange={(e) => {
+                      const newCart = [...editCart]
+                      newCart[i].name = e.currentTarget.value;
+                      setEditCart(newCart);
+                    }}
+                    className="w-full py-1 px-2 border border-gray-300 
+                    rounded-md"
+                    type="text"
+                    value={editCart[i].name}
+                  />
+                ) : (
+                  item.name
+                )}
+              </td>
+              <td className={`border px-4 py-2`}>
+                {editArray.includes(i) ? (
+                  <input
+                    onChange={(val) => {
+                      editCart[i].quantity = val;
+                    }}
+                    className="w-full py-1 px-2 border border-gray-300 
+                    rounded-md"
+                    type="text"
+                    value={editCart[i].quantity}
+                  />
+                ) : (
+                  item.quantity
+                )}
+              </td>
+              <td 
+                className={`border px-4 py-2 align-middle`} 
+                style={{ width: 50, cursor: 'pointer' }}
+              >
+                {!editArray.includes(i) ? (
+                  <StatefulPopover 
+                    placement={PLACEMENT.topRight}
+                    overrides={{
+                      Body: {
+                        style: {
+                          borderRadius: '6px !important'
+                        }
+                      },
+                      Inner: {
+                        style: {
+                          padding: '.5rem 1rem',
+                          borderRadius: '6px !important'
+                        }
+                      }
+                    }}
+                    content={({ close }) => (
+                      <ul className="list-none">
+                        <li className="mb-4">
+                          <button onClick={() => {
+                            const newArr = [...editArray];
+                            if (!newArr.includes(i)) {
+                              newArr.push(i);
+                            }
+                            setEditArray(newArr);
+
+                            const state = cart;
+                            setEditCart(state);
+                          }}>
+                            Edit
+                          </button>
+                        </li>
+                        <li className="">
+                          <button 
+                            className="text-red-700"
+                            onClick={() => { 
+                              let cartNow = cart;
+                              cartNow.splice(i, 1);
+                              setCart(cartNow);
+                              // to update state every time
+                              setChangedCart((changedCart += 1));
+                            }}
+                          >
+                            Delete
+                          </button>
+                        </li>
+                      </ul>
+                    )}
+                  >
+                    <button className="block p-1">
+                      <IconDots style={{height: '1.25rem',width: 'auto'}} />
+                    </button>
+                  </StatefulPopover>
+                ) : (
+                  <React.Fragment>
+                    <div className="flex items-center">
+                      <button className="py-1 px-2" 
+                        onClick={() => {    
+                          setCart(editCart);
+                          const newArr = [...editArray].filter(index => {
+                            return index !== i;
+                          });
+                          setEditArray(newArr);
+                        }}
+                      >
+                        <IconCheck className="w-4" style={{
+                          fill: '#1E853B'
+                        }} />
+                      </button>
+                      <button 
+                        className="py-1 px-2" 
+                        onClick={() => {
+                          const newArr = editArray.filter(index => {
+                            return index !== i;
+                          });
+                          setEditArray(newArr);
+                        }}
+                      >
+                        <IconCross className="w-4" style={{
+                          fill: '#c53030'
+                        }} />
+                      </button>
+                    </div>
+
+                  </React.Fragment>
+
+                )}
               </td>
             </tr>
-          ))}
+          })}
         </tbody>
       </table>
     );
@@ -183,6 +296,24 @@ function Submit(props) {
     return re.test(email);
   }
 
+  // Function to update char counter below summary on input event
+  function updateSummaryCharCounter(value) {
+    if (value.length === 0) {
+      setSummaryCharCounter('Maximum characters: ' + maxSummaryChar)
+    } else if (value.length <= maxSummaryChar) {
+      let charRemaining = maxSummaryChar - value.length;
+      setSummaryCharCounter('Characters remaining: ' + charRemaining)
+    } else {
+      let charOverflow = value.length - maxSummaryChar;
+      if (charOverflow === 1) {
+        setSummaryCharCounter(charOverflow + ' character too many')
+      } else {
+        setSummaryCharCounter(charOverflow + ' characters too many')
+      }
+    }
+  }
+
+  const validSummary = title.length <= 150;
   const validNumber = phoneNumber === '' || phoneNumber.length >= 10;
   const validEmail = email === '' || validateEmail(email);
   const validAddress = address === '' || !isEmpty(latLng);
@@ -193,10 +324,12 @@ function Submit(props) {
   const allowSubmit =
     cart.length > 0 &&
     name !== '' &&
+    validSummary &&
     !isEmpty(latLng) &&
     contactMethod !== '' &&
     validContactMethod;
 
+  
   const formJSX = () => {
     return (
       <div>
@@ -209,9 +342,7 @@ function Submit(props) {
               Name
             </label>
             <input
-              onChange={e => {
-                setName(e.target.value);
-              }}
+              onChange={e => setName(e.target.value)}
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="summary"
               value={name}
@@ -231,12 +362,9 @@ function Submit(props) {
                 value={selectedRequest}
                 className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-state"
-                onChange={e => {
-                  setRequest(e.target.value.toLowerCase());
-                }}
+                onChange={e => setRequest(e.target.value.toLowerCase())}
               >
-                <option value="food">Food</option>
-                <option value="supplies">Supplies</option>
+                <option value="food/supplies">Food / Supplies</option>
                 <option value="miscellaneous">Miscellaneous</option>
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -264,30 +392,45 @@ function Submit(props) {
           onChange={e => {
             setTitle(e.target.value);
           }}
+          onInput={e => {
+            updateSummaryCharCounter(e.target.value);
+          }}
           className="appearance-none block w-full bg-gray-200 text-gray-700 
           border border-gray-200 rounded py-3 px-4 leading-tight 
           focus:outline-none focus:bg-white focus:border-gray-500"
           id="summary"
           value={title}
           type="text"
-          maxLength="140"
           placeholder="Briefly explain your request, e.g. Sick and need help 
           grocery shopping"
         ></textarea>
-        <div className="sm:flex sm:items-center mt-4">
+        <div
+          style={{
+            textAlign: 'right'
+          }}
+        >
           <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold 
-            mb-2 sm:mb-0 mr-2"
+            className="italic"
+            id="summaryCharCounter"
+          >
+            {summaryCharCounter}
+          </label>
+        </div>
+        <div className="mt-4">
+          <label
+            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mr-2"
             htmlFor="grid-last-name"
           >
             Needed By:
           </label>
           <Datetime
-            value={neededBy}
+            inputProps={{
+              className: 'bg-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500',
+              placeholder: moment.localeData().longDateFormat('L')
+            }}
+            // value={neededBy}
             onChange={(val) => {
-              if (isMoment(val)) {
-                setNeededBy(val);
-              }
+              if (isMoment(val)) setNeededBy(val);
             }}
             dateFormat={true}
             timeFormat={true}
@@ -301,7 +444,7 @@ function Submit(props) {
           >
             Preferred Contact Method
           </label>
-          <label className="text-xs block tracking-wide ml-6 text-gray-700 font-bold">
+          <label className="block tracking-wide ml-6 text-gray-700 font-bold">
             <div className="flex items-center">
               <input
                 checked={contactMethod === 'phone'}
@@ -345,7 +488,7 @@ function Submit(props) {
               </div>
             </div>
           </label>
-          <label className="text-xs block tracking-wide ml-6 text-gray-700 font-bold">
+          <label className="block tracking-wide ml-6 text-gray-700 font-bold">
             <div className="flex items-center">
               <input
                 checked={contactMethod === 'email'}
@@ -357,9 +500,7 @@ function Submit(props) {
               <div className={contactMethod === 'email' ? '' : `hidden`}>
                 <input
                   style={{ width: 200, height: 32 }}
-                  onChange={e => {
-                    setEmail(e.target.value);
-                  }}
+                  onChange={e => setEmail(e.target.value)}
                   className={`${!validEmail &&
                     'border-red-500'} appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
                   id="email"
@@ -372,7 +513,7 @@ function Submit(props) {
               </div>
             </div>
           </label>
-          <label className="text-xs block tracking-wide ml-6 text-gray-700 font-bold">
+          <label className="block tracking-wide ml-6 text-gray-700 font-bold">
             <input
               checked={contactMethod === 'comments'}
               onChange={() => setContactMethod('comments')}
@@ -382,17 +523,18 @@ function Submit(props) {
             <span className="">in app comments</span>
           </label>
         </div>
-        <label className="block mb-2 ml-6 text-gray-700 font-bold">Special instructions</label>
-        <input
-          onChange={e => {
-            setDescription(e.target.value);
-          }}
-          className="appearance-none mt-4 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        <label 
+        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mr-2">
+          Special instructions
+        </label>
+        <textarea
+          onChange={e => setDescription(e.target.value)}
+          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="description"
           value={description}
           type="text"
           placeholder="Add any special instructions regarding your circumstances, needs, and/or delivery preferences here."
-        />
+        ></textarea>
 
         <label
           className="block mt-4 uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -480,18 +622,14 @@ function Submit(props) {
         {cartJSX()}
         <div className={`flex items-center mt-4`}>
           <input
-            onChange={e => {
-              setCartName(e.target.value);
-            }}
+            onChange={e => setCartName(e.target.value)}
             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="food"
             value={cartName}
             type="text"
             placeholder={
-              selectedRequest === 'food'
+              selectedRequest === 'food/supplies'
                 ? `Item name, brand, and store location`
-                : selectedRequest === 'supplies'
-                ? 'Item name, brand, and store location'
                 : ''
             }
           />
@@ -502,16 +640,13 @@ function Submit(props) {
             className="mx-4 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             style={{ width: 100 }}
             value={cartQuantity}
-            id={
-              selectedRequest === 'food' ? `food` : selectedRequest === 'supplies' ? 'supplies' : ''
-            }
             type="number"
             placeholder="Quantity"
             min="1"
           />
           <button
             className={`${
-              validCart ? 'bg-indigo-500 hover:bg-indigo-700' : 'bg-gray-500'
+              validCart ? 'bg-blue-500 hover:bg-blue-700' : 'bg-gray-500'
             } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
             type="button"
             style={{ outline: 'none', cursor: validCart ? 'pointer' : 'not-allowed' }}
@@ -528,63 +663,11 @@ function Submit(props) {
             Add
           </button>
         </div>
-        <div className="flex justify-between items-center mt-6">
-          <span />
+        <div className="flex justify-end items-center mt-6">
           <div>
             {selectedRequest !== '' && (
               <button
-                onClick={() => {
-                  if (
-                    title &&
-                    latLng.lat &&
-                    latLng.lng &&
-                    address &&
-                    description &&
-                    neededBy &&
-                    cart.length > 0
-                  ) {
-                    let foodString = {
-                      address,
-                      type: selectedRequest,
-                      description,
-                      cart,
-                      contactMethod,
-                      email,
-                      name,
-                      postal,
-                      dueDate: neededBy,
-                      location: latLng,
-                      phoneNumber
-                    };
-
-                    if (isEmpty(submittedDraft)) {
-                      submitDraftDispatch({
-                        env: process.env.REACT_APP_NODE_ENV,
-                        data: {
-                          address,
-                          requestType: selectedRequest,
-                          description,
-                          cart,
-                          contactMethod,
-                          email,
-                          name,
-                          postal,
-                          dueDate: neededBy,
-                          location: latLng,
-                          phoneNumber,
-                          title,
-                          text: ' ',
-                          categories: [selectedRequest].join(','),
-                          publicAddress
-                        }
-                      });
-                    } else {
-                      alert('draft already submitted');
-                    }
-                  } else {
-                    alert('please fill out all fields');
-                  }
-                }}
+                onClick={() => submitForm()}
                 disabled={!allowSubmit}
                 style={{ outline: 'none', cursor: allowSubmit ? 'pointer' : 'not-allowed' }}
                 className={`${
@@ -600,181 +683,114 @@ function Submit(props) {
     );
   };
 
+  /**
+   * Action that is fired when user clicks the submit button
+   *
+   */
+  function submitForm() {
+    if (validateForm()) {
+      if (isEmpty(submittedDraft)) {
+        submitDraftDispatch({
+          env: process.env.REACT_APP_NODE_ENV,
+          data: getFormData()
+        });
+      } else {
+        alert('draft already submitted');
+      }
+    } else {
+      alert('please fill out all fields');
+    }
+  };
+
+  /**
+   * Validate the form before submitting
+   *
+   */
+  function validateForm() {
+    const hasLocation = (latLng && latLng.lat && latLng.lng && address);
+    const hasItems = cart.length > 0;
+    return (hasLocation && title && hasItems && neededBy);
+  }
+
+  /**
+   * Return the form data in an object for use in dispatch
+   *
+   * @returns
+   */
+  function getFormData() {
+    const desc = (!description) ? 'N/A' : description;
+    return {
+      address,
+      requestType: selectedRequest,
+      desc,
+      cart,
+      contactMethod,
+      email,
+      name,
+      postal,
+      dueDate: neededBy,
+      location: latLng,
+      phoneNumber,
+      title,
+      text: ' ',
+      categories: [selectedRequest].join(','),
+      publicAddress
+    }
+  }
+
   return (
     <div>
-      <Navigation selectMenuDispatch={selectMenuDispatch} searchBarPosition="center" />
+      <Navigation selectMenuDispatch={selectMenuDispatch} />
       <div className="lg:max-w-4xl xl:max-w-screen-xl w-full mx-auto py-12 px-6">
         <div className="block xl:flex">
-          <aside className="xl:pr-6 sidebar-wrapper">
-            <Sidebar {...props} />
-          </aside>
+          <Sidebar {...props} className="xl:pr-6 sidebar-wrapper" />
           <section className="w-full xl:px-6">
             {!isEmpty(user) && !user.seenSubmitTutorial && (
-              <Card
-              overrides={{
-                Root: {
-                  style: {
-                    margin: '0 auto',
-                    marginBottom: '30px'
-                  }
-                }
-              }}>
-              <div
-                style={{ 
-                  display: 'flex', 
-                  justifyContent: 'space-between', 
-                  alignItems: 'center'
-                }}
-              >
-                <div>
-                  <Tag
-                    overrides={{ Root: { style: { marginLeft: 0 } } }}
-                    closeable={false}
-                    variant={'variant'}
-                    kind="accent"
+              <div className="bg-white shadow-lg rounded-lg p-6 mb-8">
+                <div className="flex jusitfy-between items-center">
+                  <div>
+                    <Tag
+                      overrides={{ Root: { style: { marginLeft: 0 } } }}
+                      closeable={false}
+                      variant={'variant'}
+                      kind="accent"
+                    >
+                      How It Works
+                    </Tag>
+                  </div>
+                  <div
+                    onClick={() =>
+                      handleSeenSubmitDispatch({ env: process.env.REACT_APP_NODE_ENV, type: 'submit' })
+                    }
+                    style={{ cursor: 'pointer', color: 'black' }}
                   >
-                    How It Works
-                  </Tag>
+                    <img
+                      src="https://d1ppmvgsdgdlyy.cloudfront.net/close.svg"
+                      alt="close"
+                      style={{ height: 10 }}
+                    />
+                  </div>
                 </div>
-                <div
-                  onClick={() =>
-                    handleSeenSubmitDispatch({ env: process.env.REACT_APP_NODE_ENV, type: 'submit' })
-                  }
-                  style={{ cursor: 'pointer', color: 'black' }}
-                >
-                  <img
-                    src="https://d1ppmvgsdgdlyy.cloudfront.net/close.svg"
-                    alt="close"
-                    style={{ height: 10 }}
-                  />
+                <div className="mt-4">
+                  Welcome to The Giving Tree!
+                  <br />
+                  <br />
+                  To receive help, either make a request or call/text us at{' '}
+                  <a className="text-blue-600 hover:text-blue-800" href="tel:+1415-964-4261">
+                    415-964-4261
+                  </a>{' '}
+                  to have us make one on your behalf. <br />
+                  <br />
+                  Here to help? Explore the feed to find new, unclaimed requests near you.
                 </div>
               </div>
-              <div style={{ marginTop: 15 }}>
-                Welcome to The Giving Tree!
-                <br />
-                <br />
-                To receive help, either make a request or call/text us at{' '}
-                <a className="text-indigo-600 hover:text-indigo-800" href="tel:+1415-964-4261">
-                  415-964-4261
-                </a>{' '}
-                to have us make one on your behalf. <br />
-                <br />
-                Here to help? Explore the feed to find new, unclaimed requests near you.
-              </div>
-            </Card>
             )}
             {submitPostSuccess ? (
-              <Card
-                overrides={{
-                  Root: {
-                    style: {
-                      margin: '0 auto',
-                      marginBottom: '30px',
-                      color: 'green'
-                    }
-                  }
-                }}
-              >
-                Your post is now live!{' '}
-                <span role="img" aria-label="Smiley emoji with party hat">
-                  🥳
-                </span>
-                Check it out{' '}
-                <a
-                  className="text-indigo-600 hover:text-indigo-800 transition duration-150"
-                  style={{ textDecoration: 'none' }}
-                  href={`/post/${submittedPost._id}`}
-                >
-                  here
-                </a>
-                .
-              </Card>
+              <Redirect to={`/post/${submittedPost._id}`} />
             ) : (
-              <Card
-                overrides={{
-                  Root: {
-                    style: {
-                      margin: '0 auto'
-                    }
-                  }
-                }}
-              >
-                <div className="flex justify-between items-center my-4 mb-6" style={{ height: 36 }}>
-                  {!checkout ? (
-                    <React.Fragment>
-                      <label
-                        className="block mt-4 uppercase tracking-wide text-gray-700 text-sm font-bold mb-2"
-                        htmlFor="grid-last-name"
-                      >
-                        I want to:
-                      </label>
-                    </React.Fragment>
-                  ) : (
-                    <div className="flex justify-center" style={{ width: '100%' }}>
-                      <label
-                        className="block mt-4 uppercase tracking-wide text-gray-700 text-sm font-bold mb-2"
-                        htmlFor="grid-last-name"
-                      >
-                        Create Request
-                      </label>
-                    </div>
-                  )}
-                </div>
-                {!checkout && (
-                  <div className="sm:flex items-center justify-around">
-                    <div
-                      onClick={() => {
-                        alert('please call or text +1 415-964-4261');
-                      }}
-                      className={`mb-6 sm:mb-0 max-w-sm submit-card relative
-                      rounded overflow-hidden shadow-lg border
-                      hover:border-indigo-600 rounded-lg hover:text-green-600 
-                      transition duration-150 mx-auto md:mx-auto`}
-                      style={{ 
-                        cursor: 'pointer',
-                      }}
-                    >
-                      <div className="px-6 py-8 text-center" style={{
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        position: 'absolute',
-                        width: '100%'
-                      }}>
-                        <div className={`font-bold text-xl`}>Call or Text</div>
-                      </div>
-                    </div>
-                    <div
-                      onClick={() => {
-                        setCheckout(true);
-                      }}
-                      className={`max-w-sm rounded  hover:border-indigo-600 
-                      overflow-hidden shadow-lg border mx-auto md:mx-auto rounded-lg submit-card relative
-                      ${selectedRequest === 'supplies' && 'border-indigo-600'} 
-                      transition duration-150`}
-                      style={{ 
-                        cursor: 'pointer',
-                      }}
-                    >
-                      <div className="px-6 py-8 text-center" style={{
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        position: 'absolute',
-                        width: '100%'
-                      }}>
-                        <div
-                          className={`font-bold text-xl text-center ${selectedRequest ===
-                            'supplies' && 'text-green-600'}`}
-                        >
-                          Submit Request Online
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                {checkout && <React.Fragment>{formJSX()}</React.Fragment>}
-              </Card>
+              <div className="bg-white shadow-lg rounded-lg p-6 mb-8">
+                {formJSX()}
+              </div>
             )}
           </section>
         </div>

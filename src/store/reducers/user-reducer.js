@@ -111,26 +111,30 @@ const user = (state = initialState, action) => {
         saveDraftFailure: true,
         errorMessage: action.payload.message
       });
-
-    case ACTION_TYPES.EDIT_POST_REQUESTED:
+    
+    /**
+     * Update existing post with new data
+     */
+    case ACTION_TYPES.PATCH_POST_REQUESTED:
       return Object.assign({}, state, {
-        editPostLoading: true,
-        editPostSuccess: false,
-        editPostFailure: false,
+        patchPostLoading: true,
+        patchPostSuccess: false,
+        patchPostFailure: false,
         errorMessage: ''
       });
-    case ACTION_TYPES.EDIT_POST_SUCCESS:
+    case ACTION_TYPES.PATCH_POST_SUCCESS:
       return Object.assign({}, state, {
-        editPostLoading: false,
-        editPostSuccess: true,
-        submittedPost: action.payload.submittedPost
+        patchPostLoading: false,
+        patchPostSuccess: true,
+        submittedPost: action.payload.data
       });
-    case ACTION_TYPES.EDIT_POST_FAILURE:
+    case ACTION_TYPES.PATCH_POST_FAILURE:
       return Object.assign({}, state, {
-        editPostLoading: false,
-        editPostFailure: true,
+        patchPostLoading: false,
+        patchPostFailure: true,
         errorMessage: action.payload.message
       });
+
 
     case ACTION_TYPES.PUBLISH_POST_REQUESTED:
       return Object.assign({}, state, {

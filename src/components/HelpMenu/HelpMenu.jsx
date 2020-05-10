@@ -41,10 +41,22 @@ class HelpMenu extends React.Component {
     this.setState({ feedbackModalOpen: val })
   }
 
+  /**
+   * Update a key in the state object
+   *
+   * @param {*} key The key in the state object
+   * @param {*} val The new value
+   * @memberof HelpMenu
+   */
   setStateVal(key, val) {
     this.setState({ [key]: val})
   }
 
+  /**
+   * Send feedback
+   *
+   * @memberof HelpMenu
+   */
   handleFeedback(){
     this.setStateVal('sendingFeedback', true);
     const msg = {
@@ -77,13 +89,11 @@ class HelpMenu extends React.Component {
       console.log('error while submitting feedback: ', err);
       alert('error while submitting feedback!');
     });
-    };
+  };
 
   render() {
-
-
     return (
-      <div className="HelpMenu rounded-full shadow-lg bg-white">
+      <div className="HelpMenu">
         {/* GIVE FEEDBACK MODAL! */}
         <Modal
           overrides={{ Dialog: { style: { borderRadius: '7px' } } }}
@@ -181,18 +191,6 @@ class HelpMenu extends React.Component {
 
 
         <StatefulPopover placement={PLACEMENT.topRight}
-        overrides={{
-          Body: {
-            style: {
-              borderRadius: '6px !important'
-            }
-          },
-          Inner: {
-            style: {
-              borderRadius: '6px !important'
-            }
-          }
-        }}
         content={({ close }) => (
           <div className="HelpMenuContent">
             <ul className="list-none">
@@ -223,15 +221,17 @@ class HelpMenu extends React.Component {
                 </a>
               </li>
               <li>
-                <button onClick={() => this.showFeedbackModal(true)}>Give feedback</button>
+                <button onClick={() => this.showFeedbackModal(true)}>
+                  Give feedback
+                </button>
               </li>
               <li className="divider relative"></li>
-              <li className="text-sm px-4 pb-1 pt-2">
+              <li className="">
                 <NavLink to="/about">
                   About us
                 </NavLink>
               </li>
-              <li className="text-sm px-4 pt-1 pb-2">
+              <li className="">
                 <NavLink to="/about#privacy-policy">
                   Privacy
                 </NavLink>
@@ -240,18 +240,11 @@ class HelpMenu extends React.Component {
           </div>
         )}
         >
-          <button className="text-xs flex items-center justify-center h-8 w-8">
-            <svg 
-              width="12" 
-              height="18" 
-              viewBox="0 0 12 18" 
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M1.5 4.68744C1.5 4.68744 1.5675 3.14056 3.07219 1.90025C3.96562 1.16385 5.03859 0.950565 6 0.93744C6.87797 0.926658 7.66266 1.07525 8.13188 1.304C8.93391 1.69681 10.5 2.65306 10.5 4.68744C10.5 6.82822 9.13219 7.79853 7.57734 8.86775C6.0225 9.93697 5.625 10.9856 5.625 12.1874" stroke="#232735" strokeWidth="1.875" strokeMiterlimit="10" strokeLinecap="round"/>
-              <path d="M5.625 17.2495C6.45343 17.2495 7.125 16.5779 7.125 15.7495C7.125 14.9211 6.45343 14.2495 5.625 14.2495C4.79657 14.2495 4.125 14.9211 4.125 15.7495C4.125 16.5779 4.79657 17.2495 5.625 17.2495Z" fill="#232735"/>
-            </svg>
-
+          <button 
+            className="text-2xl flex items-center justify-center h-12 w-12
+            bg-gray-900 text-white rounded-full shadow-lg"
+          >
+            ?
           </button>
         </StatefulPopover>
       </div>

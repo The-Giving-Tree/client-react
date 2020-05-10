@@ -26,6 +26,7 @@ const initialState = {
   registerLoading: false,
   registerSuccess: false,
   registerFailure: false,
+  errorObject: null,
   markSeen: false,
   markSeenFailure: false,
 
@@ -445,7 +446,8 @@ const auth = (state = initialState, action) => {
         registerLoading: false,
         registerSuccess: false,
         registerFailure: true,
-        errorMessage: action.payload.message
+        errorMessage: action.payload.message,
+        errorObject: action.payload.errors,
       });
     case ACTION_TYPE.LOGOUT_REQUESTED:
       return Object.assign({}, state, {

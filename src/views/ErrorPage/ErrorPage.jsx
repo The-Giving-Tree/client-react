@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Navigation from '../../components/Navigation';
 
 class ErrorPage extends Component {
@@ -14,9 +13,5 @@ class ErrorPage extends Component {
     );
   }
 }
-
-ErrorPage.propTypes = {
-  errorCode: PropTypes.string
-};
 
 export default ErrorPage;

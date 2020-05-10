@@ -40,6 +40,39 @@ class ModalLoginSignUp extends React.Component {
     this.loginPasswordInput = React.createRef();
   }
 
+  AlreadyRegisteredEmailError = ({ email }) => (
+    <div>
+      Oops, it looks like you've already made an account with this email address!
+      Would you like to try <div onClick={() => {
+            this.setType('login');
+            this.setState({
+              redirected: true,
+            })
+          }} style={{  color: 'rgb(0, 121, 211)',
+          display: "inline" }}>logging in</div> instead?
+    </div>
+  )
+  
+  alreadyRegisteredUsernameError = username => `Sorry, that username is already taken! Can you please try a different one?`
+  
+  prettyErrorMessage = errors => {
+    if (errors) {
+  
+      if (errors.email) {
+        if (errors.email.kind === 'unique') {
+          const props = { email: errors.email.value }
+          return this.AlreadyRegisteredEmailError(props)
+        }
+      }
+  
+      if (errors.username) {
+        if (errors.username.kind === 'unique')
+          return this.alreadyRegisteredUsernameError(errors.username.value)
+      }
+  
+    }
+  }
+  
   componentDidMount() {
     this.setType(this.props.type);
   }
@@ -93,7 +126,9 @@ class ModalLoginSignUp extends React.Component {
    * @memberof ModalLoginSignUp
    */
   setType(val) {
-    this.setState({ type: val });
+    this.setState({
+      type: val,
+    });
   }
 
   /**
@@ -129,7 +164,7 @@ class ModalLoginSignUp extends React.Component {
     return (
       <div>
         <h2 className="text-center text-2xl mb-6">Log in</h2>
-        {this.props.errorMessage && 
+        {!this.state.redirected && this.props.errorMessage && 
           <p className="text-red-700 text-center mb-4">
             {this.props.errorMessage}
           </p>
@@ -138,6 +173,9 @@ class ModalLoginSignUp extends React.Component {
           e.preventDefault();
 
           this.handleLogin(this.loginUsernameInput.current.value, this.loginPasswordInput.current.value);
+          this.setState({
+            redirected: false,
+          })
         }}>
           <input type="text" placeholder="Username" 
           name="username"
@@ -238,78 +276,92 @@ class ModalLoginSignUp extends React.Component {
    * JSX for the signup modal body
    */
   signupModalBody() {
+    const errorMessage = this.prettyErrorMessage(this.props.errorObject) || this.props.errorMessage
     return (
       <div>
         <h2 className="text-center text-2xl mb-6">Sign up</h2>
-        {this.props.errorMessage && <p className="mb-4 text-center text-red-700">
-          {this.props.errorMessage}
+        {!this.state.redirected && errorMessage && <p className="mb-4 text-center text-red-700">
+          {errorMessage}
         </p>}
-        <input type="text" placeholder="Name" 
-        onChange={(e) => {
-          const val = e.currentTarget.value;
-          this.setState({ nameInput: val})
-        }} 
-        onKeyPress={(event) => this.enterKeyCheck(event)}
-        disabled={this.props.loginLoading}
-        className="w-full py-2 px-4 border border-gray-200 shadow rounded-md mb-4" />
-        <input type="text" placeholder="Username" 
-        onChange={(e) => {
-          const val = e.currentTarget.value;
-          this.setState({ userInput: val})
-        }}
-        onKeyPress={(event) => this.enterKeyCheck(event)}
-        disabled={this.props.loginLoading}
-        className="w-full py-2 px-4 border border-gray-200 shadow rounded-md mb-4" />
-        <input type="email" placeholder="Email" 
-        onChange={(e) => {
-          const val = e.currentTarget.value;
-          this.setState({ emailInput: val})
-        }}
-        onKeyPress={(event) => {
-          this.enterKeyCheck(event);
-        }}
-        disabled={this.props.loginLoading}
-        className="w-full py-2 px-4 border border-gray-200 shadow rounded-md mb-4" />
+        <input type="text" 
+          placeholder="Name" 
+          onChange={(e) => {
+            const val = e.currentTarget.value;
+            this.setState({ nameInput: val})
+          }} 
+          onKeyPress={(event) => this.enterKeyCheck(event)}
+          disabled={this.props.loginLoading}
+          className="w-full py-2 px-4 border border-gray-200 shadow rounded-md mb-4" 
+          name="name"
+        />
+        <input 
+          type="text" 
+          placeholder="Username" 
+          onChange={(e) => {
+            const val = e.currentTarget.value;
+            this.setState({ userInput: val})
+          }}
+          onKeyPress={(event) => this.enterKeyCheck(event)}
+          disabled={this.props.loginLoading}
+          className="w-full py-2 px-4 border border-gray-200 shadow rounded-md mb-4"
+          name="username"
+        />
+        <input 
+          type="email" 
+          placeholder="Email" 
+          onChange={(e) => {
+            const val = e.currentTarget.value;
+            this.setState({ emailInput: val})
+          }}
+          onKeyPress={(event) => {
+            this.enterKeyCheck(event);
+          }}
+          disabled={this.props.loginLoading}
+          className="w-full py-2 px-4 border border-gray-200 shadow rounded-md mb-4"
+          name="email"
+        />
 
         <Input
-        value={this.state.passwordInput}
-        overrides={{
-          MaskToggleButton: {
-            style: {
-              paddingLeft: '0 !important'
+          value={this.state.passwordInput}
+          overrides={{
+            MaskToggleButton: {
+              style: {
+                paddingLeft: '0 !important'
+              }
+            },
+            InputContainer: {
+              style: {
+                padding: '.5rem 1rem',
+                border: '1px solid #edf2f7',
+                backgroundColor: 'white',
+                borderRadius: '6px',
+                marginBottom: '1rem',
+                boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
+              }
+            },
+            Input: {
+              style: {
+                padding: '0',
+                border: '0',
+                backgroundColor: 'white',
+                fontSize: '14px',
+                lineHeight: 1
+              }
             }
-          },
-          InputContainer: {
-            style: {
-              padding: '.5rem 1rem',
-              border: '1px solid #edf2f7',
-              backgroundColor: 'white',
-              borderRadius: '6px',
-              marginBottom: '1rem',
-              boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
-            }
-          },
-          Input: {
-            style: {
-              padding: '0',
-              border: '0',
-              backgroundColor: 'white',
-              fontSize: '14px',
-              lineHeight: 1
-            }
-          }
-        }}
-        type="password"
-        onChange={(e) => {
-          const val = e.currentTarget.value;
-          this.setState({ passwordInput: val})
-          this.validatePassword(val);
-        }}
-        placeholder="Password"
-        onKeyPress={(event) => {
-          this.enterKeyCheck(event)
-        }}
-        disabled={this.props.loginLoading} />
+          }}
+          type="password"
+          onChange={(e) => {
+            const val = e.currentTarget.value;
+            this.setState({ passwordInput: val})
+            this.validatePassword(val);
+          }}
+          placeholder="Password"
+          onKeyPress={(event) => {
+            this.enterKeyCheck(event)
+          }}
+          disabled={this.props.loginLoading}
+          name="password" 
+        />
         {(!this.state.passValid) && 
           <div>
             <p className="mb-4">Your password must have:</p>
@@ -382,20 +434,21 @@ class ModalLoginSignUp extends React.Component {
             </p>
           </div>
         }
-        <button onClick={() => {
-          this.handleSignup();
-        }}
-        className={`w-full py-3 font-semibold text-white bg-green-700
-        rounded mb-4 ${!this.state.passValid && 'opacity-50 cursor-not-allowed'}`} 
-        disabled={!this.state.passValid}>
+        <button 
+          onClick={() => this.handleSignup()}
+          className={`w-full py-3 font-semibold text-white bg-green-700
+          rounded mb-4 ${!this.state.passValid && 'opacity-50 cursor-not-allowed'}`} 
+          disabled={!this.state.passValid}
+        >
           {!this.props.registerLoading && `Sign up`}
           {this.props.registerLoading && 
             <span className="loading-spinner loading-spinner-white"></span>
           }
         </button>
-        <button className="w-full text-blue-500" onClick={() => {
-          this.setType('login');
-        }}>
+        <button
+          className="w-full text-blue-500" 
+          onClick={() => this.setType('login')}
+        >
           Already part of the community? <strong>Log in</strong>
         </button>
       </div>
@@ -415,31 +468,37 @@ class ModalLoginSignUp extends React.Component {
           <h2 className="text-center text-2xl mb-6">Forgot password</h2>
           <p className="mb-4">Please enter your email: </p>
           <div className="flex items-center">
-            <input type="email" placeholder="Email" 
-            onChange={(e) => {
-              const val = e.currentTarget.value;
-              this.setState({ emailInput: val})
-            }}
-            onKeyPress={(event) => {
-              this.enterKeyCheck(event);
-            }}
-            disabled={this.props.initiateResetLoading}
-            className="w-full py-2 px-4 border border-gray-200 shadow rounded-md 
-            mb-4 mr-4" />
-            <button className={`px-8 py-2 font-semibold text-white bg-green-700
-            rounded mb-4 ${!this.state.emailInput && 'opacity-50 cursor-not-allowed'}`}
-            disabled={!this.state.emailInput} onClick={() => {
-              this.handleForgotPassword();
-            }}>
+            <input 
+              type="email" 
+              placeholder="Email" 
+              onChange={(e) => {
+                const val = e.currentTarget.value;
+                this.setState({ emailInput: val})
+              }}
+              onKeyPress={(event) => this.enterKeyCheck(event)}
+              disabled={this.props.initiateResetLoading}
+              className="w-full py-2 px-4 border border-gray-200 shadow rounded-md mb-4 mr-4"
+              name="email"
+            />
+            <button 
+              className={`px-8 py-2 font-semibold text-white bg-green-700
+              rounded mb-4 ${!this.state.emailInput && 
+              'opacity-50 cursor-not-allowed'}`}
+              disabled={!this.state.emailInput}
+              onClick={() => this.handleForgotPassword()}
+            >
               {!this.props.initiateResetLoading && `Reset`}
                 {this.props.initiateResetLoading && 
-                  <span className="loading-spinner loading-spinner-white"></span>
+                  <span 
+                  className="loading-spinner loading-spinner-white"></span>
                 }
             </button>
           </div>
-          {this.props.errorMessage && <p className="text-red-700">
-            {this.props.errorMessage}
-            </p>}
+          {this.props.errorMessage && 
+            <p className="text-red-700">
+              {this.props.errorMessage}
+            </p>
+          }
         </div>
       
     );
@@ -532,6 +591,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   user: state.auth.user,
   errorMessage: state.auth.errorMessage,
+  errorObject: state.auth.errorObject,
   registerLoading: state.auth.registerLoading,
   registerSuccess: state.auth.registerSuccess,
   registerFailure: state.auth.registerFailure,
