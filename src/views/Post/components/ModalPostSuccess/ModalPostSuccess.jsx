@@ -49,12 +49,12 @@ class ModalPostSuccess extends React.Component {
    */
   mobileContent() {
     return(
-      <React.Fragment>
+      <div className="max-w-md mx-auto">
         <div className="mb-4">
           {this.getStepsJSX()}
         </div>
         {this.controlsJSX()}
-      </React.Fragment>
+      </div>
     );
   }
 
@@ -113,7 +113,9 @@ class ModalPostSuccess extends React.Component {
           src={`${Constants.IMG.CLOUDFRONT}/post/modals/step2-together.svg`} 
           alt="Illustration of two thumbs up"
         />
-        <p><strong>2. Work together</strong></p>
+        <p>
+          <strong>2. Work together</strong>
+        </p>
         <p>Agree on how best to reimburse your helper (no-contact methods only) and how/where items should be delivered.</p>
       </React.Fragment>
     );
@@ -147,7 +149,17 @@ class ModalPostSuccess extends React.Component {
    */
   desktopContent() {
     return(
-      <p>Testing</p>
+      <div className="grid grid-cols-3 gap-6">
+        <div className="">
+          {this.stepOne()}
+        </div>
+        <div className="">
+          {this.stepTwo()}
+        </div>
+        <div className="">
+        {this.stepThree()}
+        </div>
+      </div>
     );
   }
 

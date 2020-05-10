@@ -36,11 +36,14 @@ import {
   markSeen
 } from '../../store/actions/auth/auth-actions';
 
-import { editPost } from '../../store/actions/user/user-actions';
+import { patchPost } from '../../store/actions/user/user-actions';
 import LeaderboardTable from '../../components/LeaderboardTable/LeaderboardTable';
 import HelpMenu from '../../components/HelpMenu';
 import Heading from '../../components/Heading';
 import ModalPostSuccess from './components/ModalPostSuccess';
+
+import { ReactComponent as IconTrash } from '../../assets/icons/trash.svg';
+import ModalPostClaimTask from '../../components/Modals/ModalPostClaimTask/ModalPostClaimTask';
 
 function Post(props) {
   const {
@@ -60,13 +63,13 @@ function Post(props) {
     coords,
     addReplyDispatch,
     markSeenDispatch,
-    editPostDispatch,
+    patchPostDispatch,
     markSeenBool,
     markSeenFailure,
-    editPostLoading,
-    editPostSuccess,
+    patchPostLoading,
+    patchPostSuccess,
     submitPostSuccess,
-    markSeenSubmitTutorial
+    claimRequestSuccess
   } = props;
   const id = props.match.params.id;
   let parsed = queryString.parse(window.location.href);
@@ -93,6 +96,13 @@ function Post(props) {
   // controls the modal that shows the next steps after posting a task
   const [postModal, setPostModal] = React.useState(true);
 
+  // controls the modal that shows the next steps after claiming a task
+  const [claimModal, setClaimModal] = React.useState(true);
+
+  const [editCart, setEditCart] = React.useState([]);
+
+  const titleField = React.useRef(null);
+
   // not null
   if (parsed !== null && !markSeenBool && !markSeenFailure) {
     markSeenDispatch({ 
@@ -108,7 +118,7 @@ function Post(props) {
       id
     });
     setUpdated(false);
-  }, [props.newsfeed, props.newsfeedUpdated, id, loadPostDispatch, editPostSuccess]);
+  }, [props.newsfeed, props.newsfeedUpdated, id, loadPostDispatch, patchPostSuccess]);
 
   React.useEffect(() => {
     console.log('updating state');
@@ -636,15 +646,48 @@ function Post(props) {
       <table className="table-auto" style={{ width: '100%' }}>
         <thead>
           <tr>
-            <th className="px-4 py-2">Item Description</th>
-            <th className="px-4 py-2">Quantity</th>
+            <th className="px-4 py-2 text-left">Item Description</th>
+            <th className="px-4 py-2 text-left">Quantity</th>
           </tr>
         </thead>
         <tbody>
           {cart.map((item, i) => (
             <tr className={i % 2 === 0 && `bg-gray-100`} key={i}>
-              <td className={`border px-4 py-2`}>{item.name}</td>
-              <td className={`border px-4 py-2`}>{item.quantity}</td>
+              <td className={`border px-4 py-2 text-left`}>
+                {editor ?  (
+                  <input
+                    onChange={(e) => {
+                      const newCart = [...cart]
+                      newCart[i].name = e.currentTarget.value;
+                      setEditCart(newCart);
+                    }}
+                    className="w-full py-1 px-2 border border-gray-300 
+                    rounded-md"
+                    type="text"
+                    value={editCart[i].name}
+                  />
+                ) : (
+                  item.name
+                ) 
+                }
+              </td>
+              <td className={`border px-4 py-2 text-left`}>
+                {editor ? (
+                  <input
+                  onChange={(e) => {
+                    const newCart = [...cart]
+                    newCart[i].quantity = e.currentTarget.value;
+                    setEditCart(newCart);
+                  }}
+                  className="w-full py-1 px-2 border border-gray-300 
+                  rounded-md"
+                  type="text"
+                  value={editCart[i].quantity}
+                />
+                ) : (
+                  item.quantity
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -653,16 +696,18 @@ function Post(props) {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <Navigation searchBarPosition="center" />
 
       {/* When a post is successfully submitted, display this modal */}
-      {/* {(submitPostSuccess && !user.markSeenSubmitTutorial) && ( */}
-        <ModalPostSuccess 
-          isOpen={postModal} 
-          setIsOpen={setPostModal}
-        />
-      {/* )} */}
+      {(submitPostSuccess && !user.markSeenSubmitTutorial) && (
+        <ModalPostSuccess isOpen={postModal} setIsOpen={setPostModal} />
+      )}
+
+      {/* If the user has just claimed a task, show this modal */}
+      {/* {(claimRequestSuccess) && (
+        <ModalPostClaimTask isOpen={claimModal} setIsOpen={setClaimModal} />
+      )} */}
 
       {successComment && (
         <Notification
@@ -778,7 +823,6 @@ function Post(props) {
                                 foundPost.createdAt === foundPost.updatedAt ? 'published' : 'updated'
                               } ${moment(new Date(foundPost.updatedAt)).fromNow()}`}</StatefulTooltip>
                             </div>
-                            {/* <div style={{ textTransform: 'capitalize' }}>&nbsp;·&nbsp;{0}&nbsp;Views</div> */}
                           </div>
                           <div className="my-1"
                             style={{
@@ -853,7 +897,11 @@ function Post(props) {
                                 !foundPost.completed &&
                                 (editor ? (
                                   <div className="flex items-center">
-                                    <img
+                                    <IconTrash 
+                                      style={{
+                                        fill: '#B91237'
+                                      }}
+                                      className="w-4 h-6 mr-4"
                                       onClick={() => {
                                         if (window.confirm('Are you sure you want to delete?')) {
                                           deletePostDispatch({
@@ -867,16 +915,7 @@ function Post(props) {
                                           }, 2000);
                                         }
                                       }}
-                                      style={{
-                                        objectFit: 'cover',
-                                        maxHeight: 15,
-                                        overflow: 'auto',
-                                        marginRight: 5,
-                                        cursor: 'pointer'
-                                      }}
-                                      src="https://d1ppmvgsdgdlyy.cloudfront.net/trash.svg"
-                                      alt="delete"
-                                    ></img>
+                                    />
                                     <Button
                                       kind={'secondary'}
                                       onClick={() => setEditor(false)}
@@ -890,16 +929,23 @@ function Post(props) {
                                     >
                                       Cancel
                                     </Button>
+                                    {/* SAVE BUTTON */}
                                     <Button
-                                      disabled={editPostLoading}
+                                      disabled={patchPostLoading}
                                       kind={KIND.secondary}
                                       onClick={() => {
-                                        editPostDispatch({
+
+                                        // Configure the data/payload object
+                                        const data = {
+                                          title: title,
+                                          cart: editCart
+                                        }
+
+                                        // Update the data on save
+                                        patchPostDispatch({
                                           env: process.env.REACT_APP_NODE_ENV,
                                           postId: foundPost._id,
-                                          title,
-                                          text: foundPost.text,
-                                          categories: tags.join(',')
+                                          data: data
                                         });
 
                                         setEditor(false);
@@ -912,9 +958,9 @@ function Post(props) {
                                         fontSize: '12px'
                                       }}
                                     >
-                                      {editPostLoading
+                                      {patchPostLoading
                                         ? 'Saving...'
-                                        : editPostSuccess
+                                        : patchPostSuccess
                                         ? 'Saved'
                                         : 'Save'}
                                     </Button>
@@ -923,14 +969,20 @@ function Post(props) {
                                   <img
                                     alt="edit"
                                     onClick={() => {
+                                      setEditCart(foundPost.cart);
                                       setEditor(true);
+                                      // Needs wrapped in a setTimeout as it
+                                      // isn't available yet.
+                                      setTimeout(() => {
+                                        titleField.current.focus();
+                                      }, 0)
                                     }}
                                     src="https://d1ppmvgsdgdlyy.cloudfront.net/edit.svg"
                                     style={{
                                       cursor: 'pointer',
                                       height: 25,
-                                      marginLeft: 15,
-                                      width: 15
+                                      marginLeft: '1rem',
+                                      width: '1rem'
                                     }}
                                   />
                                 ))}
@@ -999,13 +1051,16 @@ function Post(props) {
                                 }}
                               >
                                 {editor ? (
-                                  <Input
+                                  <input 
+                                    ref={titleField}
+                                    className="w-full py-1 px-2 border border-gray-300 
+                                    rounded-md"
+                                    type="text"
                                     onChange={event => {
                                       setTitle(event.target.value);
                                     }}
-                                    size={'compact'}
                                     value={title}
-                                  ></Input>
+                                  />
                                 ) : (
                                   <Heading 
                                     level="2" 
@@ -1085,22 +1140,14 @@ function Post(props) {
                                 </div>
                                 {!editor && (
                                   <div style={{ paddingTop: 5, paddingBottom: 10 }}>
-                                    <Input
-                                      overrides={{
-                                        InputContainer: {
-                                          style: {
-                                            border: 0,
-                                            borderRadius: '5px'
-                                          }
-                                        }
-                                      }}
-                                      autoFocus
-                                      value={postComment}
-                                      onChange={event => {
+                                    <textarea 
+                                      className="w-full py-1 px-2 border border-gray-300 
+                                      rounded-md"
+                                      placeholder="Add a comment..."
+                                      onChange={(event) => {
                                         setPostComment(event.target.value);
                                         setSuccessComment(false);
                                       }}
-                                      size={SIZE.compact}
                                       onKeyPress={event => {
                                         var code = event.keyCode || event.which;
                                         if (code === 13 && event.target.value !== '') {
@@ -1115,8 +1162,8 @@ function Post(props) {
                                           setPostComment('');
                                         }
                                       }}
-                                      placeholder="add a comment..."
-                                    />
+                                    >
+                                    </textarea>
                                   </div>
                                 )}
                               </div>
@@ -1135,9 +1182,7 @@ function Post(props) {
           </div>
           <div 
             className="hidden xl:block xl:pl-6 w-full" 
-            style={{
-              maxWidth: '344px'
-            }}
+            style={{ maxWidth: '344px' }}
           >
             <div className="bg-white shadow-lg rounded-lg p-6">
               <div className="flex justify-between items-center mb-4">
@@ -1254,7 +1299,8 @@ function Post(props) {
                       className="text-left mt-4"
                     >
                       Want to improve your ranking?{' '}
-                      <span className="font-bold hover:text-blue-600 transition duration-150">
+                      <span 
+                        className="font-bold hover:text-blue-600 transition duration-150">
                         Find out how
                       </span>
                     </div>
@@ -1266,7 +1312,7 @@ function Post(props) {
         </div>
       </div>
       <HelpMenu />
-    </div>
+    </React.Fragment>
   );
 }
 
@@ -1277,7 +1323,7 @@ const mapDispatchToProps = dispatch => ({
   deletePostDispatch: payload => dispatch(deletePost(payload)),
   deleteCommentDispatch: payload => dispatch(deleteComment(payload)),
   markSeenDispatch: payload => dispatch(markSeen(payload)),
-  editPostDispatch: payload => dispatch(editPost(payload)),
+  patchPostDispatch: payload => dispatch(patchPost(payload)),
   addReplyDispatch: payload => dispatch(addReply(payload)),
   loadPostDispatch: payload => dispatch(loadPost(payload)),
   upvoteDispatch: payload => dispatch(upvote(payload)),
@@ -1298,11 +1344,12 @@ const mapStateToProps = state => ({
   loadPostFailure: state.auth.loadPostFailure,
   markSeenBool: state.auth.markSeen,
   markSeenFailure: state.auth.markSeenFailure,
-  editPostLoading: state.user.editPostLoading,
-  editPostSuccess: state.user.editPostSuccess,
-  editPostFailure: state.user.editPostFailure,
+  patchPostLoading: state.user.patchPostLoading,
+  patchPostSuccess: state.user.patchPostSuccess,
+  patchPostFailure: state.user.patchPostFailure,
   submitPostSuccess: state.user.submitPostSuccess,
-  markSeenSubmitTutorial: state.user.markSeenSubmitTutorial
+  markSeenSubmitTutorial: state.user.markSeenSubmitTutorial,
+  claimRequestSuccess: state.auth.claimRequestSuccess
 });
 
 Post.defaultProps = {};

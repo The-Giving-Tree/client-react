@@ -88,12 +88,14 @@ module.exports = {
         900: '#4F2B11'
       },
 
+      // TODO: Remove this once design system updates are completed
       // Brand colours
       field: {
         200: 'rgba(255, 228, 214, 0.4)',
         500: '#FFE4D6'
       },
 
+      // TODO: Remove this once design system updates are completed
       // Highlight colours
       hlgreen: '#8CBF3F',
       hlred: '#C74149'
