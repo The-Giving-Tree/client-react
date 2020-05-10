@@ -120,8 +120,6 @@ function Navigation(props) {
 
   let notifications = user.notifications || [];
 
-  console.log('noty', notifications)
-
   const [isOpen, setIsOpen] = React.useState(false);
 
   const shorten = (length, text) => {
