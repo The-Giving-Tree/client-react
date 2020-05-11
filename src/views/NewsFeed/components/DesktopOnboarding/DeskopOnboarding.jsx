@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {
-  Modal, ModalBody
-} from 'baseui/modal';
+import { Modal, ModalBody } from 'baseui/modal';
 import Heading from '../../../../components/Heading';
 import Constants from '../../../../components/Constants';
 import Button from '../../../../components/Button';
+
+import './DesktopOnboarding.css';
 
 export default class DesktopOnboarding extends React.Component {
   constructor(props) {
@@ -70,16 +70,15 @@ export default class DesktopOnboarding extends React.Component {
       <React.Fragment>
         <Heading 
           level="1" 
-          className="text-hlgreen text-center mb-6 text-2xl"
+          className="text-green-500 text-center mb-6 text-2xl"
         >
-          Welcome to the Giving Tree 
-          <span className="ml-3" role="img" aria-label="Tree emoji">🌳</span>
+          Welcome to the Giving Tree
         </Heading>
         <p className="text-center mb-6">
           Are you here to request help, or lend a hand?
         </p>
-        <div className="flex items-center justify-between px-32">
-          <div className="w-1/3 text-center flex flex-col">
+        <div className="grid grid-cols-3 px-32 mb-6">
+          <div className="text-center flex flex-col">
             <Button 
               onClick={() => {
                 this.setState({
@@ -87,24 +86,22 @@ export default class DesktopOnboarding extends React.Component {
                   activeStep: this.state.activeStep + 1
                 })
               }}
+              onMouseEnter={() => this.setState({ helpHover: true })}
+              onMouseLeave={() => this.setState({ helpHover: false })}
               variant="reset" 
-              className="mb-8">
+              className="my-auto">
                 <img
                   className="mx-auto"
-                  src={`${Constants.IMG.CLOUDFRONT}/requestfeed/requesthelp.svg`}
-                  alt="Hand reaching out" />
+                  src={`${Constants.IMG.CLOUDFRONT}/requestfeed/Requester.svg`}
+                  alt="Old lady in an armchair" />
             </Button>
-            <span className="mt-auto">Request help</span>
           </div>
           <div 
-            className="px-6 w-1/3 text-center self-stretch flex flex-col
+            className="px-6 text-center self-stretch flex flex-col
             items-center justify-center">
               <span className="my-auto">OR</span>
-              <div className="mt-auto">
-                {this.stepDots()}
-              </div>
           </div>
-          <div className="w-1/3 text-center flex flex-col">
+          <div className="text-center flex flex-col">
             <Button 
               onClick={() => {
                 this.setState({
@@ -112,15 +109,32 @@ export default class DesktopOnboarding extends React.Component {
                   activeStep: this.state.activeStep + 1
                 })
               }}
+              onMouseEnter={() => this.setState({ reqHover: true })}
+              onMouseLeave={() => this.setState({ reqHover: false })}
               variant="reset" 
-              className="mb-8">
+              className="my-auto">
               <img 
                 className="mx-auto"
-                src={`${Constants.IMG.CLOUDFRONT}/requestfeed/beahelper.svg`}
-                alt="Hand holding a heart" />
+                src={`${Constants.IMG.CLOUDFRONT}/requestfeed/Helper.svg`}
+                alt="Man wearing PPE" />
             </Button>
-            <span className="mt-auto">Be a helper</span>
           </div>
+        </div>
+        <div className="grid grid-cols-3 px-32 mb-6">
+          <div className="text-center">
+            <span 
+              className={`mt-6 pb-4 ${this.state.helpHover && `hover-state`}`}
+            >Request help</span>
+          </div>
+          <div></div>
+          <div className="text-center">
+            <span 
+              className={`mt-6 pb-4 ${this.state.reqHover && `hover-state`}`}
+            >Be a helper</span>
+          </div>
+        </div>
+        <div className="text-center">
+          {this.stepDots()}
         </div>
       </React.Fragment>
     );
@@ -147,26 +161,28 @@ export default class DesktopOnboarding extends React.Component {
           </p>
         )}
         <p className="text-lg text-center my-8">How it works:</p>
-        <div className={`px-16 mb-6 grid gap-4 ${role === 'requester' ? 'grid-cols-4' : 'grid-cols-3'}`}>
+        <div 
+          className={`px-16 mb-6 grid gap-4 ${role === 'requester' ? 'grid-cols-4' : 'grid-cols-3'}`}
+        >
           {role === 'requester' ? (
             <React.Fragment>
               <div>
                 <img className="mx-auto mb-4"
-                  src={imgFolder + 'request-step1.svg'}
+                  src={imgFolder + 'Online_Call.svg'}
                   alt="Illustration of a computer and a phone"
                 />
                 <span>1. Create a new request by clicking Create Request, or by calling/texting us at 415-964-4261.</span>
               </div>
               <div>
                 <img className="mx-auto mb-4"
-                  src={imgFolder + 'request-step2.svg'}
+                  src={imgFolder + 'Note.svg'}
                   alt="Illustration of a speech bubble"
                 />
                 <span>2. Be specific so that helpers can quickly and easily understand your needs.</span>
               </div>
               <div>
                 <img className="mx-auto mb-4"
-                  src={imgFolder + 'request-step3.svg'}
+                  src={imgFolder + 'Calendar.svg'}
                   alt="Illustration of a calendar"
                 />
                 <span>
@@ -175,7 +191,7 @@ export default class DesktopOnboarding extends React.Component {
               </div>
               <div>
                 <img className="mx-auto mb-4"
-                  src={imgFolder + 'request-step4.svg'}
+                  src={imgFolder + 'PhoneCheck.svg'}
                   alt="Illustration of the giving tree platform notifications"
                 />
                 <span>
@@ -388,6 +404,9 @@ export default class DesktopOnboarding extends React.Component {
               margin: '0 auto',
               top: '50%',
               transform: 'translateY(-50%)',
+            },
+            props: {
+              className: 'DesktopOboarding'
             }
           }
         }}

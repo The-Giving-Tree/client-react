@@ -72,6 +72,8 @@ function Button(props) {
     <button 
       className={`btn ${setClasses(props)}`} 
       onClick={props.onClick}
+      onMouseEnter={props.onMouseEnter}
+      onMouseLeave={props.onMouseLeave}
       disabled={props.disabled}
     >
       {props.children}

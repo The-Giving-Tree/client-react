@@ -351,7 +351,7 @@ export default class MobileOnboarding extends React.Component {
             <div className="w-full img-wrap flex flex-col justify-end">
               <img 
                 className="mx-auto mb-5"
-                src={`${Constants.IMG.CLOUDFRONT}/requestfeed/createrequest.svg`}
+                src={`${Constants.IMG.CLOUDFRONT}/requestfeed/Requester.svg`}
                 alt="Hand reaching out" />
               <Button 
                 size="sm"
@@ -370,7 +370,7 @@ export default class MobileOnboarding extends React.Component {
             <div className="w-full img-wrap flex flex-col justify-end">
               <img 
                 className="mx-auto mb-5"
-                src={`${Constants.IMG.CLOUDFRONT}/requestfeed/browserequest.svg`}
+                src={`${Constants.IMG.CLOUDFRONT}/requestfeed/Helper.svg`}
                 alt="Hand holding a heart" />
               <Button 
                 size="sm"
