@@ -163,3 +163,8 @@ export const loadStats = payload => ({
   type: ACTION_TYPE.LOAD_STATS_REQUESTED,
   payload
 });
+
+export const setaccessToken = payload => ({
+  type: ACTION_TYPE.SET_ACCESS_TOKEN,
+  payload
+});

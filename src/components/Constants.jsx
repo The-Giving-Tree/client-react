@@ -3,6 +3,7 @@ module.exports = Object.freeze({
   PATHS: {
     HOME: '/',
     LOGIN: '/login',
+    OAUTH_RESULT: '/oauth',
     SIGNUP: '/signup',
     SETTING: '/settings/:tab',
     SUBMIT: '/submit',

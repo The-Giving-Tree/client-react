@@ -66,6 +66,21 @@ export function* register(action) {
   }
 }
 
+export function* setaccessToken(action) {
+  try {
+    /* eslint-disable */
+    localStorage.setItem('giving_tree_jwt', action.payload.token);
+    /* eslint-enable */
+
+    yield put({
+      type: ACTION_TYPE.GET_CURRENT_USER_REQUESTED,
+      payload: { env: process.env.REACT_APP_NODE_ENV }
+    });
+  } catch (error) {
+    yield put({ type: ACTION_TYPE.LOGIN_FAILURE, payload: error });
+  }
+}
+
 export function* addComment(action) {
   try {
     const token = localStorage.getItem('giving_tree_jwt');
@@ -702,4 +717,5 @@ export default function* watchAuthSagas() {
   yield takeLatest(ACTION_TYPE.LOGOUT_ALL_REQUESTED, logoutAll);
   yield takeLatest(ACTION_TYPE.GET_LEADERBOARD_REQUESTED, getLeaderboard);
   yield takeLatest(ACTION_TYPE.LOAD_STATS_REQUESTED, loadStats);
+  yield takeLatest(ACTION_TYPE.SET_ACCESS_TOKEN, setaccessToken);
 }
