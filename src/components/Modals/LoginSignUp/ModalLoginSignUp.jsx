@@ -7,6 +7,7 @@ import {
 } from 'baseui/modal';
 
 import Constants from '../../Constants';
+import ROUTES from '../../../utils/routes';
 
 import {
   register, initiateReset, login
@@ -209,6 +210,10 @@ class ModalLoginSignUp extends React.Component {
         }}>
           New to Giving Tree? <strong>Sign up</strong>
         </button>
+        <a className="w-full block text-center mt-3 py-3 font-semibold text-white bg-red-700
+        rounded mb-4" href={`${ROUTES[process.env.REACT_APP_NODE_ENV].giving_tree}/v1/auth/oauth/google`}>
+          Login with Google
+        </a>
       </div>
     )
   }

@@ -27,6 +27,7 @@ import About from './views/About';
 import HowItWorks from './views/HowItWorks';
 import Guidelines from './views/Guidelines';
 import Login from './views/Login';
+import { OAuthResult } from './views/Login';
 import User from './views/User';
 import Draft from './views/Draft';
 import ResetPassword from './views/ResetPassword';
@@ -85,6 +86,7 @@ function App() {
           <Route exact path={Constants.PATHS.GUIDELINES} component={Guidelines} />
           <Route exact path="/home/:id" component={Home} />
           <Route exact path={Constants.PATHS.LOGIN} component={Login} />
+          <Route exact path={Constants.PATHS.OAUTH_RESULT} component={OAuthResult} />
           <Route exact path={Constants.PATHS.SIGNUP} component={Signup} />
           <Route exact path={Constants.PATHS.SUBMIT} component={Submit} />
           <Route exact path={Constants.PATHS.SETTING} component={Setting} />
