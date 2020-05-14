@@ -1,3 +1,11 @@
 .DesktopOboarding .hover-state {
   border-bottom: 4px solid #0EB582;
 }
+
+.DesktopOboarding .requester-steps img {
+  min-height: 125px;
+}
+
+.DesktopOboarding .final-step img {
+  min-height: 172px;
+}

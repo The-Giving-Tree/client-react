@@ -162,7 +162,7 @@ export default class DesktopOnboarding extends React.Component {
         )}
         <p className="text-lg text-center my-8">How it works:</p>
         <div 
-          className={`px-16 mb-6 grid gap-4 ${role === 'requester' ? 'grid-cols-4' : 'grid-cols-3'}`}
+          className={`px-16 requester-steps mb-6 grid gap-4 ${role === 'requester' ? 'grid-cols-4' : 'grid-cols-3'}`}
         >
           {role === 'requester' ? (
             <React.Fragment>
@@ -191,7 +191,7 @@ export default class DesktopOnboarding extends React.Component {
               </div>
               <div>
                 <img className="mx-auto mb-4"
-                  src={imgFolder + 'PhoneCheck.svg'}
+                  src={imgFolder + 'requester-step4.svg'}
                   alt="Illustration of the giving tree platform notifications"
                 />
                 <span>
@@ -203,7 +203,7 @@ export default class DesktopOnboarding extends React.Component {
             <React.Fragment>
               <div>
                 <img className="mx-auto mb-4"
-                  src={imgFolder + 'Helper-Step1.svg'}
+                  src={imgFolder + 'Step1.svg'}
                   alt="Illustration of a mobile phone"
                 />
                 <span>
@@ -212,7 +212,7 @@ export default class DesktopOnboarding extends React.Component {
               </div>
               <div>
                 <img className="mx-auto mb-4"
-                  src={imgFolder + 'Helper-Step2.svg'}
+                  src={imgFolder + 'Step2.svg'}
                   alt="Illustration of a message conversation"
                 />
                 <span>
@@ -221,7 +221,7 @@ export default class DesktopOnboarding extends React.Component {
               </div>
               <div>
                 <img className="mx-auto mb-4"
-                  src={imgFolder + 'Helper-Step3.svg'}
+                  src={imgFolder + 'Step3.svg'}
                   alt="Illustration of a hands in a friendly embrace"
                 />
                 <span>
@@ -263,12 +263,16 @@ export default class DesktopOnboarding extends React.Component {
           <p className="mb-8 text-2xl font-bold">
             Let's get started!
           </p>
-          <div className={`mb-6 flex items-center justify-between ${role === 'helper' ? 'flex-row-reverse' : ''}`}>
+          <div 
+            className={`mb-6 flex items-center justify-between final-step
+            ${role === 'helper' ? 'flex-row-reverse' : ''}`}
+          >
             <div className="w-full img-wrap flex flex-col justify-end">
               <img 
                 className="mx-auto mb-5"
-                src={`${Constants.IMG.CLOUDFRONT}/requestfeed/createrequest.svg`}
-                alt="Illustration of a computer and a phone" />
+                src={`${Constants.IMG.CLOUDFRONT}/requestfeed/createarequest.svg`}
+                alt="Illustration of a computer and a phone"
+              />
               <div>
                 <Button 
                   variant="primary"
@@ -284,7 +288,7 @@ export default class DesktopOnboarding extends React.Component {
             <div className="w-full img-wrap flex flex-col justify-end">
               <img 
                 className="mx-auto mb-5"
-                src={`${Constants.IMG.CLOUDFRONT}/requestfeed/browserequest.svg`}
+                src={`${Constants.IMG.CLOUDFRONT}/requestfeed/browserequests.svg`}
                 alt="Illustration of mobile phone" />
               <div>
                 <Button 

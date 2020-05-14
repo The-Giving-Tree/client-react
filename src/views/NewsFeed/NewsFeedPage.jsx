@@ -215,7 +215,7 @@ function NewsFeedPage(props) {
       <Navigation selectMenuDispatch={selectMenuDispatch} />
       
       {/* If the user just logged in, show the modal */}
-      {/* {props.loginSuccess &&  */}
+      {props.loginSuccess && 
         <Media queries={Constants.BREAKPOINTS}>
           {matches => {
             if (!matches.xs && !matches.sm) {
@@ -235,7 +235,7 @@ function NewsFeedPage(props) {
             }
           }}
         </Media>
-      {/* } */}
+      }
 
       {/* Begin template for page layout */}
       <div 

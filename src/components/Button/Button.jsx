@@ -12,9 +12,9 @@ function Button(props) {
 
   // Styles/Classes for all the button variants
   const variantClasses = {
-    primary: 'bg-green-700 hover:bg-green-900 border border-green-700 text-white font-semibold',
-    outline: 'bg-transparent text-green-700 border border-green-700',
-    link: 'text-green-700',
+    primary: 'bg-green-600 hover:bg-green-800 border border-green-600 text-white font-semibold',
+    outline: 'bg-transparent text-green-600 border border-green-600',
+    link: 'text-green-600',
     reset: ''
   }
 
@@ -24,7 +24,7 @@ function Button(props) {
    * @param {*} props 
    */
   function setClasses(props) {
-    const classes = ['rounded-md'];
+    const classes = ['rounded-full'];
     
     // Set the button size classes
     switch (size) {
