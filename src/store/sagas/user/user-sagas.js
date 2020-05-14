@@ -146,6 +146,12 @@ export function* uploadPhoto(action) {
   }
 }
 
+/**
+ * Tell the back end if the specified tutorial modal has been seen
+ *
+ * @export
+ * @param {*} action
+ */
 export function* markSeen(action) {
   try {
     let token = localStorage.getItem('giving_tree_jwt');

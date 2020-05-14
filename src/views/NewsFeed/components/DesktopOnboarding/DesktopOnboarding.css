@@ -9,3 +9,8 @@
 .DesktopOboarding .final-step img {
   min-height: 172px;
 }
+
+.DesktopOboarding .close-button {
+  top: -2rem;
+  right: 1rem;
+}

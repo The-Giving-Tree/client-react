@@ -135,7 +135,9 @@ class ModalPostSuccess extends React.Component {
           src={`${Constants.IMG.CLOUDFRONT}/post/modals/step3-safety.svg`} 
           alt="Illustration of COVID PPE"
         />
-        <p><strong>3. Be smart. Stay safe.</strong></p>
+        <p>
+          <strong>3. Be smart. Stay safe.</strong>\
+        </p>
         <p>Follow all <a className="text-green-500" href="https://www.cdc.gov/coronavirus/2019-ncov/prevent-getting-sick/prevention.html">health and safety guidelines</a> for COVID-19 to protect yourself and your helper.</p>
       </React.Fragment>
     );

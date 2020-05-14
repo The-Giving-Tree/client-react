@@ -1,12 +1,17 @@
 import * as React from 'react';
-import { Modal, ModalBody } from 'baseui/modal';
 import Heading from '../../../../components/Heading';
 import Constants from '../../../../components/Constants';
 import Button from '../../../../components/Button';
 
+import { StatefulPopover, PLACEMENT } from 'baseui/popover';
+import { Modal, ModalBody } from 'baseui/modal';
+
+import { connect } from 'react-redux';
+import { handleSeenSubmit } from '../../../../store/actions/user/user-actions';
+
 import './DesktopOnboarding.css';
 
-export default class DesktopOnboarding extends React.Component {
+class DesktopOnboarding extends React.Component {
   constructor(props) {
     super(props);
 
@@ -19,7 +24,6 @@ export default class DesktopOnboarding extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
   }
 
   /**
@@ -307,7 +311,7 @@ export default class DesktopOnboarding extends React.Component {
             <div className="w-full">
               <p className="text-xs mt-auto">
                 {role === 'requester' &&
-                  <span>See what others in your area are asking for - you
+                  <span>See what others in your area are asking for -<br/>you
                   might even find a request you can help with!</span>
                 }
                 {role === 'helper' &&
@@ -380,6 +384,18 @@ export default class DesktopOnboarding extends React.Component {
   }
 
   /**
+   * Fire a request to the back end to mark that the tutorial has been seen.
+   *
+   * @memberof MobileOnboarding
+   */
+  async dismissForever() {
+    await this.props.seenTutorial({
+      env: process.env.REACT_APP_NODE_ENV,
+      type: 'tutorial'
+    });
+  };
+
+  /**
    * JSX for the desktop version of the modal
    *
    * @returns
@@ -419,6 +435,53 @@ export default class DesktopOnboarding extends React.Component {
           position: 'relative',
           margin: 'auto 0'
         }}>
+          <StatefulPopover 
+            placement={PLACEMENT.bottomRight}
+            overrides={{
+              Body: {
+                style: {
+                  zIndex: 100,
+                  borderRadius: '6px !important'
+                }
+              },
+              Inner: {
+                style: {
+                  borderRadius: '6px !important'
+                }
+              }
+            }}
+            content={({ close }) => (
+              <div className="">
+                <ul className="list-none">
+                  <li className="px-3 py-2">
+                    <Button
+                      variant="reset" 
+                      onClick={() => {
+                        this.setIsOpen(false)
+                      }}>
+                      Dismiss
+                    </Button>
+                  </li>
+                  <li className="px-3 py-2">
+                    <Button
+                      variant="reset" 
+                      onClick={() => {
+                        this.dismissForever();
+                        this.setIsOpen(false);
+                      }}>
+                      Dismiss forever
+                    </Button>
+                  </li>
+                </ul>
+              </div>
+            )}
+          >
+            <button 
+              className="text-xs flex items-center justify-center h-8 w-8 close-button absolute"
+            >
+              x
+            </button>
+          </StatefulPopover>
           {this.getStepsJSX()}
         </ModalBody>
       </Modal>
@@ -431,3 +494,11 @@ export default class DesktopOnboarding extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  seenTutorial: payload => dispatch(handleSeenSubmit(payload))
+});
+
+const mapStateToProps = state => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DesktopOnboarding);
