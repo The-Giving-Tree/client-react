@@ -66,19 +66,19 @@ export default class MobileOnboarding extends React.Component {
    */
   selectUserRole() {
     return(
-      <div className="text-center">
+      <div className="text-center select-user-role">
         <p 
-          className="mb-6 text-lg md:text-xl text-hlgreen font-semibold">
+          className="mb-6 text-lg md:text-xl text-green-600 font-semibold">
           Welcome to the Giving Tree
           <span className="ml-3" role="img" aria-label="Tree emoji">🌳</span>
         </p>
-        <p className="text-xl font-semibold mb-8">
+        <p className="mb-8">
           Are you here to request help or lend a hand?
         </p>
         <div className="flex items-center justify-between">
           <div className="w-full img-wrap flex flex-col justify-end">
             <img className="mx-auto mb-5"
-              src={`${Constants.IMG.CLOUDFRONT}/requestfeed/requesthelp.svg`}
+              src={`${Constants.IMG.CLOUDFRONT}/requestfeed/Requester.svg`}
               alt="Hand reaching out" />
             <Button 
               variant={(this.state.userRole === 'requester') ? 'primary' : 'outline'} 
@@ -96,8 +96,9 @@ export default class MobileOnboarding extends React.Component {
           <div className="w-full img-wrap flex flex-col justify-end">
             <img 
               className="mx-auto mb-5"
-              src={`${Constants.IMG.CLOUDFRONT}/requestfeed/beahelper.svg`}
-              alt="Hand holding a heart" />
+              src={`${Constants.IMG.CLOUDFRONT}/requestfeed/Helper.svg`}
+              alt="Hand holding a heart" 
+            />
             <Button 
               variant={
                 (this.state.userRole === 'helper') ? 'primary' : 'outline'
@@ -112,12 +113,13 @@ export default class MobileOnboarding extends React.Component {
           </div>
         </div>
         {this.state.userRole === 'requester' && 
-          <p className="my-10">
+          <p className="my-6">
             You've come to the right place. Help is (literally) around the corner
+            <span className="ml-3" role="img" aria-label="Heart emoji">❤️</span>
           </p>        
         }
         {this.state.userRole === 'helper' && 
-          <p className="my-10">
+          <p className="my-6">
             The world needs people like you, now more than ever.
             <span className="ml-3" role="img" aria-label="Heart emoji">❤️</span>
           </p>        
@@ -145,7 +147,8 @@ export default class MobileOnboarding extends React.Component {
 
     const role = this.state.userRole;
     const imgFolder = Constants.IMG.CLOUDFRONT + '/requestfeed/';
-    const imgSrc = (role === 'requester') ? 'request-step1.svg' : 'Helper-Step1.svg';
+    const imgSrc =
+      (role === 'requester') ? 'Online_Call.svg' : 'Step1.svg';
 
     return(
       <React.Fragment>
@@ -195,7 +198,7 @@ export default class MobileOnboarding extends React.Component {
   stepTwoJSX() {
     const role = this.state.userRole;
     const imgFolder = Constants.IMG.CLOUDFRONT + '/requestfeed/';
-    const imgSrc = (role === 'requester') ? 'request-step2.svg' : 'Helper-Step2.svg';
+    const imgSrc = (role === 'requester') ? 'Note.svg' : 'Step2.svg';
 
     return(
       <React.Fragment>
@@ -244,7 +247,7 @@ export default class MobileOnboarding extends React.Component {
   stepThreeJSX() {
     const role = this.state.userRole;
     const imgFolder = Constants.IMG.CLOUDFRONT + '/requestfeed/';
-    const imgSrc = (role === 'requester') ? 'request-step3.svg' : 'Helper-Step3.svg';
+    const imgSrc = (role === 'requester') ? 'Calendar.svg' : 'Step3.svg';
     return(
       <React.Fragment>
         <div className="text-center mb-6">
@@ -276,7 +279,13 @@ export default class MobileOnboarding extends React.Component {
             size="sm"
             className="ml-auto"
             variant="link" 
-            onClick={() => this.nextStep()}>
+            onClick={() => {
+              if (role === 'requester') {
+                this.nextStep();
+              } else {
+                this.setIsOpen(false);
+              }
+            }}>
             {role === 'requester' ? 'Next' : 'Let\'s get started'}
           </Button>
         </div>
@@ -299,7 +308,7 @@ export default class MobileOnboarding extends React.Component {
             <img 
               className="mx-auto h-56 w-56"
               alt="Illustration of a computer and a phone"
-              src={`${Constants.IMG.CLOUDFRONT}/requestfeed/request-step4.svg`}
+              src={`${Constants.IMG.CLOUDFRONT}/requestfeed/requester-step4.svg`}
             />
           </div>
           <p className="w-56 mx-auto">
@@ -317,7 +326,7 @@ export default class MobileOnboarding extends React.Component {
             size="sm"
             className="ml-auto"
             variant="link" 
-            onClick={() => this.nextStep()}>
+            onClick={() => this.setIsOpen(false)}>
             Let's get started
           </Button>
         </div>

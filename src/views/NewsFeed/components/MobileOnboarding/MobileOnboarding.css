@@ -7,6 +7,10 @@
   min-height: 182px;
 }
 
+.MobileOnboarding .img-wrap img {
+  min-height: 211px;
+}
+
 .MobileOnboarding .step-list {
   overflow: hidden;
   background-color: #f2f2f2;
@@ -34,8 +38,8 @@
   right: -8px;
 }
 .MobileOnboarding .step-button.active:before {
-  background-color: #8CBF3F;
+  background-color: #06A675;
 }
 .MobileOnboarding .step-button.complete:before {
-  background-color: #1E853B;
+  background-color: #03825B;
 }

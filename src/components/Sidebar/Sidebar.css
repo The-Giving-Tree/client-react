@@ -17,16 +17,16 @@
 
 /* Active menu item styles (Mobile menu) */
 .sidebar-nav-xs .nav-item-active {
-  color: #059305;
+  color: #06a674;
 }
 
 .sidebar-nav-xs a.nav-item-active svg:not(.icon-create):not(.icon-leaderboard) path {
-  stroke: #059305;
+  stroke: #06a674;
 }
 
 .sidebar-nav-xs a.nav-item-active svg.icon-create path,
 .sidebar-nav-xs a.nav-item-active svg.icon-leaderboard path {
-  fill: #059305;
+  fill: #06a674;
 }
 
 /* ======= Tablet + navigation ================ */
@@ -42,7 +42,7 @@
   position: absolute;
   bottom: -4px;
   height: 2px;
-  background-color: #8ec755;
+  background-color: #06a674;
   left: 0;
   width: 100%;
   content: '';
