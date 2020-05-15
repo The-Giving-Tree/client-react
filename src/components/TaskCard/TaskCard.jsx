@@ -5,9 +5,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import moment from 'moment';
 import { getDistance } from 'geolib';
 import { 
-  upvote, downvote, claimTask, unclaimTask, completeTask
+  claimTask, unclaimTask, completeTask
 } from '../../store/actions/auth/auth-actions';
-import { ChevronUp, ChevronDown } from 'baseui/icon';
 import { StatefulPopover, PLACEMENT } from 'baseui/popover';
 import { StatefulMenu } from 'baseui/menu';
 import Confetti from 'react-confetti';
@@ -27,12 +26,6 @@ class TaskCard extends React.Component {
 
     this.state = {
       details: {},
-      upvoteIndex: [],
-      downvoteIndex: [],
-      upvoteHover: [],
-      downvoteHover: [],
-      initialUpvotes: [],
-      initialDownvotes: [],
       helpArrayDiscover: {}, // Tasks claimed by user (remove from discover)
       helpArrayOngoing: {}, // Tasks claimed by user (remove from discover)
       showConfetti: false,
@@ -47,42 +40,6 @@ class TaskCard extends React.Component {
     this.setTags();
     // Set the post details (Zip code, phone no. etc.)
     this.setDetails();
-
-    // Create the vote index
-    this.setVoteIndex();
-
-    // Set initial vote count based on the total votes sent from the back end
-    this.setState({ voteCount: this.props.item.voteTotal})    
-  }
-
-  componentDidUpdate(prevProps, prevState) { 
-    this.setVoteIndex()
-  }
-
-  componentWillUnmount() {
-    this._mounted = false;
-  }
-
-  /**
-   * Set the voting index for this post
-   *
-   * @memberof TaskCard
-   */
-  setVoteIndex() {
-    if (this.props.item.downVotes.includes(this.props.user._id) &&
-      !this.state.downvoteIndex.includes(this.props.index) &&
-      !this.state.initialDownvotes.includes(this.props.index)
-    ) {
-      this.state.initialDownvotes.push(this.props.index);
-      this.state.downvoteIndex.push(this.props.index);
-    }
-    if (this.props.item.upVotes.includes(this.props.user._id) && 
-      !this.state.upvoteIndex.includes(this.props.index) &&
-      !this.state.initialUpvotes.includes(this.props.index)
-    ) {
-      this.state.initialUpvotes.push(this.props.index);
-      this.state.upvoteIndex.push(this.props.index);
-    }
   }
 
   /**
@@ -376,128 +333,8 @@ class TaskCard extends React.Component {
     );
   };
 
-  mouseOutUp(i) {
-    this.setState({
-      upvoteHover: this.state.upvoteHover.filter(item => item !== i)
-    });
-  }
-
-  mouseOverUp(i) {
-    this.setState({
-      upvoteHover: this.state.upvoteHover.concat(i)
-    });
-  }
-
-  mouseOutDown(i) {
-    this.setState({
-      downvoteHover: this.state.downvoteHover.filter(item => item !== i)
-    });
-  }
-
-  mouseOverDown(i) {
-    this.setState({
-      downvoteHover: this.state.downvoteHover.concat(i)
-    });
-  }
-
-  removeIndex(array, element) {
-    const index = array.indexOf(element);
-    array.splice(index, 1);
-  }
-
-  /**
-   * Fired when user clicks upvote button. Requests a change to the backend
-   *
-   * @param {*} type
-   * @param {*} _id
-   * @param {string} [postId='']
-   * @memberof TaskCard
-   */
-  async handleUpClick(type, _id, postId = '') {
-    switch (type) {
-      case 'Post':
-        if (this._mounted) {
-          await this.props.upvoteDispatch({
-            env: process.env.REACT_APP_NODE_ENV,
-            postId: _id
-          });
-        }
-        break;
-      case 'Comment':
-        await this.props.upvoteDispatch({
-          env: process.env.REACT_APP_NODE_ENV,
-          postId,
-          commentId: _id
-        });
-        break;
-      default:
-        break;
-    }
-  }
-
-  /**
-   * Fired when user clicks downvote button. Requests a change to the backend
-   *
-   * @param {*} type
-   * @param {*} _id
-   * @param {string} [postId='']
-   * @memberof TaskCard
-   */
-  async handleDownClick(type, _id, postId = '') {
-    switch (type) {
-      case 'Post':
-        await this.props.downvoteDispatch({
-          env: process.env.REACT_APP_NODE_ENV,
-          postId: _id
-        });
-        break;
-      case 'Comment':
-        await this.props.downvoteDispatch({
-          env: process.env.REACT_APP_NODE_ENV,
-          postId,
-          commentId: _id
-        });
-        break;
-      default:
-        break;
-    }
-  }
-
-  /**
-   * Check the vote count on render (logs to console);
-   *
-   * @memberof TaskCard
-   */
-  setVoteCount() {
-    const propsTotal = this.props.item.voteTotal;
-
-    const upvoteCalc = Number(
-      this.state.upvoteIndex.includes(this.props.index)
-        ? this.props.item.upVotes.includes(this.props.user._id)
-            ? 0 : 1
-        : this.props.item.upVotes.includes(this.props.user._id)
-          ? -1 : 0
-    )
-
-    const downvoteCalc = Number(
-      this.state.downvoteIndex.includes(this.props.index)
-        ? this.props.item.downVotes.includes(this.props.user._id)
-          ? 0
-          : 1
-        : this.props.item.downVotes.includes(this.props.user._id)
-        ? -1
-        : 0
-    )
-
-    const newVoteCount = propsTotal + upvoteCalc - downvoteCalc;
-    
-    this.setState({ voteCount: newVoteCount })
-  }
-
   render() {
     const authenticated = localStorage.getItem('giving_tree_jwt');
-
-    this.setVoteIndex();
 
     return (
       <article onClick={(e) => {
@@ -538,81 +375,6 @@ class TaskCard extends React.Component {
         <div className="flex mb-5">
 
           <div className="text-center flex flex-col items-center w-8">
-            <ChevronUp size={25} color={
-              this.state.upvoteIndex.includes(this.props.index) || 
-                this.state.upvoteHover.includes(this.props.index) ? 
-                  '#268bd2' : '#aaa'
-            }
-            style={{ alignContent: 'center', cursor: 'pointer' }}
-            onMouseEnter={() => this.mouseOverUp(this.props.index)}
-            onMouseLeave={() => this.mouseOutUp(this.props.index)}
-            onTouchStart={() => this.mouseOverUp(this.props.index)}
-            onTouchEnd={() => this.mouseOutUp(this.props.index)}
-            onClick={async (e) => {
-              e.stopPropagation();
-
-              if (authenticated) {
-                await this.handleUpClick(
-                  this.props.item.type,
-                  this.props.item._id,
-                  this.props.item.type === 'Comment' && this.props.item.postId
-                );
-
-                if (this.state.downvoteIndex.includes(this.props.index)) {
-                  this.removeIndex(this.state.downvoteIndex, this.props.index);
-                }
-
-                if (this.state.upvoteIndex.includes(this.props.index)) {
-                  this.removeIndex(this.state.upvoteIndex, this.props.index);
-                } else {
-                  this.state.upvoteIndex.push(this.props.index);
-                }
-
-                this.setVoteCount();
-              } else {
-                alert('please signup first');
-                this.props.history.push('/signup');
-              }
-            }}
-          />            
-          <span>
-            {this.state.voteCount}
-          </span>
-          <ChevronDown color={
-            this.state.downvoteIndex.includes(this.props.index) || 
-              this.state.downvoteHover.includes(this.props.index) ? '#268bd2' : 
-                '#aaa'}
-            size={25}
-            style={{ alignContent: 'center', cursor: 'pointer' }}
-            onMouseEnter={() => this.mouseOverDown(this.props.index)}
-            onMouseLeave={() => this.mouseOutDown(this.props.index)}
-            onTouchStart={() => this.mouseOverDown(this.props.index)}
-            onTouchEnd={() => this.mouseOutDown(this.props.index)}
-            onClick={async (e) => {
-            e.stopPropagation();
-            if (authenticated) {
-              await this.handleDownClick(
-                this.props.item.type,
-                this.props.item._id,
-                this.props.item.type === 'Comment' && this.props.item.postId
-              );
-
-              if (this.state.upvoteIndex.includes(this.props.index)) {
-                this.removeIndex(this.state.upvoteIndex, this.props.index);
-              }
-
-              if (this.state.downvoteIndex.includes(this.props.index)) {
-                this.removeIndex(this.state.downvoteIndex, this.props.index);
-              } else {
-                this.state.downvoteIndex.push(this.props.index);
-              }
-              this.setVoteCount();
-            } else {
-              alert('please signup first');
-              this.props.history.push('/signup');
-            }
-            }}
-          />
           </div>
           
           <div className="pl-2 w-full">
@@ -814,8 +576,6 @@ class TaskCard extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  upvoteDispatch: payload => dispatch(upvote(payload)),
-  downvoteDispatch: payload => dispatch(downvote(payload)),
   claimTaskDispatch: payload => dispatch(claimTask(payload)),
   unclaimTaskDispatch: payload => dispatch(unclaimTask(payload)),
   completeTaskDispatch: payload => dispatch(completeTask(payload))

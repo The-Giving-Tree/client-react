@@ -159,12 +159,6 @@ function Post(props) {
       alert('need to login first!');
     } else {
       switch (type) {
-        case 'Post':
-          await upvoteDispatch({
-            env: process.env.REACT_APP_NODE_ENV,
-            postId: _id
-          });
-          break;
         case 'Comment':
           await upvoteDispatch({
             env: process.env.REACT_APP_NODE_ENV,
@@ -183,12 +177,6 @@ function Post(props) {
       alert('need to login first!');
     } else {
       switch (type) {
-        case 'Post':
-          await downvoteDispatch({
-            env: process.env.REACT_APP_NODE_ENV,
-            postId: _id
-          });
-          break;
         case 'Comment':
           await downvoteDispatch({
             env: process.env.REACT_APP_NODE_ENV,
@@ -966,64 +954,13 @@ function Post(props) {
                           </div>
                         </div>
                         <div style={{ alignContent: 'center' }}>
-                          <div style={{ display: 'table' }}>
-                            <div style={{ textAlign: 'center' }}>
-                              <ChevronUp
-                                size={25}
-                                color={
-                                  upvoteHover.includes(foundPost._id) ||
-                                  foundPost.upVotes.includes(user._id)
-                                    ? '#268bd2'
-                                    : '#aaa'
-                                }
-                                style={{ alignContent: 'center', cursor: 'pointer' }}
-                                onMouseEnter={() => mouseOverUp(foundPost._id)}
-                                onMouseLeave={() => mouseOutUp(foundPost._id)}
-                                onClick={async () =>
-                                  await handleUpClick(
-                                    foundPost.type,
-                                    foundPost._id,
-                                    foundPost.type === 'Comment' && foundPost.postId
-                                  )
-                                }
-                              />
-                              <div style={{ alignContent: 'center', marginBottom: 3 }}>
-                                {foundPost.voteTotal}
-                              </div>
-                              <ChevronDown
-                                color={
-                                  downvoteHover.includes(foundPost._id) ||
-                                  foundPost.downVotes.includes(user._id)
-                                    ? '#268bd2'
-                                    : '#aaa'
-                                }
-                                size={25}
-                                style={{ outline: 'none', alignContent: 'center', cursor: 'pointer' }}
-                                onMouseEnter={() => mouseOverDown(foundPost._id)}
-                                onMouseLeave={() => mouseOutDown(foundPost._id)}
-                                onClick={async () =>
-                                  await handleDownClick(
-                                    foundPost.type,
-                                    foundPost._id,
-                                    foundPost.type === 'Comment' && foundPost.postId
-                                  )
-                                }
-                              />
-                            </div>
-                            <div
-                              style={{
-                                display: 'table-cell',
-                                verticalAlign: 'middle',
-                                tableLayout: 'fixed',
-                                width: '100%'
-                              }}
-                            >
                               <div
                                 style={{
                                   display: 'block',
                                   alignContent: 'center',
                                   marginBottom: 3,
-                                  marginLeft: 20
+                                  marginLeft: 20,
+                                  marginRight: 20,
                                 }}
                               >
                                 {editor ? (
@@ -1142,8 +1079,6 @@ function Post(props) {
                                     </textarea>
                                   </div>
                                 )}
-                              </div>
-                            </div>
                           </div>
                         </div>
                         <hr />

@@ -156,8 +156,11 @@ function Navigation(props) {
 
     for (var i = 0; i < notifications.length; i++) {
       try {
+        let fromUsername = notifications[i].from && notifications[i].from.username || 'Someone'
+        let fromPictureUrl = notifications[i].from && notifications[i].from.profilePictureUrl
+
         let newObj = {
-          label: `${notifications[i].from.username} ${actionLegend[notifications[i].action]}${
+          label: `${fromUsername} ${actionLegend[notifications[i].action]}${
             notifications[i].action !== 'New Post'
               ? ' your ' + notifications[i].postId.type.toLowerCase()
               : ''
@@ -165,7 +168,7 @@ function Navigation(props) {
           subText: notifications[i].postId.content,
           timeStamp: moment(notifications[i].postId.createdAt).format('MMM D, YYYY h:mm A'),
           postId: (notifications[i].postId.type.toLowerCase() === 'comment') ? notifications[i].postId.parentId : notifications[i].postId.postId,
-          imgUrl: notifications[i].from.profilePictureUrl
+          imgUrl: fromPictureUrl
         };
         labels.push(newObj);
       } catch(e) {}
